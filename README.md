@@ -8,6 +8,37 @@ Crée une clé USB bootable Windows 11 (UEFI, FAT32) à partir d'un fichier ISO,
 | macOS | `make_win11_usb_macos.sh` | diskutil, hdiutil, curl, wimlib |
 | Linux | `make_win11_usb_linux.sh` | lsblk, parted, mkfs.vfat, mount, curl, wimlib |
 
+## Démarrage rapide
+
+Les scripts posent des questions (ISO, clé USB, confirmation) : ils sont donc téléchargés d'abord, puis lancés, et non exécutés directement depuis le réseau.
+
+**macOS** (Terminal) :
+
+```bash
+brew install wimlib                      # une seule fois ; Homebrew : https://brew.sh
+mkdir -p ~/win11 && cd ~/win11           # dossier de travail : l'ISO et les journaux y seront écrits (prévoir ~8 Go libres)
+curl -fsSLO https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/make_win11_usb_macos.sh
+sudo bash make_win11_usb_macos.sh        # demande le mot de passe de session
+```
+
+**Linux** :
+
+```bash
+sudo apt install wimtools parted dosfstools curl     # Debian / Ubuntu (autres distributions : voir plus bas)
+mkdir -p ~/win11 && cd ~/win11
+curl -fsSLO https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/make_win11_usb_linux.sh
+sudo bash make_win11_usb_linux.sh
+```
+
+**Windows** (console PowerShell ouverte en administrateur) :
+
+```powershell
+mkdir C:\win11 -Force | Out-Null; cd C:\win11
+irm https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/make_win11_usb.ps1 | iex
+```
+
+Dans le script, choisir `T` pour télécharger l'ISO depuis Microsoft, ou placer d'abord un ISO dans le dossier de travail.
+
 ## Fonctionnement (identique sur les trois systèmes)
 
 1. Recherche les `.iso` du répertoire courant et les liste numérotés avec leur taille. L'option `T` télécharge un ISO depuis Microsoft (voir plus bas). Si aucun ISO n'est trouvé, on peut saisir `T` ou le chemin complet d'un ISO.

@@ -37,7 +37,7 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 
 ## Options
 
-`php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=180] [--max=N]` : `--langue` ne traite qu'une langue (nom anglais utilisé par Microsoft, par exemple `French`, `German`) ; `--delai` règle la pause entre deux langues (180 s par défaut, soit 3 minutes) ; `--max` limite le nombre de langues, pratique pour un premier essai (`--dry-run --max=2`). Les anciennes lignes des autres langues restent dans le fichier tant que leur lien n'a pas expiré.
+`php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=60] [--max=N]` : `--langue` ne traite qu'une langue (nom anglais utilisé par Microsoft, par exemple `French`, `German`) ; `--delai` règle la pause entre deux langues (60 s par défaut, soit 1 minute) ; `--max` limite le nombre de langues, pratique pour un premier essai (`--dry-run --max=2`). Les anciennes lignes des autres langues restent dans le fichier tant que leur lien n'a pas expiré.
 
 ## Garde-fous
 
@@ -50,7 +50,7 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 ## À savoir
 
 - **Le dépôt est public** : le lien signé y est lisible pendant 24 h par n'importe qui. Il ne donne accès qu'à l'ISO publique de Microsoft, mais si cela gêne, rendre le dépôt privé ou ne publier que sur demande.
-- **Une exécution complète fait une demande par langue** : la page en proposait **37** le 17/11/2026 (allemand, anglais États-Unis, arabe, bulgare, chinois simplifié et traditionnel, coréen, croate, danois, espagnol et espagnol Mexique, estonien, finnois, français et français canadien, grec, hébreu, hongrois, italien, japonais, letton, lituanien, néerlandais, norvégien, polonais, portugais et portugais Brésil, roumain, russe, serbe latin, slovaque, slovène, suédois, tchèque, thaï, turc, ukrainien). Avec 3 minutes de pause entre deux langues, une exécution dure environ **2 heures** : prévoir un lancement tôt le matin. Pour un premier essai : `--dry-run --max=2 --delai=10`. Non testé contre la vraie page au-delà de la lecture de la liste des langues.
+- **Une exécution complète fait une demande par langue** : la page en proposait **37** le 17/11/2026 (allemand, anglais États-Unis, arabe, bulgare, chinois simplifié et traditionnel, coréen, croate, danois, espagnol et espagnol Mexique, estonien, finnois, français et français canadien, grec, hébreu, hongrois, italien, japonais, letton, lituanien, néerlandais, norvégien, polonais, portugais et portugais Brésil, roumain, russe, serbe latin, slovaque, slovène, suédois, tchèque, thaï, turc, ukrainien). Avec 1 minute de pause entre deux langues, une exécution dure environ **40 minutes** (37 langues, pauses comprises, plus le temps de chaque page). En cas d'échecs répétés, augmenter `--delai` (3 minutes = environ 2 heures). Pour un premier essai : `--dry-run --max=2 --delai=10`. Non testé contre la vraie page au-delà de la lecture de la liste des langues.
 - On ignore si un lien généré depuis votre box fonctionne depuis un autre réseau (la signature peut être liée à l'IP). À vérifier avec un téléchargement depuis un autre réseau.
 - La page Microsoft change parfois : si les sélecteurs ne correspondent plus, la routine échoue en code 2 (le début du texte de la page est journalisé) et le script doit être adapté.
 - Le Mac doit être allumé et la session ouverte (LaunchAgent, car le Trousseau est lié à la session). Si le Mac dormait à l'heure prévue, launchd lance la tâche au réveil.

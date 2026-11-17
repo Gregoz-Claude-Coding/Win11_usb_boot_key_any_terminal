@@ -17,7 +17,7 @@ declare(strict_types=1);
  * la page est rechargée pour chaque langue, avec une pause entre deux. Tous les liens sont publiés en une seule fois.
  * Si Microsoft limite les demandes (3 échecs de suite), la routine s'arrête et publie ce qu'elle a obtenu.
  *
- * Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=180] [--max=N] [--help]
+ * Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=60] [--max=N] [--help]
  * Codes de sortie : 0 ok (au moins un lien), 1 configuration, 2 page ou lien introuvable, 3 publication GitHub.
  */
 
@@ -457,11 +457,11 @@ function lien_pour_langue(Chrome $chrome, string $s, string $langue): string
 // ------------------------------------------------------------------ Programme
 $opt = getopt('', ['dry-run', 'show', 'page-url:', 'api-base:', 'langue:', 'delai:', 'max:', 'help']);
 if (isset($opt['help'])) {
-    echo "Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=180] [--max=N]\n"
+    echo "Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=60] [--max=N]\n"
        . "  --dry-run  génère les liens mais ne publie rien\n"
        . "  --show     affiche les liens complets (ils contiennent une signature : à ne pas partager)\n"
        . "  --langue   une seule langue, par son nom anglais chez Microsoft (French, German...) ; défaut : toutes\n"
-       . "  --delai    pause en secondes entre deux langues (défaut 180, soit 3 min : prudent vis-à-vis du serveur Microsoft)\n"
+       . "  --delai    pause en secondes entre deux langues (défaut 60, soit 1 min)\n"
        . "  --max      nombre maximal de langues traitées (défaut : toutes)\n";
     exit(0);
 }
@@ -469,7 +469,7 @@ $dry     = isset($opt['dry-run']);
 $show    = isset($opt['show']);
 $filtre  = isset($opt['langue']) ? (string)$opt['langue'] : null;
 $delaiEnv = getenv('DELAI_LANGUES');
-$delai   = isset($opt['delai']) ? (int)$opt['delai'] : (($delaiEnv !== false && $delaiEnv !== '') ? (int)$delaiEnv : 180);
+$delai   = isset($opt['delai']) ? (int)$opt['delai'] : (($delaiEnv !== false && $delaiEnv !== '') ? (int)$delaiEnv : 60);
 $max     = (int)($opt['max'] ?? 0);
 $page    = (string)($opt['page-url'] ?? PAGE);
 $apiBase = (string)($opt['api-base'] ?? 'https://api.github.com');

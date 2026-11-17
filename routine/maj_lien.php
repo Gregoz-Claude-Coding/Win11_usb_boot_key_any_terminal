@@ -460,7 +460,7 @@ function ouvrir_page_edition(Chrome $chrome, string $s, string $page): void
             . str_replace("\n", ' / ', $texte));
     }
     cliquer($chrome, $s,
-        js_bouton_apres(js_select_edition(), '/(Télécharger|Download)/i'),
+        js_bouton_apres(js_select_edition(), '/^\\s*(Télécharger|Download)/i'),
         '!!(() => { ' . js_select_langues() . ' })()', 30, 'Télécharger');
 }
 

@@ -1,10 +1,10 @@
 # Routine quotidienne : lien ISO Windows 11 → GitHub
 
-Une fois par jour, le Mac mini lance Chrome en mode headless, refait les clics de la page Microsoft (édition « Windows 11 multi-éditions », puis **chaque langue proposée dans le menu**, puis « Confirmer »), récupère le lien signé de chaque langue (valable 24 h) et publie le tout, en un seul commit, dans `iso_links.txt` de ce dépôt. La liste des langues est lue sur la page : une langue ajoutée par Microsoft est prise en compte sans modifier le script.
+Une fois par jour, l'ordinateur lance Chrome en mode headless, refait les clics de la page Microsoft (édition « Windows 11 multi-éditions », puis **chaque langue proposée dans le menu**, puis « Confirmer »), récupère le lien signé de chaque langue (valable 24 h) et publie le tout, en un seul commit, dans `iso_links.txt` de ce dépôt. La liste des langues est lue sur la page : une langue ajoutée par Microsoft est prise en compte sans modifier le script.
 
 **Rien n'écoute sur le réseau** : launchd lance le script à heure fixe, le script appelle Microsoft et GitHub en sortie uniquement. Aucune installation supplémentaire : PHP et Google Chrome suffisent.
 
-## Mise en place (une seule fois, sur le Mac mini)
+## Mise en place (une seule fois, sur l'ordinateur)
 
 1. Créer sur GitHub un **jeton fine-grained** : *Settings → Developer settings → Fine-grained tokens*, accès limité au seul dépôt `Win11_usb_boot_key_any_terminal`, permission **Contents : Read and write**, durée 1 an.
 2. Le ranger dans le Trousseau (saisie masquée, jamais dans un fichier) :
@@ -51,7 +51,7 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 
 - **Le dépôt est public** : le lien signé y est lisible pendant 24 h par n'importe qui. Il ne donne accès qu'à l'ISO publique de Microsoft, mais si cela gêne, rendre le dépôt privé ou ne publier que sur demande.
 - **Une exécution complète fait une demande par langue** : la page en proposait **37** le 17/11/2026 (allemand, anglais États-Unis, arabe, bulgare, chinois simplifié et traditionnel, coréen, croate, danois, espagnol et espagnol Mexique, estonien, finnois, français et français canadien, grec, hébreu, hongrois, italien, japonais, letton, lituanien, néerlandais, norvégien, polonais, portugais et portugais Brésil, roumain, russe, serbe latin, slovaque, slovène, suédois, tchèque, thaï, turc, ukrainien). Avec 1 minute de pause entre deux langues, une exécution dure environ **40 minutes** (37 langues, pauses comprises, plus le temps de chaque page). En cas d'échecs répétés, augmenter `--delai` (3 minutes = environ 2 heures). Pour un premier essai : `--dry-run --max=2 --delai=10`. Non testé contre la vraie page au-delà de la lecture de la liste des langues.
-- On ignore si un lien généré depuis votre box fonctionne depuis un autre réseau (la signature peut être liée à l'IP). À vérifier avec un téléchargement depuis un autre réseau.
+- On ignore si un lien généré depuis votre connexion fonctionne depuis un autre réseau (la signature peut être liée à l'IP). À vérifier avec un téléchargement depuis un autre réseau.
 - La page Microsoft change parfois : si les sélecteurs ne correspondent plus, la routine échoue en code 2 (le début du texte de la page est journalisé) et le script doit être adapté.
-- Le Mac doit être allumé et la session ouverte (LaunchAgent, car le Trousseau est lié à la session). Si le Mac dormait à l'heure prévue, launchd lance la tâche au réveil.
+- L'ordinateur doit être allumé et la session ouverte (LaunchAgent, car le Trousseau est lié à la session). Si le Mac dormait à l'heure prévue, launchd lance la tâche au réveil.
 - Les trois scripts de création de clé lisent `iso_links.txt` : si un lien de votre langue reste valable au moins 30 min, ils le proposent à la place de la méthode manuelle (et reviennent à celle-ci si le lien ne répond pas).

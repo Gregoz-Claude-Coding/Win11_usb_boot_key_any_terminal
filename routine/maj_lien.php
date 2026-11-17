@@ -249,16 +249,20 @@ function cliquer(Chrome $c, string $s, string $corpsRecherche, string $jsSuite, 
     journal("Clic « $nom » sans effet visible : nouvel essai par clic JavaScript.");
     $c->evaluer($s, '(() => { const el = (() => { ' . $corpsRecherche . ' })(); if (el) el.click(); return true; })()');
     if (!$c->attendre($s, $jsSuite, $delai)) {
-        diagnostic($c, $s, $nom);
+        if (diagnostic($c, $s, $nom)) {
+            throw new BlocageMicrosoft('Microsoft refuse de traiter la demande depuis cette connexion (erreur 715-123130).');
+        }
         throw new RuntimeException("Pas de suite après « $nom ». Diagnostic dans maj_lien.log et maj_lien_erreur.png.");
     }
 }
 
 /** Écrit dans le journal ce que voit la page (sans rien contourner) et garde une capture d'écran. */
-function diagnostic(Chrome $c, string $s, string $nom): void
+function diagnostic(Chrome $c, string $s, string $nom): bool
 {
     global $dir;
+    $blocage = false;
     try {
+        $blocage = (bool)$c->evaluer($s, '/715-123\\d+|ne pouvons pas traiter votre demande|cannot process your request/i.test(document.body.innerText)');
         $info = $c->evaluer($s, '(() => { const t = s => (s || "").replace(/\\s+/g, " ").trim();
             const alertes = [...document.querySelectorAll("[role=alert], .alert, [class*=error], [class*=Error]")]
                 .map(e => t(e.innerText)).filter(Boolean).slice(0, 5);
@@ -276,6 +280,12 @@ function diagnostic(Chrome $c, string $s, string $nom): void
     } catch (Throwable $e) {
         journal('Diagnostic impossible : ' . $e->getMessage());
     }
+    return $blocage;
+}
+
+/** Microsoft refuse de traiter les demandes de cette connexion (message d'erreur 715-123130) : on s'arrête tout de suite. */
+final class BlocageMicrosoft extends RuntimeException
+{
 }
 
 function js_select_edition(): string
@@ -588,6 +598,10 @@ try {
             if ($show) {
                 echo $url . "\n";
             }
+        } catch (BlocageMicrosoft $e) {
+            $echecs[] = $nom;
+            journal("$nom : " . $e->getMessage() . ' Arrêt immédiat, plus aucune demande envoyée. Réessayez plus tard, avec une pause plus longue (--delai=180). Aucune tentative de contournement.');
+            break;
         } catch (Throwable $e) {
             $echecs[] = $nom;
             journal("$nom : ÉCHEC : " . $e->getMessage());

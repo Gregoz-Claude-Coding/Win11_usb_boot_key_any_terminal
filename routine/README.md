@@ -1,6 +1,6 @@
 # Routine quotidienne : lien ISO Windows 11 → GitHub
 
-Une fois par jour, le Mac mini lance Chrome en mode headless, refait les clics de la page Microsoft (édition « Windows 11 multi-éditions », langue, « Confirmer »), récupère le lien signé généré (valable 24 h) et le publie dans `iso_links.txt` de ce dépôt.
+Une fois par jour, le Mac mini lance Chrome en mode headless, refait les clics de la page Microsoft (édition « Windows 11 multi-éditions », puis **chaque langue proposée dans le menu**, puis « Confirmer »), récupère le lien signé de chaque langue (valable 24 h) et publie le tout, en un seul commit, dans `iso_links.txt` de ce dépôt. La liste des langues est lue sur la page : une langue ajoutée par Microsoft est prise en compte sans modifier le script.
 
 **Rien n'écoute sur le réseau** : launchd lance le script à heure fixe, le script appelle Microsoft et GitHub en sortie uniquement. Aucune installation supplémentaire : PHP et Google Chrome suffisent.
 
@@ -33,7 +33,11 @@ Une fois par jour, le Mac mini lance Chrome en mode headless, refait les clics d
 | 2 | page modifiée/refusée par Microsoft, ou lien non conforme |
 | 3 | échec de publication GitHub |
 
-Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`.
+Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`. Une langue en échec n'empêche pas les autres : les liens obtenus sont publiés (code 0, avec notification « N en échec »). Après **3 échecs de suite**, la routine s'arrête et publie ce qu'elle a : Microsoft limite peut-être les demandes, et rien n'est tenté pour contourner cette limite.
+
+## Options
+
+`php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=8] [--max=N]` : `--langue` ne traite qu'une langue (nom anglais utilisé par Microsoft, par exemple `French`, `German`) ; `--delai` règle la pause entre deux langues (8 s par défaut) ; `--max` limite le nombre de langues, pratique pour un premier essai (`--dry-run --max=2`). Les anciennes lignes des autres langues restent dans le fichier tant que leur lien n'a pas expiré.
 
 ## Garde-fous
 
@@ -46,6 +50,7 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 ## À savoir
 
 - **Le dépôt est public** : le lien signé y est lisible pendant 24 h par n'importe qui. Il ne donne accès qu'à l'ISO publique de Microsoft, mais si cela gêne, rendre le dépôt privé ou ne publier que sur demande.
+- **Une exécution complète fait autant de demandes qu'il y a de langues** (une quarantaine, page rechargée à chaque fois, environ 15 à 20 minutes). Microsoft peut limiter ce rythme : commencer par `--dry-run --max=2`, puis augmenter `--delai` si des échecs apparaissent. Non testé contre la vraie page.
 - On ignore si un lien généré depuis votre box fonctionne depuis un autre réseau (la signature peut être liée à l'IP). À vérifier avec un téléchargement depuis un autre réseau.
 - La page Microsoft change parfois : si les sélecteurs ne correspondent plus, la routine échoue en code 2 (le début du texte de la page est journalisé) et le script doit être adapté.
 - Le Mac doit être allumé et la session ouverte (LaunchAgent, car le Trousseau est lié à la session). Si le Mac dormait à l'heure prévue, launchd lance la tâche au réveil.

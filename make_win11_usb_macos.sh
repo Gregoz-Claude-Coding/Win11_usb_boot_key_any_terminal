@@ -15,7 +15,7 @@ avert()  { printf '%s%s%s\n' "$jaune" "$*" "$raz"; }
 erreur() { printf '%s%s%s\n' "$rouge" "$*" "$raz" >&2; }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
-# Forcer une langue : WIN11_LANG=en sudo -E bash ...   Ajouter une langue : ajouter une fonction msg_xx.
+# Langues : fr, en, es, de, it, pt. Forcer une langue : sudo env WIN11_LANG=en bash ...   Ajouter une langue : ajouter une fonction msg_xx.
 LANGUE_UI="en"
 msg() {
     local f
@@ -113,7 +113,7 @@ msg_fr() {
         dl_speed) printf '%s' "Vitesse de téléchargement moyenne : %s Mo/s" ;;
         sha_calc) printf '%s' "Calcul de l'empreinte SHA-256 (quelques minutes)..." ;;
         sha_ok) printf '%s' "Empreinte conforme à celle publiée par Microsoft (%s)." ;;
-        sha_unknown) printf '%s' "Empreinte non reconnue (version ou langue absente de iso_hashes.txt, ou fichier altéré)." ;;
+        sha_unknown) printf '%s' "Empreinte non reconnue (version ou langue absente de versions_iso.txt, ou fichier altéré)." ;;
         sha_computed) printf '%s' "SHA-256 calculé : %s" ;;
         ask_sha) printf '%s' "Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer) : " ;;
         sha_match) printf '%s' "Empreinte conforme." ;;
@@ -208,7 +208,7 @@ msg_en() {
         dl_speed) printf '%s' "Average download speed: %s MB/s" ;;
         sha_calc) printf '%s' "Computing the SHA-256 hash (a few minutes)..." ;;
         sha_ok) printf '%s' "Hash matches the one published by Microsoft (%s)." ;;
-        sha_unknown) printf '%s' "Hash not recognized (version or language missing from iso_hashes.txt, or altered file)." ;;
+        sha_unknown) printf '%s' "Hash not recognized (version or language missing from versions_iso.txt, or altered file)." ;;
         sha_computed) printf '%s' "Computed SHA-256: %s" ;;
         ask_sha) printf '%s' "SHA-256 hash shown by Microsoft for this language (Enter to skip): " ;;
         sha_match) printf '%s' "Hash matches." ;;
@@ -218,6 +218,386 @@ msg_en() {
         wait_timeout) printf '%s' "Timed out (5 minutes): paste the link by hand." ;;
         published_found) printf '%s' "Ready-made link found (iso_links.txt): build %s, still valid for %s. Use it? (Y/n) " ;;
         published_dead) printf '%s' "That published link does not answer (HTTP %s): falling back to the manual method." ;;
+        *) return 1 ;;
+    esac
+}
+msg_es() {
+    case "$1" in
+        need_sudo) printf '%s' "Ejecuta el script con sudo: sudo bash %s" ;;
+        tools_missing) printf '%s' "Faltan herramientas:%s" ;;
+        install_wimlib) printf '%s' "Instala wimlib (sin sudo): brew install wimlib" ;;
+        no_iso) printf '%s' "No se encontró ningún archivo .iso en %s." ;;
+        ask_no_iso) printf '%s' "T para descargar el ISO desde Microsoft, o ruta completa del ISO: " ;;
+        isos_found) printf '%s' "ISO encontrados en %s:" ;;
+        menu_download) printf '%s' "  [T] Descargar un ISO de Windows 11 desde Microsoft" ;;
+        ask_iso) printf '%s' "Número del ISO a usar (o T): " ;;
+        bad_choice) printf '%s' "Opción no válida." ;;
+        iso_selected) printf '%s' "ISO seleccionado: %s" ;;
+        iso_missing) printf '%s' "ISO no encontrado." ;;
+        no_usb) printf '%s' "No se detectó ninguna unidad USB." ;;
+        usb_found) printf '%s' "Unidades USB detectadas:" ;;
+        ask_usb) printf '%s' "Número de la unidad USB que se BORRARÁ: " ;;
+        not_in_list) printf '%s' "Ese número no está en la lista." ;;
+        internal_disk) printf '%s' "%s es un disco interno: se cancela." ;;
+        root_disk) printf '%s' "%s contiene el sistema de archivos raíz: se cancela." ;;
+        too_small) printf '%s' "Unidad demasiado pequeña: %s GB para un ISO de %s GB." ;;
+        confirm_erase) printf '%s' "¿Confirmar el borrado de '%s' (%s)? (S/N) " ;;
+        preparing) printf '%s' "Preparando la unidad (%s)..." ;;
+        partition_fail) printf '%s' "Error al particionar %s." ;;
+        no_mountpoint) printf '%s' "No se encontró el punto de montaje de la unidad." ;;
+        part_missing) printf '%s' "No se encontró la partición tras el particionado." ;;
+        mkfs_fail) printf '%s' "Error al formatear %s en FAT32." ;;
+        mount_fail) printf '%s' "No se pudo montar %s." ;;
+        iso_mount_fail_mac) printf '%s' "No se pudo montar el ISO." ;;
+        iso_mount_fail_linux) printf '%s' "No se pudo montar el ISO (prueba: sudo modprobe udf)." ;;
+        sources_missing) printf '%s' "No se encontró la carpeta 'sources' en el ISO montado: ISO no válido o montado en un formato incompleto." ;;
+        copying) printf '%s' "Copiando archivos..." ;;
+        copy_err_file) printf '%s' "ERROR de copia: %s" ;;
+        copy_err) printf '%s' "La copia encontró un error. Consulta %s" ;;
+        bootwim_missing) printf '%s' "Falta sources/boot.wim en la unidad: copia incompleta. Consulta %s" ;;
+        write_ok) printf '%s' "Prueba de escritura en la unidad: OK" ;;
+        write_fail) printf '%s' "No se puede escribir en %s" ;;
+        splitting) printf '%s' "Dividiendo install.wim..." ;;
+        split_done) printf '%s' "División completada." ;;
+        split_fail) printf '%s' "wimlib falló (código %s). Últimas líneas de %s:" ;;
+        esd_copy) printf '%s' "install.esd detectado: se copia directamente." ;;
+        esd_fail) printf '%s' "Error al copiar install.esd" ;;
+        no_image) printf '%s' "No se encontró ni install.wim ni install.esd en el ISO." ;;
+        done_mac) printf '%s' "Terminado: la unidad está lista en %s" ;;
+        logs) printf '%s' "Registros: %s, %s (si se dividió) y %s" ;;
+        eject_hint) printf '%s' "Para expulsarla de forma segura: diskutil eject %s" ;;
+        syncing) printf '%s' "Sincronizando la unidad (no la retires todavía)..." ;;
+        umount_fail) printf '%s' "No se pudo desmontar la unidad: no la retires." ;;
+        done_linux) printf '%s' "Terminado: la unidad está lista (%s). Ya puedes retirarla." ;;
+        bar_size) printf '%s' "%d MB / %d MB" ;;
+        bar_speed) printf '%s' "%s MB/s" ;;
+        copy_line_speed) printf '%s' "  — %s MB/s de media" ;;
+        copy_summary) printf '%s' "Copia terminada: %s MB en %s — %s MB/s de media." ;;
+        split_summary) printf '%s' "División: %s MB en %s — %s MB/s." ;;
+        total_speed) printf '%s' "Total escrito en la unidad: %s GB en %s — %s MB/s (caché de escritura vaciada)." ;;
+        slow_drive) printf '%s' "Unidad lenta (%s MB/s): una unidad USB 3.x en un puerto USB 3 sería mucho más rápida." ;;
+        curl_needed) printf '%s' "Se necesita curl para descargar el ISO." ;;
+        dl_title) printf '%s' "Descarga del ISO de Windows 11 desde Microsoft" ;;
+        ask_lang) printf '%s' "Idioma de la página de Microsoft [%s] (Intro para aceptar, u otro código, p. ej. fr-fr): " ;;
+        bad_code) printf '%s' "Código no válido: se mantiene el idioma detectado (%s)." ;;
+        official_page) printf '%s' "Página oficial: %s" ;;
+        no_fixed_link) printf '%s' "Microsoft no publica un enlace fijo: el enlace directo se genera en cada descarga\ny solo es válido 24 horas." ;;
+        step1) printf '%s' "  1. Abre la página oficial anterior en tu navegador." ;;
+        step2) printf '%s' "  2. En «Descargar imagen de disco de Windows 11 (ISO) para dispositivos x64», elige el ISO\n     multiedición, luego el idioma del producto (idioma de tu sistema: %s) y pulsa «Confirmar»." ;;
+        step3) printf '%s' "  3. Clic derecho en el botón de descarga de 64 bits > «Copiar dirección del vínculo»: el script lo detecta solo.\n     Pega el vínculo COMPLETO, incluido lo que sigue a «.iso?»: esa parte es la que lo autoriza." ;;
+        clip_unreadable) printf '%s' "Portapapeles ilegible aquí (falta la herramienta): pega el enlace a mano." ;;
+        ask_url) printf '%s' "Pega aquí la URL del enlace (https://...microsoft.com/....iso): " ;;
+        url_refused) printf '%s' "URL rechazada: debe ser https, de un dominio *.microsoft.com, y su ruta debe terminar en .iso." ;;
+        file_exists) printf '%s' "%s ya existe en %s: se usa el archivo existente." ;;
+        querying) printf '%s' "Consultando el servidor de Microsoft..." ;;
+        size_unknown) printf '%s' "Tamaño del ISO no comunicado: se supone %s GB." ;;
+        http_err) printf '%s' "El servidor de Microsoft respondió HTTP %s (000 = sin respuesta): enlace caducado, incompleto (sin la parte posterior a «.iso?») o red inaccesible.\nGenera un nuevo enlace en la página oficial." ;;
+        size_line) printf '%s' "  Tamaño del ISO       : %s GB" ;;
+        need_line) printf '%s' "  Espacio necesario    : %s GB (ISO + margen; sin copia temporal para la división)" ;;
+        free_line) printf '%s' "  Espacio libre        : %s GB (%s)" ;;
+        insufficient) printf '%s' "Espacio en disco insuficiente: faltan %s GB." ;;
+        confirm_dl) printf '%s' "¿Iniciar la descarga en %s? (S/N) " ;;
+        dl_running) printf '%s' "Descargando (se puede reanudar si se interrumpe)..." ;;
+        dl_fail) printf '%s' "Error en la descarga (¿enlace caducado o red?). Genera un nuevo enlace en la página de Microsoft." ;;
+        dl_done) printf '%s' "Descarga terminada: %s" ;;
+        dl_speed) printf '%s' "Velocidad media de descarga: %s MB/s" ;;
+        sha_calc) printf '%s' "Calculando el hash SHA-256 (unos minutos)..." ;;
+        sha_ok) printf '%s' "El hash coincide con el publicado por Microsoft (%s)." ;;
+        sha_unknown) printf '%s' "Hash no reconocido (versión o idioma ausente de iso_hashes.txt, o archivo alterado)." ;;
+        sha_computed) printf '%s' "SHA-256 calculado: %s" ;;
+        ask_sha) printf '%s' "Hash SHA-256 que muestra Microsoft para este idioma (Intro para omitir): " ;;
+        sha_match) printf '%s' "El hash coincide." ;;
+        sha_bad) printf '%s' "El hash difiere: archivo dañado o incompleto. Bórralo y vuelve a empezar." ;;
+        wait_link) printf '%s' "Esperando el enlace: haz clic en «Copiar dirección del vínculo» en el navegador.\n(Intro = pegar el enlace a mano)" ;;
+        clip_found) printf '%s' "Enlace detectado en el portapapeles: %s. ¿Usarlo? (S/n) " ;;
+        wait_timeout) printf '%s' "Tiempo agotado (5 minutos): pega el enlace a mano." ;;
+        published_found) printf '%s' "Enlace ya generado (iso_links.txt): build %s, válido todavía %s. ¿Usarlo? (S/n) " ;;
+        published_dead) printf '%s' "Ese enlace publicado no responde (HTTP %s): se vuelve al método manual." ;;
+        *) return 1 ;;
+    esac
+}
+msg_de() {
+    case "$1" in
+        need_sudo) printf '%s' "Starte das Skript mit sudo: sudo bash %s" ;;
+        tools_missing) printf '%s' "Fehlende Werkzeuge:%s" ;;
+        install_wimlib) printf '%s' "Installiere wimlib (ohne sudo): brew install wimlib" ;;
+        no_iso) printf '%s' "Keine .iso-Datei in %s gefunden." ;;
+        ask_no_iso) printf '%s' "T zum Herunterladen der ISO von Microsoft, oder vollständiger Pfad der ISO: " ;;
+        isos_found) printf '%s' "ISO-Dateien in %s:" ;;
+        menu_download) printf '%s' "  [T] Windows-11-ISO von Microsoft herunterladen" ;;
+        ask_iso) printf '%s' "Nummer der zu verwendenden ISO (oder T): " ;;
+        bad_choice) printf '%s' "Ungültige Auswahl." ;;
+        iso_selected) printf '%s' "Gewählte ISO: %s" ;;
+        iso_missing) printf '%s' "ISO nicht gefunden." ;;
+        no_usb) printf '%s' "Kein USB-Laufwerk erkannt." ;;
+        usb_found) printf '%s' "Erkannte USB-Laufwerke:" ;;
+        ask_usb) printf '%s' "Nummer des USB-Laufwerks, das GELÖSCHT wird: " ;;
+        not_in_list) printf '%s' "Diese Nummer steht nicht in der Liste." ;;
+        internal_disk) printf '%s' "%s ist ein interner Datenträger: Abbruch." ;;
+        root_disk) printf '%s' "%s enthält das Root-Dateisystem: Abbruch." ;;
+        too_small) printf '%s' "USB-Laufwerk zu klein: %s GB für eine ISO mit %s GB." ;;
+        confirm_erase) printf '%s' "Löschen von '%s' (%s) bestätigen? (J/N) " ;;
+        preparing) printf '%s' "USB-Laufwerk wird vorbereitet (%s)..." ;;
+        partition_fail) printf '%s' "Partitionierung von %s fehlgeschlagen." ;;
+        no_mountpoint) printf '%s' "Einhängepunkt des Laufwerks nicht gefunden." ;;
+        part_missing) printf '%s' "Partition nach der Partitionierung nicht gefunden." ;;
+        mkfs_fail) printf '%s' "FAT32-Formatierung von %s fehlgeschlagen." ;;
+        mount_fail) printf '%s' "%s konnte nicht eingehängt werden." ;;
+        iso_mount_fail_mac) printf '%s' "Die ISO konnte nicht eingehängt werden." ;;
+        iso_mount_fail_linux) printf '%s' "Die ISO konnte nicht eingehängt werden (versuche: sudo modprobe udf)." ;;
+        sources_missing) printf '%s' "Ordner 'sources' in der eingehängten ISO nicht gefunden: ungültige ISO oder unvollständiges Format." ;;
+        copying) printf '%s' "Dateien werden kopiert..." ;;
+        copy_err_file) printf '%s' "KOPIERFEHLER: %s" ;;
+        copy_err) printf '%s' "Beim Kopieren ist ein Fehler aufgetreten. Siehe %s" ;;
+        bootwim_missing) printf '%s' "sources/boot.wim fehlt auf dem Laufwerk: unvollständige Kopie. Siehe %s" ;;
+        write_ok) printf '%s' "Schreibtest auf dem Laufwerk: OK" ;;
+        write_fail) printf '%s' "Schreiben auf %s nicht möglich" ;;
+        splitting) printf '%s' "install.wim wird aufgeteilt..." ;;
+        split_done) printf '%s' "Aufteilung abgeschlossen." ;;
+        split_fail) printf '%s' "wimlib ist fehlgeschlagen (Code %s). Letzte Zeilen von %s:" ;;
+        esd_copy) printf '%s' "install.esd erkannt: wird direkt kopiert." ;;
+        esd_fail) printf '%s' "install.esd konnte nicht kopiert werden" ;;
+        no_image) printf '%s' "Weder install.wim noch install.esd in der ISO gefunden." ;;
+        done_mac) printf '%s' "Fertig: Das Laufwerk ist bereit unter %s" ;;
+        logs) printf '%s' "Protokolle: %s, %s (bei Aufteilung) und %s" ;;
+        eject_hint) printf '%s' "Zum sicheren Auswerfen: diskutil eject %s" ;;
+        syncing) printf '%s' "Laufwerk wird synchronisiert (noch nicht entfernen)..." ;;
+        umount_fail) printf '%s' "Laufwerk konnte nicht ausgehängt werden: nicht entfernen." ;;
+        done_linux) printf '%s' "Fertig: Das Laufwerk ist bereit (%s). Du kannst es entfernen." ;;
+        bar_size) printf '%s' "%d MB / %d MB" ;;
+        bar_speed) printf '%s' "%s MB/s" ;;
+        copy_line_speed) printf '%s' "  — %s MB/s im Durchschnitt" ;;
+        copy_summary) printf '%s' "Kopieren abgeschlossen: %s MB in %s — %s MB/s im Durchschnitt." ;;
+        split_summary) printf '%s' "Aufteilung: %s MB in %s — %s MB/s." ;;
+        total_speed) printf '%s' "Insgesamt auf das Laufwerk geschrieben: %s GB in %s — %s MB/s (Schreibcache geleert)." ;;
+        slow_drive) printf '%s' "Langsames Laufwerk (%s MB/s): Ein USB-3.x-Laufwerk an einem USB-3-Anschluss wäre deutlich schneller." ;;
+        curl_needed) printf '%s' "curl wird zum Herunterladen der ISO benötigt." ;;
+        dl_title) printf '%s' "Windows-11-ISO wird von Microsoft heruntergeladen" ;;
+        ask_lang) printf '%s' "Sprache der Microsoft-Seite [%s] (Eingabe zum Übernehmen, oder anderer Code, z. B. de-de): " ;;
+        bad_code) printf '%s' "Ungültiger Code: erkannte Sprache bleibt erhalten (%s)." ;;
+        official_page) printf '%s' "Offizielle Seite: %s" ;;
+        no_fixed_link) printf '%s' "Microsoft veröffentlicht keinen festen Link: Der direkte Link wird bei jedem Download erzeugt\nund ist nur 24 Stunden gültig." ;;
+        step1) printf '%s' "  1. Öffne die obige offizielle Seite in deinem Browser." ;;
+        step2) printf '%s' "  2. Wähle unter „Windows 11-Datenträgerabbild (ISO) für x64-Geräte herunterladen“ die ISO mit\n     mehreren Editionen, dann die Produktsprache (deine Systemsprache: %s) und klicke auf „Bestätigen“." ;;
+        step3) printf '%s' "  3. Rechtsklick auf die 64-Bit-Download-Schaltfläche > „Link-Adresse kopieren“: Das Skript erkennt ihn selbst.\n     Füge den GANZEN Link ein, einschließlich dessen, was nach „.iso?“ folgt: Dieser Teil autorisiert ihn." ;;
+        clip_unreadable) printf '%s' "Zwischenablage hier nicht lesbar (Werkzeug fehlt): Link von Hand einfügen." ;;
+        ask_url) printf '%s' "Link-URL hier einfügen (https://...microsoft.com/....iso): " ;;
+        url_refused) printf '%s' "URL abgelehnt: Sie muss https verwenden, zu einer *.microsoft.com-Domain gehören und der Pfad muss auf .iso enden." ;;
+        file_exists) printf '%s' "%s existiert bereits in %s: vorhandene Datei wird verwendet." ;;
+        querying) printf '%s' "Microsoft-Server wird abgefragt..." ;;
+        size_unknown) printf '%s' "ISO-Größe nicht mitgeteilt: Annahme von %s GB." ;;
+        http_err) printf '%s' "Der Microsoft-Server antwortete mit HTTP %s (000 = keine Antwort): Link abgelaufen, unvollständig (Teil nach „.iso?“ fehlt) oder Netzwerk nicht erreichbar.\nErzeuge einen neuen Link auf der offiziellen Seite." ;;
+        size_line) printf '%s' "  ISO-Größe            : %s GB" ;;
+        need_line) printf '%s' "  Benötigter Platz     : %s GB (ISO + Reserve; keine temporäre Kopie für die Aufteilung)" ;;
+        free_line) printf '%s' "  Freier Platz         : %s GB (%s)" ;;
+        insufficient) printf '%s' "Nicht genug Speicherplatz: %s GB fehlen." ;;
+        confirm_dl) printf '%s' "Download nach %s starten? (J/N) " ;;
+        dl_running) printf '%s' "Download läuft (fortsetzbar bei Unterbrechung)..." ;;
+        dl_fail) printf '%s' "Download fehlgeschlagen (Link abgelaufen oder Netzwerk?). Erzeuge einen neuen Link auf der Microsoft-Seite." ;;
+        dl_done) printf '%s' "Download abgeschlossen: %s" ;;
+        dl_speed) printf '%s' "Durchschnittliche Download-Geschwindigkeit: %s MB/s" ;;
+        sha_calc) printf '%s' "SHA-256-Hash wird berechnet (einige Minuten)..." ;;
+        sha_ok) printf '%s' "Hash stimmt mit dem von Microsoft veröffentlichten überein (%s)." ;;
+        sha_unknown) printf '%s' "Hash nicht erkannt (Version oder Sprache fehlt in iso_hashes.txt, oder Datei verändert)." ;;
+        sha_computed) printf '%s' "Berechneter SHA-256: %s" ;;
+        ask_sha) printf '%s' "Von Microsoft für diese Sprache angezeigter SHA-256-Hash (Eingabe zum Überspringen): " ;;
+        sha_match) printf '%s' "Hash stimmt überein." ;;
+        sha_bad) printf '%s' "Hash weicht ab: Datei beschädigt oder unvollständig. Löschen und neu beginnen." ;;
+        wait_link) printf '%s' "Warte auf den Link: Klicke im Browser auf „Link-Adresse kopieren“.\n(Eingabe = Link von Hand einfügen)" ;;
+        clip_found) printf '%s' "Link in der Zwischenablage erkannt: %s. Verwenden? (J/n) " ;;
+        wait_timeout) printf '%s' "Zeitüberschreitung (5 Minuten): Link von Hand einfügen." ;;
+        published_found) printf '%s' "Bereits erzeugter Link (iso_links.txt): Build %s, noch gültig für %s. Verwenden? (J/n) " ;;
+        published_dead) printf '%s' "Dieser veröffentlichte Link antwortet nicht (HTTP %s): Rückfall auf die manuelle Methode." ;;
+        *) return 1 ;;
+    esac
+}
+msg_it() {
+    case "$1" in
+        need_sudo) printf '%s' "Avvia lo script con sudo: sudo bash %s" ;;
+        tools_missing) printf '%s' "Strumenti mancanti:%s" ;;
+        install_wimlib) printf '%s' "Installa wimlib (senza sudo): brew install wimlib" ;;
+        no_iso) printf '%s' "Nessun file .iso trovato in %s." ;;
+        ask_no_iso) printf '%s' "T per scaricare l'ISO da Microsoft, oppure percorso completo dell'ISO: " ;;
+        isos_found) printf '%s' "ISO trovati in %s:" ;;
+        menu_download) printf '%s' "  [T] Scarica un ISO di Windows 11 da Microsoft" ;;
+        ask_iso) printf '%s' "Numero dell'ISO da usare (o T): " ;;
+        bad_choice) printf '%s' "Scelta non valida." ;;
+        iso_selected) printf '%s' "ISO selezionato: %s" ;;
+        iso_missing) printf '%s' "ISO non trovato." ;;
+        no_usb) printf '%s' "Nessuna unità USB rilevata." ;;
+        usb_found) printf '%s' "Unità USB rilevate:" ;;
+        ask_usb) printf '%s' "Numero dell'unità USB da CANCELLARE: " ;;
+        not_in_list) printf '%s' "Questo numero non è nell'elenco." ;;
+        internal_disk) printf '%s' "%s è un disco interno: operazione annullata." ;;
+        root_disk) printf '%s' "%s contiene il file system root: operazione annullata." ;;
+        too_small) printf '%s' "Unità troppo piccola: %s GB per un ISO da %s GB." ;;
+        confirm_erase) printf '%s' "Confermare la cancellazione di '%s' (%s)? (S/N) " ;;
+        preparing) printf '%s' "Preparazione dell'unità (%s)..." ;;
+        partition_fail) printf '%s' "Partizionamento di %s non riuscito." ;;
+        no_mountpoint) printf '%s' "Punto di montaggio dell'unità non trovato." ;;
+        part_missing) printf '%s' "Partizione non trovata dopo il partizionamento." ;;
+        mkfs_fail) printf '%s' "Formattazione FAT32 di %s non riuscita." ;;
+        mount_fail) printf '%s' "Impossibile montare %s." ;;
+        iso_mount_fail_mac) printf '%s' "Impossibile montare l'ISO." ;;
+        iso_mount_fail_linux) printf '%s' "Impossibile montare l'ISO (prova: sudo modprobe udf)." ;;
+        sources_missing) printf '%s' "Cartella 'sources' non trovata nell'ISO montato: ISO non valido o montato in un formato incompleto." ;;
+        copying) printf '%s' "Copia dei file in corso..." ;;
+        copy_err_file) printf '%s' "ERRORE di copia: %s" ;;
+        copy_err) printf '%s' "La copia ha incontrato un errore. Vedi %s" ;;
+        bootwim_missing) printf '%s' "sources/boot.wim assente dall'unità: copia incompleta. Vedi %s" ;;
+        write_ok) printf '%s' "Test di scrittura sull'unità: OK" ;;
+        write_fail) printf '%s' "Impossibile scrivere su %s" ;;
+        splitting) printf '%s' "Divisione di install.wim in corso..." ;;
+        split_done) printf '%s' "Divisione completata." ;;
+        split_fail) printf '%s' "wimlib non è riuscito (codice %s). Ultime righe di %s:" ;;
+        esd_copy) printf '%s' "install.esd rilevato: copia diretta." ;;
+        esd_fail) printf '%s' "Copia di install.esd non riuscita" ;;
+        no_image) printf '%s' "Né install.wim né install.esd trovati nell'ISO." ;;
+        done_mac) printf '%s' "Fatto: l'unità è pronta in %s" ;;
+        logs) printf '%s' "Registri: %s, %s (se divisione) e %s" ;;
+        eject_hint) printf '%s' "Per espellerla in sicurezza: diskutil eject %s" ;;
+        syncing) printf '%s' "Sincronizzazione dell'unità (non rimuoverla ancora)..." ;;
+        umount_fail) printf '%s' "Impossibile smontare l'unità: non rimuoverla." ;;
+        done_linux) printf '%s' "Fatto: l'unità è pronta (%s). Puoi rimuoverla." ;;
+        bar_size) printf '%s' "%d MB / %d MB" ;;
+        bar_speed) printf '%s' "%s MB/s" ;;
+        copy_line_speed) printf '%s' "  — %s MB/s in media" ;;
+        copy_summary) printf '%s' "Copia terminata: %s MB in %s — %s MB/s in media." ;;
+        split_summary) printf '%s' "Divisione: %s MB in %s — %s MB/s." ;;
+        total_speed) printf '%s' "Totale scritto sull'unità: %s GB in %s — %s MB/s (cache di scrittura svuotata)." ;;
+        slow_drive) printf '%s' "Unità lenta (%s MB/s): un'unità USB 3.x su una porta USB 3 sarebbe molto più veloce." ;;
+        curl_needed) printf '%s' "curl è necessario per scaricare l'ISO." ;;
+        dl_title) printf '%s' "Download dell'ISO di Windows 11 da Microsoft" ;;
+        ask_lang) printf '%s' "Lingua della pagina Microsoft [%s] (Invio per confermare, o altro codice, es. it-it): " ;;
+        bad_code) printf '%s' "Codice non valido: lingua rilevata mantenuta (%s)." ;;
+        official_page) printf '%s' "Pagina ufficiale: %s" ;;
+        no_fixed_link) printf '%s' "Microsoft non pubblica un link fisso: il link diretto viene generato a ogni download\ned è valido solo 24 ore." ;;
+        step1) printf '%s' "  1. Apri la pagina ufficiale qui sopra nel browser." ;;
+        step2) printf '%s' "  2. In «Scarica l'immagine del disco di Windows 11 (ISO) per dispositivi x64», scegli l'ISO\n     multi-edizione, poi la lingua del prodotto (lingua del tuo sistema: %s) e fai clic su «Conferma»." ;;
+        step3) printf '%s' "  3. Clic destro sul pulsante di download a 64 bit > «Copia indirizzo link»: lo script lo rileva da solo.\n     Incolla il link COMPLETO, compresa la parte dopo «.iso?»: è quella che lo autorizza." ;;
+        clip_unreadable) printf '%s' "Appunti non leggibili qui (strumento mancante): incolla il link a mano." ;;
+        ask_url) printf '%s' "Incolla qui l'URL del link (https://...microsoft.com/....iso): " ;;
+        url_refused) printf '%s' "URL rifiutato: deve essere https, di un dominio *.microsoft.com, e il percorso deve terminare con .iso." ;;
+        file_exists) printf '%s' "%s esiste già in %s: uso il file esistente." ;;
+        querying) printf '%s' "Interrogazione del server Microsoft..." ;;
+        size_unknown) printf '%s' "Dimensione dell'ISO non comunicata: ipotizzo %s GB." ;;
+        http_err) printf '%s' "Il server Microsoft ha risposto HTTP %s (000 = nessuna risposta): link scaduto, incompleto (senza la parte dopo «.iso?») o rete non raggiungibile.\nGenera un nuovo link sulla pagina ufficiale." ;;
+        size_line) printf '%s' "  Dimensione ISO       : %s GB" ;;
+        need_line) printf '%s' "  Spazio necessario    : %s GB (ISO + margine; nessuna copia temporanea per la divisione)" ;;
+        free_line) printf '%s' "  Spazio libero        : %s GB (%s)" ;;
+        insufficient) printf '%s' "Spazio su disco insufficiente: mancano %s GB." ;;
+        confirm_dl) printf '%s' "Avviare il download in %s? (S/N) " ;;
+        dl_running) printf '%s' "Download in corso (riprendibile se interrotto)..." ;;
+        dl_fail) printf '%s' "Download non riuscito (link scaduto o rete?). Genera un nuovo link sulla pagina Microsoft." ;;
+        dl_done) printf '%s' "Download completato: %s" ;;
+        dl_speed) printf '%s' "Velocità media di download: %s MB/s" ;;
+        sha_calc) printf '%s' "Calcolo dell'hash SHA-256 (qualche minuto)..." ;;
+        sha_ok) printf '%s' "L'hash corrisponde a quello pubblicato da Microsoft (%s)." ;;
+        sha_unknown) printf '%s' "Hash non riconosciuto (versione o lingua assente da iso_hashes.txt, o file alterato)." ;;
+        sha_computed) printf '%s' "SHA-256 calcolato: %s" ;;
+        ask_sha) printf '%s' "Hash SHA-256 mostrato da Microsoft per questa lingua (Invio per saltare): " ;;
+        sha_match) printf '%s' "L'hash corrisponde." ;;
+        sha_bad) printf '%s' "L'hash è diverso: file danneggiato o incompleto. Eliminalo e ricomincia." ;;
+        wait_link) printf '%s' "In attesa del link: fai clic su «Copia indirizzo link» nel browser.\n(Invio = incolla il link a mano)" ;;
+        clip_found) printf '%s' "Link rilevato negli appunti: %s. Usarlo? (S/n) " ;;
+        wait_timeout) printf '%s' "Tempo scaduto (5 minuti): incolla il link a mano." ;;
+        published_found) printf '%s' "Link già generato (iso_links.txt): build %s, ancora valido per %s. Usarlo? (S/n) " ;;
+        published_dead) printf '%s' "Questo link pubblicato non risponde (HTTP %s): ritorno al metodo manuale." ;;
+        *) return 1 ;;
+    esac
+}
+msg_pt() {
+    case "$1" in
+        need_sudo) printf '%s' "Execute o script com sudo: sudo bash %s" ;;
+        tools_missing) printf '%s' "Ferramentas ausentes:%s" ;;
+        install_wimlib) printf '%s' "Instale o wimlib (sem sudo): brew install wimlib" ;;
+        no_iso) printf '%s' "Nenhum arquivo .iso encontrado em %s." ;;
+        ask_no_iso) printf '%s' "T para baixar o ISO da Microsoft, ou caminho completo do ISO: " ;;
+        isos_found) printf '%s' "ISO encontrados em %s:" ;;
+        menu_download) printf '%s' "  [T] Baixar um ISO do Windows 11 da Microsoft" ;;
+        ask_iso) printf '%s' "Número do ISO a usar (ou T): " ;;
+        bad_choice) printf '%s' "Opção inválida." ;;
+        iso_selected) printf '%s' "ISO selecionado: %s" ;;
+        iso_missing) printf '%s' "ISO não encontrado." ;;
+        no_usb) printf '%s' "Nenhuma unidade USB detectada." ;;
+        usb_found) printf '%s' "Unidades USB detectadas:" ;;
+        ask_usb) printf '%s' "Número da unidade USB a APAGAR: " ;;
+        not_in_list) printf '%s' "Esse número não está na lista." ;;
+        internal_disk) printf '%s' "%s é um disco interno: operação cancelada." ;;
+        root_disk) printf '%s' "%s contém o sistema de arquivos raiz: operação cancelada." ;;
+        too_small) printf '%s' "Unidade pequena demais: %s GB para um ISO de %s GB." ;;
+        confirm_erase) printf '%s' "Confirmar o apagamento de '%s' (%s)? (S/N) " ;;
+        preparing) printf '%s' "Preparando a unidade (%s)..." ;;
+        partition_fail) printf '%s' "Falha ao particionar %s." ;;
+        no_mountpoint) printf '%s' "Não foi possível encontrar o ponto de montagem da unidade." ;;
+        part_missing) printf '%s' "Partição não encontrada após o particionamento." ;;
+        mkfs_fail) printf '%s' "Falha ao formatar %s em FAT32." ;;
+        mount_fail) printf '%s' "Não foi possível montar %s." ;;
+        iso_mount_fail_mac) printf '%s' "Não foi possível montar o ISO." ;;
+        iso_mount_fail_linux) printf '%s' "Não foi possível montar o ISO (tente: sudo modprobe udf)." ;;
+        sources_missing) printf '%s' "Pasta 'sources' não encontrada no ISO montado: ISO inválido ou montado em formato incompleto." ;;
+        copying) printf '%s' "Copiando arquivos..." ;;
+        copy_err_file) printf '%s' "ERRO de cópia: %s" ;;
+        copy_err) printf '%s' "A cópia encontrou um erro. Veja %s" ;;
+        bootwim_missing) printf '%s' "sources/boot.wim ausente da unidade: cópia incompleta. Veja %s" ;;
+        write_ok) printf '%s' "Teste de gravação na unidade: OK" ;;
+        write_fail) printf '%s' "Não é possível gravar em %s" ;;
+        splitting) printf '%s' "Dividindo o install.wim..." ;;
+        split_done) printf '%s' "Divisão concluída." ;;
+        split_fail) printf '%s' "O wimlib falhou (código %s). Últimas linhas de %s:" ;;
+        esd_copy) printf '%s' "install.esd detectado: cópia direta." ;;
+        esd_fail) printf '%s' "Falha ao copiar o install.esd" ;;
+        no_image) printf '%s' "Nem install.wim nem install.esd encontrados no ISO." ;;
+        done_mac) printf '%s' "Concluído: a unidade está pronta em %s" ;;
+        logs) printf '%s' "Registros: %s, %s (se dividido) e %s" ;;
+        eject_hint) printf '%s' "Para ejetá-la com segurança: diskutil eject %s" ;;
+        syncing) printf '%s' "Sincronizando a unidade (não a remova ainda)..." ;;
+        umount_fail) printf '%s' "Não foi possível desmontar a unidade: não a remova." ;;
+        done_linux) printf '%s' "Concluído: a unidade está pronta (%s). Você já pode removê-la." ;;
+        bar_size) printf '%s' "%d MB / %d MB" ;;
+        bar_speed) printf '%s' "%s MB/s" ;;
+        copy_line_speed) printf '%s' "  — %s MB/s em média" ;;
+        copy_summary) printf '%s' "Cópia concluída: %s MB em %s — %s MB/s em média." ;;
+        split_summary) printf '%s' "Divisão: %s MB em %s — %s MB/s." ;;
+        total_speed) printf '%s' "Total gravado na unidade: %s GB em %s — %s MB/s (cache de gravação esvaziado)." ;;
+        slow_drive) printf '%s' "Unidade lenta (%s MB/s): uma unidade USB 3.x em uma porta USB 3 seria bem mais rápida." ;;
+        curl_needed) printf '%s' "O curl é necessário para baixar o ISO." ;;
+        dl_title) printf '%s' "Baixando o ISO do Windows 11 da Microsoft" ;;
+        ask_lang) printf '%s' "Idioma da página da Microsoft [%s] (Enter para aceitar, ou outro código, ex.: pt-br): " ;;
+        bad_code) printf '%s' "Código inválido: idioma detectado mantido (%s)." ;;
+        official_page) printf '%s' "Página oficial: %s" ;;
+        no_fixed_link) printf '%s' "A Microsoft não publica um link fixo: o link direto é gerado a cada download\ne só é válido por 24 horas." ;;
+        step1) printf '%s' "  1. Abra a página oficial acima no navegador." ;;
+        step2) printf '%s' "  2. Em «Baixar a Imagem de Disco do Windows 11 (ISO) para dispositivos x64», escolha o ISO\n     de várias edições, depois o idioma do produto (idioma do seu sistema: %s) e clique em «Confirmar»." ;;
+        step3) printf '%s' "  3. Clique com o botão direito no botão de download de 64 bits > «Copiar endereço do link»: o script o detecta sozinho.\n     Cole o link COMPLETO, incluindo o que vem depois de «.iso?»: é essa parte que o autoriza." ;;
+        clip_unreadable) printf '%s' "Área de transferência ilegível aqui (ferramenta ausente): cole o link manualmente." ;;
+        ask_url) printf '%s' "Cole aqui a URL do link (https://...microsoft.com/....iso): " ;;
+        url_refused) printf '%s' "URL recusada: deve ser https, de um domínio *.microsoft.com, e o caminho deve terminar em .iso." ;;
+        file_exists) printf '%s' "%s já existe em %s: usando o arquivo existente." ;;
+        querying) printf '%s' "Consultando o servidor da Microsoft..." ;;
+        size_unknown) printf '%s' "Tamanho do ISO não informado: supondo %s GB." ;;
+        http_err) printf '%s' "O servidor da Microsoft respondeu HTTP %s (000 = sem resposta): link expirado, incompleto (sem a parte depois de «.iso?») ou rede inacessível.\nGere um novo link na página oficial." ;;
+        size_line) printf '%s' "  Tamanho do ISO       : %s GB" ;;
+        need_line) printf '%s' "  Espaço necessário    : %s GB (ISO + margem; sem cópia temporária para a divisão)" ;;
+        free_line) printf '%s' "  Espaço livre         : %s GB (%s)" ;;
+        insufficient) printf '%s' "Espaço em disco insuficiente: faltam %s GB." ;;
+        confirm_dl) printf '%s' "Iniciar o download em %s? (S/N) " ;;
+        dl_running) printf '%s' "Baixando (retomável se interrompido)..." ;;
+        dl_fail) printf '%s' "Falha no download (link expirado ou rede?). Gere um novo link na página da Microsoft." ;;
+        dl_done) printf '%s' "Download concluído: %s" ;;
+        dl_speed) printf '%s' "Velocidade média de download: %s MB/s" ;;
+        sha_calc) printf '%s' "Calculando o hash SHA-256 (alguns minutos)..." ;;
+        sha_ok) printf '%s' "O hash corresponde ao publicado pela Microsoft (%s)." ;;
+        sha_unknown) printf '%s' "Hash não reconhecido (versão ou idioma ausente de iso_hashes.txt, ou arquivo alterado)." ;;
+        sha_computed) printf '%s' "SHA-256 calculado: %s" ;;
+        ask_sha) printf '%s' "Hash SHA-256 exibido pela Microsoft para este idioma (Enter para ignorar): " ;;
+        sha_match) printf '%s' "O hash corresponde." ;;
+        sha_bad) printf '%s' "O hash é diferente: arquivo corrompido ou incompleto. Exclua-o e recomece." ;;
+        wait_link) printf '%s' "Aguardando o link: clique em «Copiar endereço do link» no navegador.\n(Enter = colar o link manualmente)" ;;
+        clip_found) printf '%s' "Link detectado na área de transferência: %s. Usá-lo? (S/n) " ;;
+        wait_timeout) printf '%s' "Tempo esgotado (5 minutos): cole o link manualmente." ;;
+        published_found) printf '%s' "Link já gerado (iso_links.txt): build %s, ainda válido por %s. Usá-lo? (S/n) " ;;
+        published_dead) printf '%s' "Esse link publicado não responde (HTTP %s): voltando ao método manual." ;;
         *) return 1 ;;
     esac
 }
@@ -589,7 +969,7 @@ telecharger_depuis_microsoft() {
         return 1
     fi
     read -r -p "$(msg confirm_dl "$dossier/$nom")" rep
-    case "$rep" in [oOyY]*) ;; *) return 1 ;; esac
+    case "$rep" in [oOyYsSjJ]*) ;; *) return 1 ;; esac
 
     info "$(msg dl_running)"
     t0=$SECONDS
@@ -736,7 +1116,7 @@ if [ "${octets_cle:-0}" -gt 0 ] && [ "$octets_cle" -lt "$iso_octets" ]; then
     exit 1
 fi
 read -r -p "$(msg confirm_erase "$(info_disque "$dev" nom)" "$dev")" rep
-case "$rep" in [oOyY]*) ;; *) exit 0 ;; esac
+case "$rep" in [oOyYsSjJ]*) ;; *) exit 0 ;; esac
 
 # --- Préparation de la clé ---
 # MBR + FAT32 : avec GPT, macOS ajoute une partition EFI vide qui peut gêner le démarrage UEFI.

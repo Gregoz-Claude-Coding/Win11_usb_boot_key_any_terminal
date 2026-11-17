@@ -41,7 +41,7 @@ Dans le script, choisir `T` pour télécharger l'ISO depuis Microsoft, ou placer
 
 ## Langue des menus
 
-Les scripts s'affichent dans la **langue du système** : français ou anglais (anglais par défaut pour toute autre langue). Pour forcer une langue : `WIN11_LANG=en` (macOS/Linux : `sudo env WIN11_LANG=en bash make_win11_usb_macos.sh`, Windows : `$env:WIN11_LANG='en'` avant de lancer le script). Ajouter une langue : copier la fonction `msg_en` en `msg_xx` (bash) ou le bloc `en = @{...}` de `$Textes` (PowerShell) et traduire les valeurs ; les clés ne changent pas.
+Les scripts s'affichent dans la **langue du système** : français, anglais, espagnol, allemand, italien ou portugais (anglais par défaut pour toute autre langue). Pour forcer une langue : `WIN11_LANG=en` (macOS/Linux : `sudo env WIN11_LANG=en bash make_win11_usb_macos.sh`, Windows : `$env:WIN11_LANG='en'` avant de lancer le script). Les réponses « oui » acceptent O, Y, S et J. Ajouter une langue : copier la fonction `msg_en` en `msg_xx` (bash) ou le bloc `en = @{...}` de `$Textes` (PowerShell) et traduire les valeurs ; les clés ne changent pas. Les traductions es/de/it/pt n'ont pas été relues par un locuteur natif : corrections bienvenues.
 
 ## Vitesse d'écriture
 
@@ -106,7 +106,7 @@ Pour ajouter une langue ou une version : pull request sur `iso_hashes.txt`, en r
 
 ### Lien déjà généré (`iso_links.txt`)
 
-Une routine quotidienne (dossier [`routine/`](routine/README.md)) génère le lien signé dans un navigateur headless et le publie dans `iso_links.txt` (format `langue;build;expiration;url`). Quand vous choisissez `T`, le script lit ce fichier : si un lien de votre langue reste valable **au moins 30 minutes**, il le propose (« Utiliser ? O/n »), sans ouvrir la page Microsoft. Si le lien ne répond pas (expiré, lié à un autre réseau…), le script revient tout seul à la méthode manuelle ci-dessus. Seule la signature publiée par Microsoft est utilisée ; l'URL est revalidée comme toute autre (https, `*.microsoft.com`, `.iso`).
+Une routine quotidienne (dossier [`routine/`](routine/README.md)) génère dans un navigateur headless **un lien signé pour chaque langue proposée par Microsoft** et les publie dans `iso_links.txt` (format `langue;build;expiration;url`). Quand vous choisissez `T`, le script lit ce fichier : si un lien de votre langue reste valable **au moins 30 minutes**, il le propose (« Utiliser ? O/n »), sans ouvrir la page Microsoft. Si le lien ne répond pas (expiré, lié à un autre réseau…), le script revient tout seul à la méthode manuelle ci-dessus. Seule la signature publiée par Microsoft est utilisée ; l'URL est revalidée comme toute autre (https, `*.microsoft.com`, `.iso`).
 
 ### Langue détectée
 

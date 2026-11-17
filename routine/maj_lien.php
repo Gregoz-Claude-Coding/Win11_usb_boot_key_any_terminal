@@ -13,8 +13,12 @@ declare(strict_types=1);
  *
  * Aucun contournement de détection de robot : si la page refuse, la routine s'arrête et le journal le dit.
  *
- * Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--code=fr-fr] [--help]
- * Codes de sortie : 0 ok, 1 configuration, 2 page ou lien introuvable, 3 publication GitHub.
+ * Une exécution génère un lien pour CHAQUE langue proposée par Microsoft (la liste est lue sur la page) :
+ * la page est rechargée pour chaque langue, avec une pause entre deux. Tous les liens sont publiés en une seule fois.
+ * Si Microsoft limite les demandes (3 échecs de suite), la routine s'arrête et publie ce qu'elle a obtenu.
+ *
+ * Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=8] [--max=N] [--help]
+ * Codes de sortie : 0 ok (au moins un lien), 1 configuration, 2 page ou lien introuvable, 3 publication GitHub.
  */
 
 // ------------------------------------------------------------------ Configuration
@@ -260,6 +264,20 @@ function js_select_langue(string $langue): string
     return 'return [...document.querySelectorAll("select")].find(s => [...s.options].some(o => o.value.includes(' . $motif . ')));';
 }
 
+/** Sélecteur du menu des langues, quelle que soit la langue (options de la forme {"id":..,"language":".."}). */
+function js_select_langues(): string
+{
+    return 'return [...document.querySelectorAll("select")].find(s => [...s.options].some(o => /"language"\\s*:/.test(o.value)));';
+}
+
+/** Liste des langues proposées par la page : [['language' => 'French', 'label' => 'Français'], ...] */
+function js_liste_langues(): string
+{
+    return '(() => { const s = (() => { ' . js_select_langues() . ' })(); if (!s) return null;
+        return [...s.options].map(o => { try { const j = JSON.parse(o.value); return j.language ? {language: j.language, label: o.text.trim()} : null; }
+            catch (e) { return null; } }).filter(Boolean); })()';
+}
+
 function js_bouton_apres(string $selecteur, string $regex): string
 {
     return 'const sel = (() => { ' . $selecteur . ' })(); if (!sel) return null;
@@ -291,8 +309,15 @@ function analyser_lien(string $url): array
     return ['expiration' => $expiration, 'build' => $build, 'fichier' => basename($chemin)];
 }
 
-/** Remplace (ou ajoute) la ligne de la langue dans le contenu du fichier de liens. */
-function maj_contenu(string $ancien, string $code, string $build, int $expiration, string $url): string
+/** Code de langue lu dans le nom du fichier (Windows11_Client_x64_fr-fr_26300_9457.iso -> fr-fr). */
+function code_langue(string $fichier): ?string
+{
+    return preg_match('/_x64_([a-z]{2,3}(?:-[a-z0-9]+){1,2})_\\d+_\\d+\\.iso$/i', $fichier, $m) ? strtolower($m[1]) : null;
+}
+
+/** Fusionne les nouveaux liens ($entrees : code => [build, expiration, url]) dans le contenu du fichier.
+ *  Les anciennes lignes des autres langues sont conservées tant qu'elles n'ont pas expiré. */
+function maj_contenu(string $ancien, array $entrees, int $maintenant): string
 {
     $entete = "# Direct Windows 11 (x64) ISO links, generated daily by routine/maj_lien.php.\n"
             . "# Format: language;build;expiry (Unix epoch);url\n"
@@ -304,11 +329,13 @@ function maj_contenu(string $ancien, string $code, string $build, int $expiratio
             continue;
         }
         $champs = explode(';', $l);
-        if (($champs[0] ?? '') !== $code) {
-            $lignes[$champs[0] ?? $l] = $l;
+        if (count($champs) >= 4 && ctype_digit($champs[2]) && (int)$champs[2] > $maintenant && !isset($entrees[$champs[0]])) {
+            $lignes[$champs[0]] = $l;
         }
     }
-    $lignes[$code] = $code . ';' . $build . ';' . $expiration . ';' . $url;
+    foreach ($entrees as $code => $e) {
+        $lignes[$code] = $code . ';' . $e['build'] . ';' . $e['expiration'] . ';' . $e['url'];
+    }
     ksort($lignes);
     return $entete . implode("\n", $lignes) . "\n";
 }
@@ -351,7 +378,7 @@ function api(string $methode, string $url, string $token, ?array $corps = null):
     return [$code, is_array($decode) ? $decode : []];
 }
 
-function publier(string $base, string $token, string $code, array $info, string $url): bool
+function publier(string $base, string $token, array $entrees): bool
 {
     $point = rtrim($base, '/') . '/repos/' . DEPOT . '/contents/' . FICHIER;
     [$c, $cur] = api('GET', $point . '?ref=' . BRANCHE, $token);
@@ -363,12 +390,12 @@ function publier(string $base, string $token, string $code, array $info, string 
     } elseif ($c !== 404) {
         throw new RuntimeException("Lecture de " . FICHIER . " impossible (HTTP $c).");
     }
-    $nouveau = maj_contenu($ancien, $code, $info['build'], $info['expiration'], $url);
+    $nouveau = maj_contenu($ancien, $entrees, time());
     if ($nouveau === $ancien) {
         journal('Fichier inchangé : rien à publier.');
         return false;
     }
-    $corps = ['message' => "Mise à jour du lien ISO $code (build {$info['build']})",
+    $corps = ['message' => 'Mise à jour des liens ISO (' . count($entrees) . ' langues)',
               'content' => base64_encode($nouveau), 'branch' => BRANCHE];
     if ($sha !== null) {
         $corps['sha'] = $sha;
@@ -388,19 +415,63 @@ function notifier(string $texte): void
     }
 }
 
+// ------------------------------------------------------------------ Étapes de la page
+/** Charge la page, choisit l'ISO dans le menu des éditions et valide : attend l'apparition du menu des langues. */
+function ouvrir_page_edition(Chrome $chrome, string $s, string $page): void
+{
+    $chrome->envoyer('Page.navigate', ['url' => $page], $s);
+    $edition = $chrome->attendre($s, '(() => { const sel = (() => { ' . js_select_edition() . ' })(); if (!sel) return false;
+        const o = [...sel.options].find(o => /ISO/i.test(o.text) && o.value !== "null");
+        sel.value = o.value;
+        sel.dispatchEvent(new Event("input", {bubbles: true}));
+        sel.dispatchEvent(new Event("change", {bubbles: true}));
+        return o.text; })()', 90);
+    if (!$edition) {
+        $texte = (string)$chrome->evaluer($s, 'document.body ? document.body.innerText.substring(0, 300) : ""');
+        throw new RuntimeException("Menu des éditions introuvable (page refusée ou modifiée ?). Début de page : "
+            . str_replace("\n", ' / ', $texte));
+    }
+    cliquer($chrome, $s,
+        js_bouton_apres(js_select_edition(), '/(Télécharger|Download)/i'),
+        '!!(() => { ' . js_select_langues() . ' })()', 30, 'Télécharger');
+}
+
+/** Choisit la langue du produit, confirme, et renvoie le lien généré. */
+function lien_pour_langue(Chrome $chrome, string $s, string $langue): string
+{
+    $chrome->evaluer($s, '(() => { const sel = (() => { ' . js_select_langue($langue) . ' })();
+        if (!sel) throw new Error("langue absente");
+        const o = [...sel.options].find(o => o.value.includes(' . json_encode('"language":"' . $langue . '"') . '));
+        sel.value = o.value;
+        sel.dispatchEvent(new Event("input", {bubbles: true}));
+        sel.dispatchEvent(new Event("change", {bubbles: true}));
+        return true; })()');
+    $jsLien = '(() => { const a = [...document.querySelectorAll("a[href]")].find(a => /\.iso\?/i.test(a.href) && /[?&]P1=/.test(a.href));
+        return a ? a.href : null; })()';
+    cliquer($chrome, $s,
+        js_bouton_apres(js_select_langue($langue), '/(Confirmer|Confirm)/i'),
+        $jsLien, 90, 'Confirmer');
+    return (string)$chrome->evaluer($s, $jsLien);
+}
+
 // ------------------------------------------------------------------ Programme
-$opt = getopt('', ['dry-run', 'show', 'page-url:', 'api-base:', 'langue:', 'code:', 'help']);
+$opt = getopt('', ['dry-run', 'show', 'page-url:', 'api-base:', 'langue:', 'delai:', 'max:', 'help']);
 if (isset($opt['help'])) {
-    echo "Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--code=fr-fr]\n"
-       . "  --dry-run  génère le lien mais ne publie rien\n"
-       . "  --show     affiche le lien complet (il contient une signature : à ne pas partager)\n";
+    echo "Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=8] [--max=N]\n"
+       . "  --dry-run  génère les liens mais ne publie rien\n"
+       . "  --show     affiche les liens complets (ils contiennent une signature : à ne pas partager)\n"
+       . "  --langue   une seule langue, par son nom anglais chez Microsoft (French, German...) ; défaut : toutes\n"
+       . "  --delai    pause en secondes entre deux langues (défaut 8)\n"
+       . "  --max      nombre maximal de langues traitées (défaut : toutes)\n";
     exit(0);
 }
-$dry    = isset($opt['dry-run']);
-$show   = isset($opt['show']);
-$langue = (string)($opt['langue'] ?? 'French');
-$code   = (string)($opt['code'] ?? 'fr-fr');
-$page   = (string)($opt['page-url'] ?? PAGE);
+$dry     = isset($opt['dry-run']);
+$show    = isset($opt['show']);
+$filtre  = isset($opt['langue']) ? (string)$opt['langue'] : null;
+$delaiEnv = getenv('DELAI_LANGUES');
+$delai   = isset($opt['delai']) ? (int)$opt['delai'] : (($delaiEnv !== false && $delaiEnv !== '') ? (int)$delaiEnv : 8);
+$max     = (int)($opt['max'] ?? 0);
+$page    = (string)($opt['page-url'] ?? PAGE);
 $apiBase = (string)($opt['api-base'] ?? 'https://api.github.com');
 
 $verrou = fopen($dir . '/.verrou', 'c');
@@ -431,74 +502,93 @@ $sansSandbox = (function_exists('posix_geteuid') && posix_geteuid() === 0) || ge
 $chrome = null;
 $sortie = 0;
 try {
-    journal("Démarrage ($code, " . ($dry ? 'simulation' : 'publication') . ').');
+    journal('Démarrage (' . ($filtre ?? 'toutes les langues') . ', ' . ($dry ? 'simulation' : 'publication') . ').');
     $chrome = new Chrome($bin, $profil, $dir . '/chrome.log', $sansSandbox);
     $t = $chrome->envoyer('Target.createTarget', ['url' => 'about:blank']);
     $a = $chrome->envoyer('Target.attachToTarget', ['targetId' => $t['targetId'], 'flatten' => true]);
     $s = (string)$a['sessionId'];
     $chrome->envoyer('Page.enable', [], $s);
     $chrome->envoyer('Runtime.enable', [], $s);
-    $chrome->envoyer('Page.navigate', ['url' => $page], $s);
 
-    // 1. Choisir l'ISO dans le menu déroulant
-    $edition = $chrome->attendre($s, '(() => { const sel = (() => { ' . js_select_edition() . ' })(); if (!sel) return false;
-        const o = [...sel.options].find(o => /ISO/i.test(o.text) && o.value !== "null");
-        sel.value = o.value;
-        sel.dispatchEvent(new Event("input", {bubbles: true}));
-        sel.dispatchEvent(new Event("change", {bubbles: true}));
-        return o.text; })()', 90);
-    if (!$edition) {
-        $texte = (string)$chrome->evaluer($s, 'document.body ? document.body.innerText.substring(0, 300) : ""');
-        throw new RuntimeException("Menu des éditions introuvable (page refusée ou modifiée ?). Début de page : "
-            . str_replace("\n", ' / ', $texte));
+    // 1. Ouvrir la page, choisir l'ISO, lire la liste des langues proposées par Microsoft
+    ouvrir_page_edition($chrome, $s, $page);
+    $liste = $chrome->evaluer($s, js_liste_langues());
+    if (!is_array($liste) || count($liste) === 0) {
+        throw new RuntimeException('Aucune langue lue dans le menu de la page.');
     }
-    journal("Édition choisie : $edition");
-
-    // 2. Valider le choix de l'ISO
-    cliquer($chrome, $s,
-        js_bouton_apres(js_select_edition(), '/(Télécharger|Download)/i'),
-        '!!(() => { ' . js_select_langue($langue) . ' })()', 30, 'Télécharger');
-
-    // 3. Choisir la langue du produit
-    $chrome->evaluer($s, '(() => { const sel = (() => { ' . js_select_langue($langue) . ' })();
-        const o = [...sel.options].find(o => o.value.includes(' . json_encode('"language":"' . $langue . '"') . '));
-        sel.value = o.value;
-        sel.dispatchEvent(new Event("input", {bubbles: true}));
-        sel.dispatchEvent(new Event("change", {bubbles: true}));
-        return true; })()');
-
-    // 4. Confirmer
-    $jsLien = '(() => { const a = [...document.querySelectorAll("a[href]")].find(a => /\.iso\?/i.test(a.href) && /[?&]P1=/.test(a.href));
-        return a ? a.href : null; })()';
-    cliquer($chrome, $s,
-        js_bouton_apres(js_select_langue($langue), '/(Confirmer|Confirm)/i'),
-        $jsLien, 90, 'Confirmer');
-
-    // 5. Relever le lien généré
-    $url = (string)$chrome->evaluer($s, $jsLien);
-    $info = analyser_lien($url);
-    $reste = $info['expiration'] - time();
-    if ($reste < VALIDITE_MIN) {
-        throw new RuntimeException('Le lien relevé expire dans moins d\'une heure : refusé.');
+    $langues = array_values(array_unique(array_map(fn($l) => (string)$l['language'], $liste)));
+    if ($filtre !== null) {
+        $langues = array_values(array_filter($langues, fn($n) => $n === $filtre));
+        if (!$langues) {
+            throw new RuntimeException("Langue « $filtre » absente de la page.");
+        }
     }
-    journal(sprintf("Lien obtenu : %s, build %s, valable jusqu'au %s (%d h %02d min).",
-        $info['fichier'], $info['build'], date('Y-m-d H:i', $info['expiration']), intdiv($reste, 3600), intdiv($reste % 3600, 60)));
-    if ($show) {
-        echo $url . "\n";
+    if ($max > 0) {
+        $langues = array_slice($langues, 0, $max);
+    }
+    journal(count($langues) . ' langue(s) à traiter : ' . implode(', ', $langues));
+
+    // 2. Un lien par langue (page rechargée à chaque fois, pause entre deux)
+    $entrees = [];
+    $echecs = [];
+    $consecutifs = 0;
+    foreach ($langues as $i => $nom) {
+        if ($i > 0) {
+            sleep($delai);
+        }
+        try {
+            if ($i > 0) {
+                ouvrir_page_edition($chrome, $s, $page);
+            }
+            $url = lien_pour_langue($chrome, $s, $nom);
+            $info = analyser_lien($url);
+            $reste = $info['expiration'] - time();
+            if ($reste < VALIDITE_MIN) {
+                throw new RuntimeException('le lien expire dans moins d\'une heure : refusé');
+            }
+            $code = code_langue($info['fichier']);
+            if ($code === null) {
+                throw new RuntimeException('code de langue illisible dans le nom du fichier ' . $info['fichier']);
+            }
+            if (isset($entrees[$code])) {
+                throw new RuntimeException("code $code déjà obtenu pour une autre langue");
+            }
+            $entrees[$code] = ['build' => $info['build'], 'expiration' => $info['expiration'], 'url' => $url];
+            $consecutifs = 0;
+            journal(sprintf('%s (%s) : lien obtenu, build %s, valable jusqu\'au %s.',
+                $nom, $code, $info['build'], date('Y-m-d H:i', $info['expiration'])));
+            if ($show) {
+                echo $url . "\n";
+            }
+        } catch (Throwable $e) {
+            $echecs[] = $nom;
+            journal("$nom : ÉCHEC : " . $e->getMessage());
+            if (++$consecutifs >= 3) {
+                journal('3 échecs de suite : arrêt (Microsoft limite peut-être les demandes). Aucune tentative de contournement.');
+                break;
+            }
+        }
+    }
+    journal(count($entrees) . ' lien(s) obtenu(s), ' . count($echecs) . ' échec(s)' . ($echecs ? ' (' . implode(', ', $echecs) . ')' : '') . '.');
+    if (!$entrees) {
+        throw new RuntimeException('Aucun lien obtenu.');
     }
 
-    // 6. Publier
+    // 3. Publier tout en une seule fois
     if ($dry) {
         journal('Simulation : rien n\'est publié.');
     } else {
         try {
-            if (publier($apiBase, (string)$token, $code, $info, $url)) {
-                journal('Lien publié sur GitHub (' . DEPOT . ', ' . FICHIER . ').');
+            if (publier($apiBase, (string)$token, $entrees)) {
+                journal('Liens publiés sur GitHub (' . DEPOT . ', ' . FICHIER . ').');
             }
         } catch (Throwable $e) {
             journal('ERREUR de publication : ' . $e->getMessage());
             $sortie = 3;
         }
+    }
+    if ($echecs && $sortie === 0) {
+        notifier(count($entrees) . ' langue(s) mises à jour, ' . count($echecs) . ' en échec : voir maj_lien.log');
     }
 } catch (Throwable $e) {
     journal('ERREUR : ' . $e->getMessage());

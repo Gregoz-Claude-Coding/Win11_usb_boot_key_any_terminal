@@ -1,0 +1,9 @@
+# Empreintes SHA-256 des ISO Windows 11 x64 publiées par Microsoft. Format : version;langue;sha256
+# Source : https://www.microsoft.com/fr-fr/software-download/windows11
+#          section « Valeurs de hachage des fichiers ISO pour chaque langue » (page indiquant « Version 26H2 »).
+# Une empreinte absente de cette liste n'est pas un défaut : le script demande alors de la saisir.
+# Pour ajouter une langue ou une version : pull request, en recopiant l'empreinte depuis la page Microsoft.
+26H2;Français;AA515279F02FB2B425EFF341F0A1F158D61288C72CCA5F9D87B79B5A23F7F918
+26H2;Français canadien;F32E5538EE3F73206294378109501C9E2E2DA78DCDE66C43F4610B18CEEBC0A7
+26H2;Anglais;BD4307DF32BC8AF33B39CCECB1174AEB345386630F89A2B86C7A4E36B55EA650
+26H2;Anglais international;7E3F373BD3C2321B5D5125DFCF718DFBF1A0ABC50A267118669951890DF98A5D

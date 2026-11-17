@@ -1,4 +1,0 @@
-# Liens directs ISO Windows 11 (x64). Format : langue;build;url
-# Microsoft génère ces liens avec une durée de validité limitée : un lien peut expirer.
-# Si un lien ne répond plus, le script demande à coller un lien à jour (voir README).
-fr-fr;26300.9457;https://software.download.prss.microsoft.com/dbazure/Windows11_Client_x64_fr-fr_26300_9457.iso

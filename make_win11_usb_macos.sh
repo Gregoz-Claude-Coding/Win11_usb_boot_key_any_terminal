@@ -70,7 +70,7 @@ info_disque() {
 }
 # ---- Téléchargement de l'ISO depuis Microsoft ----
 URL_MICROSOFT="https://www.microsoft.com/fr-fr/software-download/windows11"
-URL_LIENS="https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/liens_iso.txt"
+URL_HASHES="https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/versions_iso.txt"
 MARGE_OCTETS=$((512 * 1024 * 1024))
 
 # Espace libre (octets) du système de fichiers qui contient le dossier $1
@@ -128,48 +128,91 @@ verifier_sha256() {
     [ "$calc" = "$attendu" ]
 }
 
+# Normalise un code de langue système (fr_FR.UTF-8, fr-FR, zh-Hans-CN, fr...) en « xx-xx » minuscule
+normaliser_langue() {
+    local l=${1%%.*}
+    l=${l%%@*}
+    l=$(printf '%s' "$l" | tr 'A-Z_' 'a-z-')
+    case "$l" in ''|c|posix) echo "en-us"; return ;; esac
+    case "$l" in
+        *-*) echo "${l%%-*}-${l##*-}" ;;
+        en) echo "en-us" ;;
+        pt) echo "pt-pt" ;;
+        zh) echo "zh-cn" ;;
+        ja) echo "ja-jp" ;;
+        ko) echo "ko-kr" ;;
+        cs) echo "cs-cz" ;;
+        da) echo "da-dk" ;;
+        el) echo "el-gr" ;;
+        sv) echo "sv-se" ;;
+        uk) echo "uk-ua" ;;
+        he) echo "he-il" ;;
+        ar) echo "ar-sa" ;;
+        et) echo "et-ee" ;;
+        sl) echo "sl-si" ;;
+        nb|no) echo "nb-no" ;;
+        *) echo "$l-$l" ;;
+    esac
+}
+
+# Langue du système (macOS) : première langue de la liste des préférences de l'utilisateur
+langue_systeme() {
+    local l=""
+    if [ -n "${SUDO_USER:-}" ]; then
+        l=$(sudo -u "$SUDO_USER" defaults read -g AppleLanguages 2>/dev/null | sed -n '2p' | tr -d ' ",')
+    else
+        l=$(defaults read -g AppleLanguages 2>/dev/null | sed -n '2p' | tr -d ' ",')
+    fi
+    [ -n "$l" ] || l="${LC_ALL:-${LANG:-}}"
+    normaliser_langue "$l"
+}
+
+# Code HTTP final renvoyé par le serveur pour l'URL $1 (000 = pas de réponse)
+code_http() {
+    local c
+    c=$(curl -sIL -m 30 -o /dev/null -w '%{http_code}' "$1" 2>/dev/null)
+    echo "${c:-000}"
+}
+
+# Empreinte SHA-256 (hexadécimal) du fichier $1
+calculer_sha256() {
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$1" | awk '{print $1}'
+    else
+        shasum -a 256 "$1" | awk '{print $1}'
+    fi
+}
+
 # Télécharge l'ISO depuis Microsoft dans $dossier. Renseigne la variable globale $iso.
 # Retourne 1 en cas d'abandon ou d'échec.
 telecharger_depuis_microsoft() {
-    local url nom taille besoin libre rep attendu
+    local url nom taille besoin libre rep attendu code calc reconnu loc page
     if ! command -v curl >/dev/null 2>&1; then
         erreur "curl est nécessaire pour télécharger l'ISO."
         return 1
     fi
     info "Téléchargement de l'ISO Windows 11 depuis Microsoft"
-    url=""
-    liste=$(curl -fsSL -m 15 "$URL_LIENS" 2>/dev/null | grep -v '^[[:space:]]*#' | grep ';')
-    if [ -n "$liste" ]; then
-        echo "Liens enregistrés dans le dépôt GitHub (ils peuvent avoir expiré) :"
-        i=1
-        while IFS=';' read -r l v u; do
-            printf '  [%d] %s  build %s\n' "$i" "$l" "$v"
-            i=$((i + 1))
-        done <<< "$liste"
-        read -r -p "Numéro du lien à utiliser (Entrée pour coller un autre lien) : " n
-        case "$n" in
-            ''|*[!0-9]*) ;;
-            *)
-                url=$(printf '%s\n' "$liste" | sed -n "${n}p" | cut -d';' -f3 | tr -d '[:space:]')
-                if [ -z "$url" ] || ! url_valide "$url"; then
-                    avert "Numéro ou lien invalide."; url=""
-                elif [ "$(taille_distante "$url")" -eq 0 ]; then
-                    avert "Ce lien ne répond pas (expiré ou signature requise)."; url=""
-                fi
-                ;;
-        esac
+    loc=$(langue_systeme)
+    read -r -p "Langue de la page Microsoft [$loc] (Entrée pour valider, ou autre code, ex. en-us) : " rep
+    rep=$(printf '%s' "$rep" | tr 'A-Z_' 'a-z-' | tr -d '[:space:]')
+    if [ -n "$rep" ]; then
+        if printf '%s' "$rep" | grep -Eq '^[a-z]{2,3}(-[a-z0-9]{2,4}){1,2}$'; then
+            loc="$rep"
+        else
+            avert "Code invalide : langue détectée conservée ($loc)."
+        fi
     fi
-    if [ -z "$url" ]; then
-        echo "Page officielle : $URL_MICROSOFT"
-        echo "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
-        echo "et n'est valable que 24 heures."
-        echo "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
-        echo "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
-        echo "     multi-éditions, puis la langue du produit et clique sur « Confirmer »."
-        echo "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
-        read -r -p "Colle ici l'URL du lien (https://...microsoft.com/....iso) : " url
-        url=$(printf '%s' "$url" | tr -d '[:space:]"')
-    fi
+    page="https://www.microsoft.com/$loc/software-download/windows11"
+    echo "Page officielle : $page"
+    echo "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
+    echo "et n'est valable que 24 heures."
+    echo "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
+    echo "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
+    echo "     multi-éditions, puis la langue du produit (ta langue système : $loc) et clique sur « Confirmer »."
+    echo "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
+    echo "     Colle le lien ENTIER, y compris ce qui suit « .iso? » : c'est ce qui l'autorise."
+    read -r -p "Colle ici l'URL du lien (https://...microsoft.com/....iso) : " url
+    url=$(printf '%s' "$url" | tr -d '[:space:]"')
     if ! url_valide "$url"; then
         erreur "URL refusée : elle doit être en https, sur un domaine *.microsoft.com, et son chemin doit se terminer par .iso."
         return 1
@@ -184,8 +227,18 @@ telecharger_depuis_microsoft() {
     info "Interrogation du serveur Microsoft..."
     taille=$(taille_distante "$url")
     if [ "$taille" -eq 0 ]; then
-        taille=$((8 * 1024 * 1024 * 1024))
-        avert "Taille de l'ISO non communiquée (lien expiré ?) : hypothèse de $(en_go "$taille") Go."
+        code=$(code_http "$url")
+        case "$code" in
+            2??)
+                taille=$((8 * 1024 * 1024 * 1024))
+                avert "Taille de l'ISO non communiquée : hypothèse de $(en_go "$taille") Go."
+                ;;
+            *)
+                erreur "Le serveur Microsoft a répondu HTTP $code (000 = pas de réponse) : lien expiré, incomplet (sans la partie après « .iso? ») ou réseau injoignable."
+                erreur "Génère un nouveau lien sur la page officielle."
+                return 1
+                ;;
+        esac
     fi
     # L'ISO est monté (pas extrait) et install.wim est découpé directement sur la clé :
     # il faut donc seulement la place de l'ISO, plus une marge pour les journaux.
@@ -210,14 +263,23 @@ telecharger_depuis_microsoft() {
     mv "$dossier/$nom.part" "$dossier/$nom" || return 1
     ok "Téléchargement terminé : $dossier/$nom"
 
-    read -r -p "Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer) : " attendu
-    if [ -n "$attendu" ]; then
-        info "Calcul de l'empreinte SHA-256..."
-        if verifier_sha256 "$dossier/$nom" "$attendu"; then
-            ok "Empreinte conforme."
-        else
-            erreur "Empreinte différente : fichier corrompu ou incomplet. Supprime-le et recommence."
-            return 1
+    info "Calcul de l'empreinte SHA-256 (quelques minutes)..."
+    calc=$(calculer_sha256 "$dossier/$nom")
+    reconnu=$(curl -fsSL -m 15 "$URL_HASHES" 2>/dev/null | tr -d '\r' | grep -v '^[[:space:]]*#' |
+              awk -F';' -v h="$calc" 'toupper($3)==toupper(h) {print $1 " - " $2; exit}')
+    if [ -n "$reconnu" ]; then
+        ok "Empreinte conforme à celle publiée par Microsoft ($reconnu)."
+    else
+        avert "Empreinte non reconnue (version ou langue absente de versions_iso.txt, ou fichier altéré)."
+        echo "SHA-256 calculé : $calc"
+        read -r -p "Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer) : " attendu
+        if [ -n "$attendu" ]; then
+            if verifier_sha256 "$dossier/$nom" "$attendu"; then
+                ok "Empreinte conforme."
+            else
+                erreur "Empreinte différente : fichier corrompu ou incomplet. Supprime-le et recommence."
+                return 1
+            fi
         fi
     fi
     iso="$dossier/$nom"

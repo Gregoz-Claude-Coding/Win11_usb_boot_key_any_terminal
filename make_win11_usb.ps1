@@ -6,7 +6,7 @@ if (-not $admin) { Write-Host "Ouvre la console en administrateur." -ForegroundC
 
 # --- Paramètres et fonctions de téléchargement ---
 $UrlMicrosoft  = "https://www.microsoft.com/fr-fr/software-download/windows11"
-$UrlLiens      = "https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/liens_iso.txt"
+$UrlHashes     = "https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/versions_iso.txt"
 $Marge         = 512MB   # journaux et fichiers temporaires
 $EstimationWim = 6GB     # taille estimée de install.wim, découpé en local avant la copie sur la clé
 
@@ -36,39 +36,44 @@ function Get-TailleDistante([string]$url) {
     } catch { return 0 }
 }
 
+# Langue d'affichage de Windows au format « xx-xx » minuscule
+function Get-LangueSysteme {
+    $l = (Get-UICulture).Name
+    if (-not $l) { return "en-us" }
+    $p = $l.ToLower().Split('-')
+    if ($p.Count -gt 2) { return "$($p[0])-$($p[-1])" }
+    if ($p.Count -eq 1) { return "$($p[0])-$($p[0])" }
+    return $l.ToLower()
+}
+
+# Code HTTP renvoyé par le serveur pour l'URL (0 = pas de réponse)
+function Get-CodeHttp([string]$url) {
+    try { return [int](Invoke-WebRequest -Uri $url -Method Head -UseBasicParsing -TimeoutSec 30).StatusCode }
+    catch {
+        if ($_.Exception.Response) { return [int]$_.Exception.Response.StatusCode }
+        return 0
+    }
+}
+
 # Télécharge l'ISO dans $dossier. Renvoie $true et renseigne $script:isoTelecharge en cas de succès.
 function Invoke-TelechargementMicrosoft {
     Write-Host "Téléchargement de l'ISO Windows 11 depuis Microsoft" -ForegroundColor Cyan
-    $url = ""
-    $liens = @()
-    try {
-        $liens = @((Invoke-WebRequest -Uri $UrlLiens -UseBasicParsing -TimeoutSec 15).Content -split "`n" |
-                   ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') -and $_.Contains(';') })
-    } catch { }
-    if ($liens.Count -gt 0) {
-        Write-Host "Liens enregistrés dans le dépôt GitHub (ils peuvent avoir expiré) :"
-        for ($i = 0; $i -lt $liens.Count; $i++) {
-            $c = $liens[$i].Split(';')
-            Write-Host ("  [{0}] {1}  build {2}" -f ($i + 1), $c[0], $c[1])
-        }
-        $n = 0
-        if ([int]::TryParse((Read-Host "Numéro du lien à utiliser (Entrée pour coller un autre lien)"), [ref]$n) -and $n -ge 1 -and $n -le $liens.Count) {
-            $essai = $liens[$n - 1].Split(';')[2].Trim()
-            if (-not (Test-UrlMicrosoft $essai)) { Write-Host "Lien invalide." -ForegroundColor Yellow }
-            elseif ((Get-TailleDistante $essai) -le 0) { Write-Host "Ce lien ne répond pas (expiré ou signature requise)." -ForegroundColor Yellow }
-            else { $url = $essai }
-        }
+    $loc = Get-LangueSysteme
+    $rep = (Read-Host "Langue de la page Microsoft [$loc] (Entrée pour valider, ou autre code, ex. en-us)").Trim().ToLower().Replace('_', '-')
+    if ($rep) {
+        if ($rep -match '^[a-z]{2,3}(-[a-z0-9]{2,4}){1,2}$') { $loc = $rep }
+        else { Write-Host "Code invalide : langue détectée conservée ($loc)." -ForegroundColor Yellow }
     }
-    if (-not $url) {
-        Write-Host "Page officielle : $UrlMicrosoft"
-        Write-Host "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
-        Write-Host "et n'est valable que 24 heures."
-        Write-Host "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
-        Write-Host "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
-        Write-Host "     multi-éditions, puis la langue du produit et clique sur « Confirmer »."
-        Write-Host "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
-        $url = (Read-Host "Colle ici l'URL du lien (https://...microsoft.com/....iso)").Trim().Trim('"')
-    }
+    $page = "https://www.microsoft.com/$loc/software-download/windows11"
+    Write-Host "Page officielle : $page"
+    Write-Host "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
+    Write-Host "et n'est valable que 24 heures."
+    Write-Host "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
+    Write-Host "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
+    Write-Host "     multi-éditions, puis la langue du produit (ta langue système : $loc) et clique sur « Confirmer »."
+    Write-Host "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
+    Write-Host "     Colle le lien ENTIER, y compris ce qui suit « .iso? » : c'est ce qui l'autorise."
+    $url = (Read-Host "Colle ici l'URL du lien (https://...microsoft.com/....iso)").Trim().Trim('"')
     if (-not (Test-UrlMicrosoft $url)) {
         Write-Host "URL refusée : elle doit être en https, sur un domaine *.microsoft.com, et son chemin doit se terminer par .iso." -ForegroundColor Red
         return $false
@@ -85,8 +90,14 @@ function Invoke-TelechargementMicrosoft {
     Write-Host "Interrogation du serveur Microsoft..." -ForegroundColor Cyan
     $taille = Get-TailleDistante $url
     if ($taille -le 0) {
+        $code = Get-CodeHttp $url
+        if ($code -lt 200 -or $code -ge 300) {
+            Write-Host "Le serveur Microsoft a répondu HTTP $code (0 = pas de réponse) : lien expiré, incomplet (sans la partie après « .iso? ») ou réseau injoignable." -ForegroundColor Red
+            Write-Host "Génère un nouveau lien sur la page officielle." -ForegroundColor Red
+            return $false
+        }
         $taille = 8GB
-        Write-Host "Taille de l'ISO non communiquée (lien expiré ?) : hypothèse de 8 Go." -ForegroundColor Yellow
+        Write-Host "Taille de l'ISO non communiquée : hypothèse de 8 Go." -ForegroundColor Yellow
     }
     # install.wim est découpé en local (swm_tmp) avant d'être copié sur la clé :
     # il faut la place de l'ISO + celle des morceaux (environ la taille de install.wim).
@@ -128,15 +139,30 @@ function Invoke-TelechargementMicrosoft {
     Move-Item -LiteralPath $part -Destination $dest -Force
     Write-Host "Téléchargement terminé : $dest" -ForegroundColor Green
 
-    $attendu = (Read-Host "Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer)").Trim()
-    if ($attendu) {
-        Write-Host "Calcul de l'empreinte SHA-256..." -ForegroundColor Cyan
-        $calc = (Get-FileHash -Algorithm SHA256 -LiteralPath $dest).Hash
-        if ($calc -ne ($attendu -replace '\s', '')) {
-            Write-Host "Empreinte différente : fichier corrompu ou incomplet. Supprime-le et recommence." -ForegroundColor Red
-            return $false
+    Write-Host "Calcul de l'empreinte SHA-256 (quelques minutes)..." -ForegroundColor Cyan
+    $calc = (Get-FileHash -Algorithm SHA256 -LiteralPath $dest).Hash
+    $reconnu = $null
+    try {
+        $reconnu = ((Invoke-WebRequest -Uri $UrlHashes -UseBasicParsing -TimeoutSec 15).Content -split "`n") |
+            ForEach-Object { $_.Trim() } |
+            Where-Object { $_ -and -not $_.StartsWith('#') -and ($_ -split ';').Count -ge 3 -and (($_ -split ';')[2] -eq $calc) } |
+            Select-Object -First 1
+    } catch { }
+    if ($reconnu) {
+        $c = $reconnu -split ';'
+        Write-Host "Empreinte conforme à celle publiée par Microsoft ($($c[0]) - $($c[1]))." -ForegroundColor Green
+    }
+    else {
+        Write-Host "Empreinte non reconnue (version ou langue absente de versions_iso.txt, ou fichier altéré)." -ForegroundColor Yellow
+        Write-Host "SHA-256 calculé : $calc"
+        $attendu = (Read-Host "Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer)").Trim()
+        if ($attendu) {
+            if ($calc -ne ($attendu -replace '\s', '')) {
+                Write-Host "Empreinte différente : fichier corrompu ou incomplet. Supprime-le et recommence." -ForegroundColor Red
+                return $false
+            }
+            Write-Host "Empreinte conforme." -ForegroundColor Green
         }
-        Write-Host "Empreinte conforme." -ForegroundColor Green
     }
     $script:isoTelecharge = $dest
     return $true

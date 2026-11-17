@@ -30,7 +30,7 @@ Microsoft ne publie **pas de lien direct fixe** : le lien est généré pour cha
 
 1. Ouvrir la page officielle : <https://www.microsoft.com/fr-fr/software-download/windows11>
 2. Dans la section « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisir l'ISO multi-éditions, puis la langue du produit, et cliquer sur « Confirmer ».
-3. Clic droit sur le bouton de téléchargement 64 bits, puis « Copier l'adresse du lien ».
+3. Clic droit sur le bouton de téléchargement 64 bits, puis « Copier l'adresse du lien ». Le lien doit être copié en entier, y compris ce qui suit `.iso?` : c'est cette partie qui l'autorise.
 4. Choisir `T` dans le script et coller l'adresse.
 
 Le script :
@@ -39,15 +39,19 @@ Le script :
 - interroge le serveur pour connaître la taille de l'ISO ;
 - compare avec l'espace libre du répertoire courant et **refuse de télécharger s'il en manque** ;
 - télécharge dans le répertoire courant (fichier `.part` renommé à la fin) ;
-- propose de vérifier l'empreinte SHA-256, affichée sur la page Microsoft pour chaque langue (Entrée pour ignorer).
+- vérifie l'empreinte SHA-256 de l'ISO téléchargé (voir plus bas).
 
-### Liens enregistrés dans le dépôt (`liens_iso.txt`)
+### Empreintes enregistrées dans le dépôt (`versions_iso.txt`)
 
-Le fichier `liens_iso.txt` liste des liens directs, un par ligne, au format `langue;build;url`. Quand on choisit `T`, les scripts lisent ce fichier sur GitHub et proposent ces liens numérotés ; Entrée permet de coller un autre lien.
+Un lien direct ne peut pas être enregistré dans le dépôt : Microsoft le signe et il expire au bout de 24 heures (un lien sans signature est refusé avec une erreur 403).
 
-**Ces liens sont ceux que Microsoft génère, ils peuvent expirer ou exiger une signature.** Le script teste le lien enregistré avant de s'en servir : s'il ne répond pas, il demande un lien à jour (méthode manuelle ci-dessus).
+Le fichier `versions_iso.txt` contient à la place les empreintes SHA-256 publiées par Microsoft, au format `version;langue;sha256`. Après le téléchargement, le script calcule l'empreinte de l'ISO et la cherche dans ce fichier : si elle y figure, la conformité est confirmée automatiquement ; sinon, il demande de saisir l'empreinte affichée par Microsoft (Entrée pour ignorer).
 
-Pour corriger ou ajouter un lien : modifier `liens_iso.txt` par pull request. Seules les URL `https` en `*.microsoft.com` se terminant par `.iso` sont acceptées par les scripts.
+Pour ajouter une langue ou une version : pull request sur `versions_iso.txt`, en recopiant l'empreinte depuis la page Microsoft. Une empreinte erronée dans ce fichier ne bloque rien : elle fait seulement passer l'ISO en « non reconnu ».
+
+### Langue détectée
+
+Le script détecte la langue du système (macOS : préférences de langue ; Linux : `LANG` / `LC_ALL` ; Windows : langue d'affichage) et propose par défaut la page Microsoft correspondante, par exemple `https://www.microsoft.com/fr-fr/software-download/windows11`. On peut saisir un autre code (`en-us`, `de-de`, etc.) ou valider avec Entrée. Le lien de l'ISO lui-même reste à copier depuis cette page.
 
 ### Espace disque nécessaire dans le répertoire courant
 
@@ -92,5 +96,5 @@ sudo bash /chemin/vers/make_win11_usb_linux.sh
 - **Le disque choisi est entièrement effacé.** Vérifier le nom et la taille avant de confirmer.
 - Ces scripts ne contournent pas les prérequis de Windows 11 (TPM, Secure Boot, etc.).
 - Les versions macOS et Linux n'ont pas encore été testées sur du matériel réel : la copie, les exclusions, le menu des ISO, la barre de progression et la logique de téléchargement (contre un serveur local) ont été vérifiés, mais pas le partitionnement ni le découpage avec `wimlib`.
-- Le lien enregistré dans `liens_iso.txt` n'a pas pu être vérifié (il n'est pas signé et l'environnement de développement n'avait pas accès à microsoft.com). Le téléchargement n'a pas été testé contre le serveur réel de Microsoft, car il faut un lien généré dans un navigateur. La lecture de la taille se fait par une requête `HEAD` ; si le serveur ne la communique pas, le script suppose 8 Go et le signale.
+- Le téléchargement n'a pas été testé contre le serveur réel de Microsoft, car il faut un lien généré dans un navigateur. La lecture de la taille se fait par une requête `HEAD` ; si le serveur ne la communique pas mais répond normalement, le script suppose 8 Go et le signale. Si le serveur répond par une erreur (403, 404...), le script s'arrête en affichant le code reçu.
 - La partie téléchargement de la version PowerShell n'a pas été exécutée.

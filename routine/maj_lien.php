@@ -249,7 +249,29 @@ function cliquer(Chrome $c, string $s, string $corpsRecherche, string $jsSuite, 
     journal("Clic « $nom » sans effet visible : nouvel essai par clic JavaScript.");
     $c->evaluer($s, '(() => { const el = (() => { ' . $corpsRecherche . ' })(); if (el) el.click(); return true; })()');
     if (!$c->attendre($s, $jsSuite, $delai)) {
-        throw new RuntimeException("Pas de suite après « $nom ».");
+        diagnostic($c, $s, $nom);
+        throw new RuntimeException("Pas de suite après « $nom ». Diagnostic dans maj_lien.log et maj_lien_erreur.png.");
+    }
+}
+
+/** Écrit dans le journal ce que voit la page (sans rien contourner) et garde une capture d'écran. */
+function diagnostic(Chrome $c, string $s, string $nom): void
+{
+    global $dir;
+    try {
+        $info = $c->evaluer($s, '(() => { const t = s => (s || "").replace(/\\s+/g, " ").trim();
+            const alertes = [...document.querySelectorAll("[role=alert], .alert, [class*=error], [class*=Error]")]
+                .map(e => t(e.innerText)).filter(Boolean).slice(0, 5);
+            const sels = [...document.querySelectorAll("select")].map(x => x.options.length + " options : " + t(x.options[0] ? x.options[0].text : ""));
+            return {ua: navigator.userAgent, webdriver: navigator.webdriver, url: location.href,
+                    alertes: alertes, menus: sels, debut: t(document.body.innerText).substring(0, 500)}; })()');
+        journal("Diagnostic après « $nom » : " . json_encode($info, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $img = $c->envoyer('Page.captureScreenshot', ['format' => 'png'], $s, 20.0);
+        if (!empty($img['data'])) {
+            file_put_contents($dir . '/maj_lien_erreur.png', base64_decode($img['data']));
+        }
+    } catch (Throwable $e) {
+        journal('Diagnostic impossible : ' . $e->getMessage());
     }
 }
 

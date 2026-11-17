@@ -263,7 +263,10 @@ function diagnostic(Chrome $c, string $s, string $nom): void
             const alertes = [...document.querySelectorAll("[role=alert], .alert, [class*=error], [class*=Error]")]
                 .map(e => t(e.innerText)).filter(Boolean).slice(0, 5);
             const sels = [...document.querySelectorAll("select")].map(x => x.options.length + " options : " + t(x.options[0] ? x.options[0].text : ""));
-            return {ua: navigator.userAgent, webdriver: navigator.webdriver, url: location.href,
+            const reseau = performance.getEntriesByType("resource")
+                .filter(r => !/\\.(js|css|png|jpg|svg|woff2?|gif)(\\?|$)/i.test(r.name) && /microsoft\\.com/i.test(r.name))
+                .map(r => (r.responseStatus || "?") + " " + r.name.substring(0, 140)).slice(-12);
+            return {reseau: reseau, ua: navigator.userAgent, webdriver: navigator.webdriver, url: location.href,
                     alertes: alertes, menus: sels, debut: t(document.body.innerText).substring(0, 500)}; })()');
         journal("Diagnostic après « $nom » : " . json_encode($info, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         $img = $c->envoyer('Page.captureScreenshot', ['format' => 'png'], $s, 20.0);
@@ -442,7 +445,10 @@ function notifier(string $texte): void
 function ouvrir_page_edition(Chrome $chrome, string $s, string $page): void
 {
     $chrome->envoyer('Page.navigate', ['url' => $page], $s);
-    $edition = $chrome->attendre($s, '(() => { const sel = (() => { ' . js_select_edition() . ' })(); if (!sel) return false;
+    // Bandeau de cookies : on refuse les cookies facultatifs (comme le ferait l'utilisateur), sans insister s'il est absent.
+    $chrome->attendre($s, '(() => { const b = [...document.querySelectorAll("button")].find(b => b.offsetParent !== null
+        && /^(Refuser|Reject)/i.test((b.innerText || "").trim())); if (!b) return false; b.click(); return true; })()', 6);
+    $edition =$chrome->attendre($s, '(() => { const sel = (() => { ' . js_select_edition() . ' })(); if (!sel) return false;
         const o = [...sel.options].find(o => /ISO/i.test(o.text) && o.value !== "null");
         sel.value = o.value;
         sel.dispatchEvent(new Event("input", {bubbles: true}));

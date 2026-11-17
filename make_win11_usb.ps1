@@ -37,7 +37,7 @@ $Textes = @{
         dl_speed        = 'Vitesse de téléchargement moyenne : {0} Mo/s'
         sha_calc        = 'Calcul de l''empreinte SHA-256 (quelques minutes)...'
         sha_ok          = 'Empreinte conforme à celle publiée par Microsoft ({0} - {1}).'
-        sha_unknown     = 'Empreinte non reconnue (version ou langue absente de versions_iso.txt, ou fichier altéré).'
+        sha_unknown     = 'Empreinte non reconnue (version ou langue absente de iso_hashes.txt, ou fichier altéré).'
         sha_computed    = 'SHA-256 calculé : {0}'
         ask_sha         = 'Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer)'
         sha_match       = 'Empreinte conforme.'
@@ -116,7 +116,7 @@ $Textes = @{
         dl_speed        = 'Average download speed: {0} MB/s'
         sha_calc        = 'Computing the SHA-256 hash (a few minutes)...'
         sha_ok          = 'Hash matches the one published by Microsoft ({0} - {1}).'
-        sha_unknown     = 'Hash not recognized (version or language missing from versions_iso.txt, or altered file).'
+        sha_unknown     = 'Hash not recognized (version or language missing from iso_hashes.txt, or altered file).'
         sha_computed    = 'Computed SHA-256: {0}'
         ask_sha         = 'SHA-256 hash shown by Microsoft for this language (Enter to skip)'
         sha_match       = 'Hash matches.'
@@ -182,7 +182,7 @@ $admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 if (-not $admin) { Write-Host (T 'need_admin') -ForegroundColor Red; return }
 
 # --- Paramètres et fonctions de téléchargement ---
-$UrlHashes     = "https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/versions_iso.txt"
+$UrlHashes     = "https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/iso_hashes.txt"
 $UrlLiens      = "https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/iso_links.txt"
 $ValiditeMin   = 1800    # un lien publié doit rester valable au moins 30 minutes (secondes)
 $UniteGo       = if ($Lang -eq 'fr') { 'Go' } else { 'GB' }

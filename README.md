@@ -96,13 +96,13 @@ Le script :
 - télécharge dans le répertoire courant (fichier `.part` renommé à la fin) ;
 - vérifie l'empreinte SHA-256 de l'ISO téléchargé (voir plus bas).
 
-### Empreintes enregistrées dans le dépôt (`versions_iso.txt`)
+### Empreintes enregistrées dans le dépôt (`iso_hashes.txt`)
 
 Un lien direct ne peut pas être enregistré dans le dépôt : Microsoft le signe et il expire au bout de 24 heures (un lien sans signature est refusé avec une erreur 403).
 
-Le fichier `versions_iso.txt` contient à la place les empreintes SHA-256 publiées par Microsoft, au format `version;langue;sha256`. Après le téléchargement, le script calcule l'empreinte de l'ISO et la cherche dans ce fichier : si elle y figure, la conformité est confirmée automatiquement ; sinon, il demande de saisir l'empreinte affichée par Microsoft (Entrée pour ignorer).
+Le fichier `iso_hashes.txt` contient à la place les empreintes SHA-256 publiées par Microsoft, au format `version;langue;sha256`. Après le téléchargement, le script calcule l'empreinte de l'ISO et la cherche dans ce fichier : si elle y figure, la conformité est confirmée automatiquement ; sinon, il demande de saisir l'empreinte affichée par Microsoft (Entrée pour ignorer).
 
-Pour ajouter une langue ou une version : pull request sur `versions_iso.txt`, en recopiant l'empreinte depuis la page Microsoft. Une empreinte erronée dans ce fichier ne bloque rien : elle fait seulement passer l'ISO en « non reconnu ».
+Pour ajouter une langue ou une version : pull request sur `iso_hashes.txt`, en recopiant l'empreinte depuis la page Microsoft. Une empreinte erronée dans ce fichier ne bloque rien : elle fait seulement passer l'ISO en « non reconnu ».
 
 ### Lien déjà généré (`iso_links.txt`)
 

@@ -113,7 +113,7 @@ msg_fr() {
         dl_speed) printf '%s' "Vitesse de téléchargement moyenne : %s Mo/s" ;;
         sha_calc) printf '%s' "Calcul de l'empreinte SHA-256 (quelques minutes)..." ;;
         sha_ok) printf '%s' "Empreinte conforme à celle publiée par Microsoft (%s)." ;;
-        sha_unknown) printf '%s' "Empreinte non reconnue (version ou langue absente de versions_iso.txt, ou fichier altéré)." ;;
+        sha_unknown) printf '%s' "Empreinte non reconnue (version ou langue absente de iso_hashes.txt, ou fichier altéré)." ;;
         sha_computed) printf '%s' "SHA-256 calculé : %s" ;;
         ask_sha) printf '%s' "Empreinte SHA-256 affichée par Microsoft pour cette langue (Entrée pour ignorer) : " ;;
         sha_match) printf '%s' "Empreinte conforme." ;;
@@ -208,7 +208,7 @@ msg_en() {
         dl_speed) printf '%s' "Average download speed: %s MB/s" ;;
         sha_calc) printf '%s' "Computing the SHA-256 hash (a few minutes)..." ;;
         sha_ok) printf '%s' "Hash matches the one published by Microsoft (%s)." ;;
-        sha_unknown) printf '%s' "Hash not recognized (version or language missing from versions_iso.txt, or altered file)." ;;
+        sha_unknown) printf '%s' "Hash not recognized (version or language missing from iso_hashes.txt, or altered file)." ;;
         sha_computed) printf '%s' "Computed SHA-256: %s" ;;
         ask_sha) printf '%s' "SHA-256 hash shown by Microsoft for this language (Enter to skip): " ;;
         sha_match) printf '%s' "Hash matches." ;;
@@ -305,7 +305,7 @@ info_disque() {
 }
 # ---- Téléchargement de l'ISO depuis Microsoft ----
 URL_MICROSOFT="https://www.microsoft.com/fr-fr/software-download/windows11"
-URL_HASHES="https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/versions_iso.txt"
+URL_HASHES="https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/iso_hashes.txt"
 URL_LIENS="https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/iso_links.txt"
 VALIDITE_MIN_S=1800   # un lien publié doit rester valable au moins 30 minutes
 MARGE_OCTETS=$((512 * 1024 * 1024))

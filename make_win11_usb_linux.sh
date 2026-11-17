@@ -61,6 +61,7 @@ copier_fichiers() {
 }
 # ---- Téléchargement de l'ISO depuis Microsoft ----
 URL_MICROSOFT="https://www.microsoft.com/fr-fr/software-download/windows11"
+URL_LIENS="https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/liens_iso.txt"
 MARGE_OCTETS=$((512 * 1024 * 1024))
 
 # Espace libre (octets) du système de fichiers qui contient le dossier $1
@@ -97,8 +98,11 @@ nom_fichier_url() {
 
 # Taille (octets) annoncée par le serveur pour l'URL $1, 0 si inconnue
 taille_distante() {
-    local t
-    t=$(curl -sSIL -m 30 "$1" 2>/dev/null | tr -d '\r' | awk 'tolower($1)=="content-length:" {print $2}' | tail -1)
+    local sortie code t
+    sortie=$(curl -sSIL -m 30 -w '\nCODEHTTP:%{http_code}\n' "$1" 2>/dev/null | tr -d '\r')
+    code=$(printf '%s\n' "$sortie" | sed -n 's/^CODEHTTP://p' | tail -1)
+    case "$code" in 2??) ;; *) echo 0; return ;; esac
+    t=$(printf '%s\n' "$sortie" | awk 'tolower($1)=="content-length:" {print $2}' | tail -1)
     case "$t" in ''|*[!0-9]*) echo 0 ;; *) echo "$t" ;; esac
 }
 
@@ -124,15 +128,39 @@ telecharger_depuis_microsoft() {
         return 1
     fi
     info "Téléchargement de l'ISO Windows 11 depuis Microsoft"
-    echo "Page officielle : $URL_MICROSOFT"
-    echo "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
-    echo "et n'est valable que 24 heures."
-    echo "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
-    echo "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
-    echo "     multi-éditions, puis la langue du produit et clique sur « Confirmer »."
-    echo "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
-    read -r -p "Colle ici l'URL du lien (https://...microsoft.com/....iso) : " url
-    url=$(printf '%s' "$url" | tr -d '[:space:]"')
+    url=""
+    liste=$(curl -fsSL -m 15 "$URL_LIENS" 2>/dev/null | grep -v '^[[:space:]]*#' | grep ';')
+    if [ -n "$liste" ]; then
+        echo "Liens enregistrés dans le dépôt GitHub (ils peuvent avoir expiré) :"
+        i=1
+        while IFS=';' read -r l v u; do
+            printf '  [%d] %s  build %s\n' "$i" "$l" "$v"
+            i=$((i + 1))
+        done <<< "$liste"
+        read -r -p "Numéro du lien à utiliser (Entrée pour coller un autre lien) : " n
+        case "$n" in
+            ''|*[!0-9]*) ;;
+            *)
+                url=$(printf '%s\n' "$liste" | sed -n "${n}p" | cut -d';' -f3 | tr -d '[:space:]')
+                if [ -z "$url" ] || ! url_valide "$url"; then
+                    avert "Numéro ou lien invalide."; url=""
+                elif [ "$(taille_distante "$url")" -eq 0 ]; then
+                    avert "Ce lien ne répond pas (expiré ou signature requise)."; url=""
+                fi
+                ;;
+        esac
+    fi
+    if [ -z "$url" ]; then
+        echo "Page officielle : $URL_MICROSOFT"
+        echo "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
+        echo "et n'est valable que 24 heures."
+        echo "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
+        echo "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
+        echo "     multi-éditions, puis la langue du produit et clique sur « Confirmer »."
+        echo "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
+        read -r -p "Colle ici l'URL du lien (https://...microsoft.com/....iso) : " url
+        url=$(printf '%s' "$url" | tr -d '[:space:]"')
+    fi
     if ! url_valide "$url"; then
         erreur "URL refusée : elle doit être en https, sur un domaine *.microsoft.com, et son chemin doit se terminer par .iso."
         return 1

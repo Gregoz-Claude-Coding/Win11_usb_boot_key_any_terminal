@@ -6,6 +6,7 @@ if (-not $admin) { Write-Host "Ouvre la console en administrateur." -ForegroundC
 
 # --- Paramètres et fonctions de téléchargement ---
 $UrlMicrosoft  = "https://www.microsoft.com/fr-fr/software-download/windows11"
+$UrlLiens      = "https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/liens_iso.txt"
 $Marge         = 512MB   # journaux et fichiers temporaires
 $EstimationWim = 6GB     # taille estimée de install.wim, découpé en local avant la copie sur la clé
 
@@ -38,14 +39,36 @@ function Get-TailleDistante([string]$url) {
 # Télécharge l'ISO dans $dossier. Renvoie $true et renseigne $script:isoTelecharge en cas de succès.
 function Invoke-TelechargementMicrosoft {
     Write-Host "Téléchargement de l'ISO Windows 11 depuis Microsoft" -ForegroundColor Cyan
-    Write-Host "Page officielle : $UrlMicrosoft"
-    Write-Host "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
-    Write-Host "et n'est valable que 24 heures."
-    Write-Host "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
-    Write-Host "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
-    Write-Host "     multi-éditions, puis la langue du produit et clique sur « Confirmer »."
-    Write-Host "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
-    $url = (Read-Host "Colle ici l'URL du lien (https://...microsoft.com/....iso)").Trim().Trim('"')
+    $url = ""
+    $liens = @()
+    try {
+        $liens = @((Invoke-WebRequest -Uri $UrlLiens -UseBasicParsing -TimeoutSec 15).Content -split "`n" |
+                   ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') -and $_.Contains(';') })
+    } catch { }
+    if ($liens.Count -gt 0) {
+        Write-Host "Liens enregistrés dans le dépôt GitHub (ils peuvent avoir expiré) :"
+        for ($i = 0; $i -lt $liens.Count; $i++) {
+            $c = $liens[$i].Split(';')
+            Write-Host ("  [{0}] {1}  build {2}" -f ($i + 1), $c[0], $c[1])
+        }
+        $n = 0
+        if ([int]::TryParse((Read-Host "Numéro du lien à utiliser (Entrée pour coller un autre lien)"), [ref]$n) -and $n -ge 1 -and $n -le $liens.Count) {
+            $essai = $liens[$n - 1].Split(';')[2].Trim()
+            if (-not (Test-UrlMicrosoft $essai)) { Write-Host "Lien invalide." -ForegroundColor Yellow }
+            elseif ((Get-TailleDistante $essai) -le 0) { Write-Host "Ce lien ne répond pas (expiré ou signature requise)." -ForegroundColor Yellow }
+            else { $url = $essai }
+        }
+    }
+    if (-not $url) {
+        Write-Host "Page officielle : $UrlMicrosoft"
+        Write-Host "Microsoft ne publie pas de lien fixe : le lien direct est généré à chaque téléchargement"
+        Write-Host "et n'est valable que 24 heures."
+        Write-Host "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
+        Write-Host "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
+        Write-Host "     multi-éditions, puis la langue du produit et clique sur « Confirmer »."
+        Write-Host "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
+        $url = (Read-Host "Colle ici l'URL du lien (https://...microsoft.com/....iso)").Trim().Trim('"')
+    }
     if (-not (Test-UrlMicrosoft $url)) {
         Write-Host "URL refusée : elle doit être en https, sur un domaine *.microsoft.com, et son chemin doit se terminer par .iso." -ForegroundColor Red
         return $false

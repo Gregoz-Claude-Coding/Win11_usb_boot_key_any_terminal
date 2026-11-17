@@ -41,6 +41,14 @@ Le script :
 - télécharge dans le répertoire courant (fichier `.part` renommé à la fin) ;
 - propose de vérifier l'empreinte SHA-256, affichée sur la page Microsoft pour chaque langue (Entrée pour ignorer).
 
+### Liens enregistrés dans le dépôt (`liens_iso.txt`)
+
+Le fichier `liens_iso.txt` liste des liens directs, un par ligne, au format `langue;build;url`. Quand on choisit `T`, les scripts lisent ce fichier sur GitHub et proposent ces liens numérotés ; Entrée permet de coller un autre lien.
+
+**Ces liens sont ceux que Microsoft génère, ils peuvent expirer ou exiger une signature.** Le script teste le lien enregistré avant de s'en servir : s'il ne répond pas, il demande un lien à jour (méthode manuelle ci-dessus).
+
+Pour corriger ou ajouter un lien : modifier `liens_iso.txt` par pull request. Seules les URL `https` en `*.microsoft.com` se terminant par `.iso` sont acceptées par les scripts.
+
 ### Espace disque nécessaire dans le répertoire courant
 
 | Système | Besoin | Pourquoi |
@@ -84,5 +92,5 @@ sudo bash /chemin/vers/make_win11_usb_linux.sh
 - **Le disque choisi est entièrement effacé.** Vérifier le nom et la taille avant de confirmer.
 - Ces scripts ne contournent pas les prérequis de Windows 11 (TPM, Secure Boot, etc.).
 - Les versions macOS et Linux n'ont pas encore été testées sur du matériel réel : la copie, les exclusions, le menu des ISO, la barre de progression et la logique de téléchargement (contre un serveur local) ont été vérifiés, mais pas le partitionnement ni le découpage avec `wimlib`.
-- Le téléchargement n'a pas été testé contre le serveur réel de Microsoft, car il faut un lien généré dans un navigateur. La lecture de la taille se fait par une requête `HEAD` ; si le serveur ne la communique pas, le script suppose 8 Go et le signale.
+- Le lien enregistré dans `liens_iso.txt` n'a pas pu être vérifié (il n'est pas signé et l'environnement de développement n'avait pas accès à microsoft.com). Le téléchargement n'a pas été testé contre le serveur réel de Microsoft, car il faut un lien généré dans un navigateur. La lecture de la taille se fait par une requête `HEAD` ; si le serveur ne la communique pas, le script suppose 8 Go et le signale.
 - La partie téléchargement de la version PowerShell n'a pas été exécutée.

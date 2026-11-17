@@ -39,6 +39,20 @@ irm https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_
 
 Dans le script, choisir `T` pour télécharger l'ISO depuis Microsoft, ou placer d'abord un ISO dans le dossier de travail.
 
+## Langue des menus
+
+Les scripts s'affichent dans la **langue du système** : français ou anglais (anglais par défaut pour toute autre langue). Pour forcer une langue : `WIN11_LANG=en` (macOS/Linux : `sudo env WIN11_LANG=en bash make_win11_usb_macos.sh`, Windows : `$env:WIN11_LANG='en'` avant de lancer le script). Ajouter une langue : copier la fonction `msg_en` en `msg_xx` (bash) ou le bloc `en = @{...}` de `$Textes` (PowerShell) et traduire les valeurs ; les clés ne changent pas.
+
+## Vitesse d'écriture
+
+La vitesse est affichée pour voir si la clé est lente :
+
+- pendant la copie des fichiers (moyenne en cours) et à la fin de chaque étape (copie, découpage de `install.wim`, écriture des morceaux) ;
+- **à la fin, une vitesse globale mesurée après vidage du cache d'écriture** : c'est la valeur à retenir, car les vitesses affichées pendant la copie sont gonflées tant que le cache du système n'est pas plein ;
+- un avertissement s'affiche sous **10 Mo/s** (clé USB 2.0 ou port USB 2 probable).
+
+Sous macOS et Linux, la vitesse du découpage est mesurée sur la croissance des fichiers `install*.swm` écrits directement sur la clé. Sous Windows, le découpage se fait sur le disque local (la vitesse indiquée est celle du disque local) ; la copie des morceaux vers la clé est ensuite mesurée séparément, en écriture directe.
+
 ## Fonctionnement (identique sur les trois systèmes)
 
 1. Recherche les `.iso` du répertoire courant et les liste numérotés avec leur taille. L'option `T` télécharge un ISO depuis Microsoft (voir plus bas). Si aucun ISO n'est trouvé, on peut saisir `T` ou le chemin complet d'un ISO.
@@ -90,6 +104,10 @@ Le fichier `versions_iso.txt` contient à la place les empreintes SHA-256 publi�
 
 Pour ajouter une langue ou une version : pull request sur `versions_iso.txt`, en recopiant l'empreinte depuis la page Microsoft. Une empreinte erronée dans ce fichier ne bloque rien : elle fait seulement passer l'ISO en « non reconnu ».
 
+### Lien déjà généré (`iso_links.txt`)
+
+Une routine quotidienne (dossier [`routine/`](routine/README.md)) génère le lien signé dans un navigateur headless et le publie dans `iso_links.txt` (format `langue;build;expiration;url`). Quand vous choisissez `T`, le script lit ce fichier : si un lien de votre langue reste valable **au moins 30 minutes**, il le propose (« Utiliser ? O/n »), sans ouvrir la page Microsoft. Si le lien ne répond pas (expiré, lié à un autre réseau…), le script revient tout seul à la méthode manuelle ci-dessus. Seule la signature publiée par Microsoft est utilisée ; l'URL est revalidée comme toute autre (https, `*.microsoft.com`, `.iso`).
+
 ### Langue détectée
 
 Le script détecte la langue du système (macOS : préférences de langue ; Linux : `LANG` / `LC_ALL` ; Windows : langue d'affichage) et propose par défaut la page Microsoft correspondante, par exemple `https://www.microsoft.com/fr-fr/software-download/windows11`. On peut saisir un autre code (`en-us`, `de-de`, etc.) ou valider avec Entrée. Le lien de l'ISO lui-même reste à copier depuis cette page.
@@ -138,4 +156,4 @@ sudo bash /chemin/vers/make_win11_usb_linux.sh
 - Ces scripts ne contournent pas les prérequis de Windows 11 (TPM, Secure Boot, etc.).
 - Les versions macOS et Linux n'ont pas encore été testées sur du matériel réel : la copie, les exclusions, le menu des ISO, la barre de progression et la logique de téléchargement (contre un serveur local) ont été vérifiés, mais pas le partitionnement ni le découpage avec `wimlib`.
 - Le téléchargement n'a pas été testé contre le serveur réel de Microsoft, car il faut un lien généré dans un navigateur. La lecture de la taille se fait par une requête `HEAD` ; si le serveur ne la communique pas mais répond normalement, le script suppose 8 Go et le signale. Si le serveur répond par une erreur (403, 404...), le script s'arrête en affichant le code reçu.
-- La partie téléchargement de la version PowerShell n'a pas été exécutée. La lecture du presse-papiers a été testée sur macOS et Linux avec un presse-papiers simulé, pas avec `pbpaste`, `wl-paste` ou `xclip` réels, ni sous Windows.
+- La version PowerShell (menus traduits, vitesse d'écriture, lecture de `iso_links.txt`) n'a pas été exécutée : seuls l'équilibre des blocs et la syntaxe générale ont été vérifiés. Sa partie téléchargement non plus. La lecture du presse-papiers a été testée sur macOS et Linux avec un presse-papiers simulé, pas avec `pbpaste`, `wl-paste` ou `xclip` réels, ni sous Windows.

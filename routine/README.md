@@ -1,6 +1,6 @@
 # Routine quotidienne : lien ISO Windows 11 → GitHub
 
-Une fois par jour, le Mac mini lance Chrome en mode headless, refait les clics de la page Microsoft (édition « Windows 11 multi-éditions », langue, « Confirmer »), récupère le lien signé généré (valable 24 h) et le publie dans `liens_iso.txt` de ce dépôt.
+Une fois par jour, le Mac mini lance Chrome en mode headless, refait les clics de la page Microsoft (édition « Windows 11 multi-éditions », langue, « Confirmer »), récupère le lien signé généré (valable 24 h) et le publie dans `iso_links.txt` de ce dépôt.
 
 **Rien n'écoute sur le réseau** : launchd lance le script à heure fixe, le script appelle Microsoft et GitHub en sortie uniquement. Aucune installation supplémentaire : PHP et Google Chrome suffisent.
 
@@ -38,7 +38,7 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 ## Garde-fous
 
 - Le lien n'est accepté que s'il est en `https`, sur `*.microsoft.com`, se termine par `.iso`, porte une signature (`t`, `P1`) et reste valable **au moins 1 h**.
-- Le lien signé n'est **jamais écrit dans les journaux**, seulement dans `liens_iso.txt`.
+- Le lien signé n'est **jamais écrit dans les journaux**, seulement dans `iso_links.txt`.
 - Le jeton ne vit que dans le Trousseau (ou la variable `GITHUB_TOKEN` pour un essai) ; jamais dans le script.
 - Un verrou (`.verrou`) empêche deux exécutions simultanées.
 - Si Microsoft affiche une page de blocage (« trafic inhabituel »…), la routine **s'arrête et le journalise** : elle ne tente aucun contournement.
@@ -49,4 +49,4 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 - On ignore si un lien généré depuis votre box fonctionne depuis un autre réseau (la signature peut être liée à l'IP). À vérifier avec un téléchargement depuis un autre réseau.
 - La page Microsoft change parfois : si les sélecteurs ne correspondent plus, la routine échoue en code 2 (le début du texte de la page est journalisé) et le script doit être adapté.
 - Le Mac doit être allumé et la session ouverte (LaunchAgent, car le Trousseau est lié à la session). Si le Mac dormait à l'heure prévue, launchd lance la tâche au réveil.
-- Les scripts de création de clé ne lisent pas encore `liens_iso.txt` ; ce point reste à faire.
+- Les trois scripts de création de clé lisent `iso_links.txt` : si un lien de votre langue reste valable au moins 30 min, ils le proposent à la place de la méthode manuelle (et reviennent à celle-ci si le lien ne répond pas).

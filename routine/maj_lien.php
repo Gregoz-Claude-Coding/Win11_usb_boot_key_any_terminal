@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 // ------------------------------------------------------------------ Configuration
 const DEPOT             = 'gregorybrice-coder/Win11_usb_boot_key_any_terminal';
-const FICHIER           = 'liens_iso.txt';
+const FICHIER           = 'iso_links.txt';
 const BRANCHE           = 'main';
 const PAGE              = 'https://www.microsoft.com/fr-fr/software-download/windows11';
 const SERVICE_TROUSSEAU = 'win11-liens-github';
@@ -294,9 +294,9 @@ function analyser_lien(string $url): array
 /** Remplace (ou ajoute) la ligne de la langue dans le contenu du fichier de liens. */
 function maj_contenu(string $ancien, string $code, string $build, int $expiration, string $url): string
 {
-    $entete = "# Liens directs ISO Windows 11 (x64), générés chaque jour par la routine maj_lien.php.\n"
-            . "# Format : langue;build;expiration (epoch Unix);url\n"
-            . "# Ces liens sont signés par Microsoft et expirent au bout de 24 h : ne pas les utiliser au-delà de l'expiration.\n";
+    $entete = "# Direct Windows 11 (x64) ISO links, generated daily by routine/maj_lien.php.\n"
+            . "# Format: language;build;expiry (Unix epoch);url\n"
+            . "# Links are signed by Microsoft and expire after 24 h: do not use them past the expiry.\n";
     $lignes = [];
     foreach (preg_split('/\r?\n/', $ancien) as $l) {
         $l = trim($l);

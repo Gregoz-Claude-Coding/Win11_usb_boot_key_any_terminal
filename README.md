@@ -12,19 +12,19 @@ Crée une clé USB bootable Windows 11 (UEFI, FAT32) à partir d'un fichier ISO,
 
 Les scripts posent des questions (ISO, clé USB, confirmation) : ils sont donc téléchargés d'abord, puis lancés, et non exécutés directement depuis le réseau.
 
-**macOS** (Terminal) :
+**macOS** (Terminal) : `brew install wimlib` n'est à faire qu'une fois (Homebrew : https://brew.sh). Le dossier `~/win11` reçoit l'ISO et les journaux (prévoir environ 8 Go libres). Le script demande le mot de passe de session.
 
 ```bash
-brew install wimlib                      # une seule fois ; Homebrew : https://brew.sh
-mkdir -p ~/win11 && cd ~/win11           # dossier de travail : l'ISO et les journaux y seront écrits (prévoir ~8 Go libres)
+brew install wimlib
+mkdir -p ~/win11 && cd ~/win11
 curl -fsSLO https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/make_win11_usb_macos.sh
-sudo bash make_win11_usb_macos.sh        # demande le mot de passe de session
+sudo bash make_win11_usb_macos.sh
 ```
 
-**Linux** :
+**Linux** (commande `apt` pour Debian / Ubuntu ; autres distributions : voir plus bas) :
 
 ```bash
-sudo apt install wimtools parted dosfstools curl     # Debian / Ubuntu (autres distributions : voir plus bas)
+sudo apt install wimtools parted dosfstools curl
 mkdir -p ~/win11 && cd ~/win11
 curl -fsSLO https://raw.githubusercontent.com/gregorybrice-coder/Win11_usb_boot_key_any_terminal/main/make_win11_usb_linux.sh
 sudo bash make_win11_usb_linux.sh
@@ -127,18 +127,20 @@ Sous Windows, une seconde vérification exacte (taille réelle de `install.wim`)
 
 **macOS** :
 
+`brew install wimlib` n'est à faire qu'une fois, sans `sudo`. Placez-vous dans le dossier qui contient l'ISO (ici `~/Downloads`).
+
 ```bash
-brew install wimlib            # une seule fois, sans sudo
-cd ~/Downloads                 # dossier contenant l'ISO
+brew install wimlib
+cd ~/Downloads
 sudo bash /chemin/vers/make_win11_usb_macos.sh
 ```
 
 **Linux** :
 
+Paquets à installer selon la distribution : Debian / Ubuntu `sudo apt install wimtools parted dosfstools curl`, Fedora `sudo dnf install wimlib-utils parted dosfstools curl`, Arch `sudo pacman -S wimlib parted dosfstools curl`.
+
 ```bash
-sudo apt install wimtools parted dosfstools curl     # Debian / Ubuntu
-# sudo dnf install wimlib-utils parted dosfstools curl   # Fedora
-# sudo pacman -S wimlib parted dosfstools curl           # Arch
+sudo apt install wimtools parted dosfstools curl
 cd ~/Téléchargements
 sudo bash /chemin/vers/make_win11_usb_linux.sh
 ```

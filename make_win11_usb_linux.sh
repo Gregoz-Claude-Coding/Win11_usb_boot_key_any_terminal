@@ -169,6 +169,73 @@ calculer_sha256() {
     fi
 }
 
+# Exécute la commande « $@ » avec l'environnement graphique de l'utilisateur qui a lancé sudo
+en_tant_qu_utilisateur() {
+    local u="${SUDO_USER:-}" uid
+    if [ -z "$u" ] || [ "$u" = "root" ]; then
+        "$@"
+        return
+    fi
+    uid=$(id -u "$u" 2>/dev/null)
+    sudo -u "$u" env DISPLAY="${DISPLAY:-:0}" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}" \
+        XDG_RUNTIME_DIR="/run/user/$uid" DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" "$@"
+}
+
+# Ouvre l'URL $1 dans le navigateur par défaut (échec silencieux)
+ouvrir_page() {
+    if command -v xdg-open >/dev/null 2>&1; then
+        en_tant_qu_utilisateur xdg-open "$1" >/dev/null 2>&1 &
+    fi
+    return 0
+}
+
+# 0 si un outil de lecture du presse-papiers est installé
+presse_papiers_disponible() {
+    command -v wl-paste >/dev/null 2>&1 || command -v xclip >/dev/null 2>&1 || command -v xsel >/dev/null 2>&1
+}
+
+# Contenu du presse-papiers de l'utilisateur
+lire_presse_papiers() {
+    if command -v wl-paste >/dev/null 2>&1; then
+        en_tant_qu_utilisateur wl-paste --no-newline 2>/dev/null
+    elif command -v xclip >/dev/null 2>&1; then
+        en_tant_qu_utilisateur xclip -selection clipboard -o 2>/dev/null
+    elif command -v xsel >/dev/null 2>&1; then
+        en_tant_qu_utilisateur xsel --clipboard --output 2>/dev/null
+    fi
+}
+
+# Attend que l'utilisateur copie le lien dans le presse-papiers. Renseigne $url si un lien valide est confirmé.
+# Entrée = abandonner l'attente (le lien sera alors collé à la main). Délai maximal : 5 minutes.
+attendre_lien() {
+    local dernier="" c saisie rep nom rc i=0 max=300
+    echo "En attente du lien : clique sur « Copier l'adresse du lien » dans le navigateur."
+    echo "(Entrée = coller le lien à la main)"
+    while [ "$i" -lt "$max" ]; do
+        c=$(lire_presse_papiers 2>/dev/null | head -c 8192 | tr -d '[:space:]"')
+        if [ -n "$c" ] && [ "$c" != "$dernier" ] && url_valide "$c"; then
+            nom=$(nom_fichier_url "$c")
+            read -r -p "Lien détecté dans le presse-papiers : $nom. L'utiliser ? (O/n) " rep
+            case "$rep" in
+                [nN]*) dernier="$c" ;;
+                *) url="$c"; return 0 ;;
+            esac
+        fi
+        read -r -t 1 saisie
+        rc=$?
+        if [ "$rc" -eq 0 ]; then
+            saisie=$(printf '%s' "$saisie" | tr -d '[:space:]"')
+            [ -n "$saisie" ] && url="$saisie"
+            return 0
+        elif [ "$rc" -le 128 ]; then
+            return 0          # fin de saisie : on passe à la saisie manuelle
+        fi
+        i=$((i + 1))
+    done
+    avert "Délai dépassé (5 minutes) : colle le lien à la main."
+    return 0
+}
+
 # Télécharge l'ISO depuis Microsoft dans $dossier. Renseigne la variable globale $iso.
 # Retourne 1 en cas d'abandon ou d'échec.
 telecharger_depuis_microsoft() {
@@ -195,10 +262,19 @@ telecharger_depuis_microsoft() {
     echo "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
     echo "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
     echo "     multi-éditions, puis la langue du produit (ta langue système : $loc) et clique sur « Confirmer »."
-    echo "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
+    echo "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien » : le script la détecte tout seul."
     echo "     Colle le lien ENTIER, y compris ce qui suit « .iso? » : c'est ce qui l'autorise."
-    read -r -p "Colle ici l'URL du lien (https://...microsoft.com/....iso) : " url
-    url=$(printf '%s' "$url" | tr -d '[:space:]"')
+    ouvrir_page "$page"
+    url=""
+    if presse_papiers_disponible; then
+        attendre_lien
+    else
+        avert "Presse-papiers illisible ici (outil absent) : colle le lien à la main."
+    fi
+    if [ -z "$url" ]; then
+        read -r -p "Colle ici l'URL du lien (https://...microsoft.com/....iso) : " url
+        url=$(printf '%s' "$url" | tr -d '[:space:]"')
+    fi
     if ! url_valide "$url"; then
         erreur "URL refusée : elle doit être en https, sur un domaine *.microsoft.com, et son chemin doit se terminer par .iso."
         return 1

@@ -71,9 +71,31 @@ function Invoke-TelechargementMicrosoft {
     Write-Host "  1. Ouvre la page officielle ci-dessus dans ton navigateur."
     Write-Host "  2. Dans « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisis l'ISO"
     Write-Host "     multi-éditions, puis la langue du produit (ta langue système : $loc) et clique sur « Confirmer »."
-    Write-Host "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien »."
+    Write-Host "  3. Clic droit sur le bouton de téléchargement 64 bits > « Copier l'adresse du lien » : le script la détecte tout seul."
     Write-Host "     Colle le lien ENTIER, y compris ce qui suit « .iso? » : c'est ce qui l'autorise."
-    $url = (Read-Host "Colle ici l'URL du lien (https://...microsoft.com/....iso)").Trim().Trim('"')
+    try { Start-Process $page } catch { Write-Host "Impossible d'ouvrir le navigateur : ouvre la page à la main." -ForegroundColor Yellow }
+    $url = ""
+    $dernier = ""
+    Write-Host "En attente du lien : clique sur « Copier l'adresse du lien » dans le navigateur."
+    Write-Host "(Entrée = coller le lien à la main)"
+    for ($i = 0; $i -lt 300 -and -not $url; $i++) {
+        $c = ""
+        try { $c = ((Get-Clipboard -Raw -ErrorAction Stop) -replace '[\s"]', '') } catch { }
+        if ($c -and $c -ne $dernier -and (Test-UrlMicrosoft $c)) {
+            $nomClip = [IO.Path]::GetFileName(([Uri]$c).AbsolutePath)
+            $rep = Read-Host "Lien détecté dans le presse-papiers : $nomClip. L'utiliser ? (O/n)"
+            if ($rep -match '^[nN]') { $dernier = $c } else { $url = $c; break }
+        }
+        $entree = $false
+        try {
+            if ([Console]::KeyAvailable) { $entree = ([Console]::ReadKey($true).Key -eq 'Enter') }
+        } catch { }
+        if ($entree) { break }
+        Start-Sleep -Seconds 1
+    }
+    if (-not $url) {
+        $url = (Read-Host "Colle ici l'URL du lien (https://...microsoft.com/....iso)").Trim().Trim('"')
+    }
     if (-not (Test-UrlMicrosoft $url)) {
         Write-Host "URL refusée : elle doit être en https, sur un domaine *.microsoft.com, et son chemin doit se terminer par .iso." -ForegroundColor Red
         return $false

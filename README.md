@@ -62,7 +62,17 @@ Microsoft ne publie **pas de lien direct fixe** : le lien est généré pour cha
 1. Ouvrir la page officielle : <https://www.microsoft.com/fr-fr/software-download/windows11>
 2. Dans la section « Télécharger l'image disque Windows 11 (ISO) pour les appareils x64 », choisir l'ISO multi-éditions, puis la langue du produit, et cliquer sur « Confirmer ».
 3. Clic droit sur le bouton de téléchargement 64 bits, puis « Copier l'adresse du lien ». Le lien doit être copié en entier, y compris ce qui suit `.iso?` : c'est cette partie qui l'autorise.
-4. Choisir `T` dans le script et coller l'adresse.
+4. Choisir `T` dans le script.
+
+Le script ouvre lui-même la page Microsoft (dans ta langue) dans le navigateur par défaut, puis **surveille le presse-papiers** : dès qu'un lien valide y apparaît après « Copier l'adresse du lien », il affiche son nom de fichier et demande confirmation (O/n). Il n'y a donc rien à coller. Entrée permet de coller le lien à la main, et l'attente s'arrête au bout de 5 minutes.
+
+| Système | Ouverture de la page | Lecture du presse-papiers | À installer |
+|---|---|---|---|
+| macOS | `open` | `pbpaste` | rien |
+| Windows | `Start-Process` | `Get-Clipboard` | rien |
+| Linux | `xdg-open` | `wl-paste`, `xclip` ou `xsel` | l'un de ces outils pour la détection automatique (sinon collage manuel) |
+
+Le lien copié n'est pas affiché en entier (seul le nom du fichier l'est), car il contient une signature personnelle.
 
 Le script :
 
@@ -128,4 +138,4 @@ sudo bash /chemin/vers/make_win11_usb_linux.sh
 - Ces scripts ne contournent pas les prérequis de Windows 11 (TPM, Secure Boot, etc.).
 - Les versions macOS et Linux n'ont pas encore été testées sur du matériel réel : la copie, les exclusions, le menu des ISO, la barre de progression et la logique de téléchargement (contre un serveur local) ont été vérifiés, mais pas le partitionnement ni le découpage avec `wimlib`.
 - Le téléchargement n'a pas été testé contre le serveur réel de Microsoft, car il faut un lien généré dans un navigateur. La lecture de la taille se fait par une requête `HEAD` ; si le serveur ne la communique pas mais répond normalement, le script suppose 8 Go et le signale. Si le serveur répond par une erreur (403, 404...), le script s'arrête en affichant le code reçu.
-- La partie téléchargement de la version PowerShell n'a pas été exécutée.
+- La partie téléchargement de la version PowerShell n'a pas été exécutée. La lecture du presse-papiers a été testée sur macOS et Linux avec un presse-papiers simulé, pas avec `pbpaste`, `wl-paste` ou `xclip` réels, ni sous Windows.

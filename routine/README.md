@@ -20,9 +20,30 @@ Une fois par jour, l'ordinateur lance Chrome en mode headless, refait les clics 
 4. Installer la routine (heure au choix, 07:07 par défaut) :
    ```bash
    bash installer_launchd.sh 07:07
-   launchctl kickstart gui/$(id -u)/fr.win11.liens-iso    # essai réel immédiat
+   launchctl kickstart gui/$(id -u)/fr.win11.liens-iso
    ```
+   La seconde commande lance un essai réel immédiat.
    Retrait : `bash installer_launchd.sh --retirer`.
+
+## Mode étalé sur 24 h (recommandé)
+
+Plutôt que 37 demandes d'un coup, `--etale` en fait **une seule à la fois** et répartit les langues sur 24 heures : pause = 24 h ÷ nombre de langues lues sur la page (37 langues : une toutes les 38 min 55 s, soit 1 440 min ÷ 37). Chaque lien est **publié dès qu'il est obtenu**, puis le cycle recommence sans fin : chaque langue est renouvelée toutes les 24 h, à heure régulière (pas de dérive).
+
+```bash
+php maj_lien.php --etale
+```
+
+- `--etale=23` répartit sur 23 h au lieu de 24 h. Un lien Microsoft vit 24 h et les scripts exigent 30 min de validité restante : avec 24 h pile, chaque langue a donc un trou d'environ 30 min par jour où le script de clé repasse par la méthode manuelle. 23 h supprime ce trou.
+- `--cycles=N` s'arrête après N cycles (par défaut : sans fin). `Ctrl+C` arrête le script.
+- Avec `--dry-run`, rien n'est publié (le Terminal reste occupé 24 h : pour un essai court, `--etale=0.05 --max=3 --cycles=1`).
+- Une publication par langue : environ 37 commits par jour dans l'historique du dépôt.
+- En cas de blocage Microsoft ou de 3 échecs de suite, le script s'arrête et le journalise, sans contournement.
+
+Installation permanente de ce mode (démarre tout de suite et à chaque ouverture de session, et est relancé chaque jour à l'heure indiquée s'il s'était arrêté) :
+
+```bash
+bash installer_launchd.sh 07:07 etale
+```
 
 ## Codes de sortie
 
@@ -37,7 +58,7 @@ Un échec déclenche une notification macOS ; le détail est dans `maj_lien.log`
 
 ## Options
 
-`php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=10] [--max=N]` : `--langue` ne traite qu'une langue (nom anglais utilisé par Microsoft, par exemple `French`, `German`) ; `--delai` règle la pause entre deux langues (10 s par défaut) ; `--max` limite le nombre de langues, pratique pour un premier essai (`--dry-run --max=2`). Les anciennes lignes des autres langues restent dans le fichier tant que leur lien n'a pas expiré.
+`php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=10] [--max=N] [--etale[=24]] [--cycles=N]` : `--langue` ne traite qu'une langue (nom anglais utilisé par Microsoft, par exemple `French`, `German`) ; `--delai` règle la pause entre deux langues (10 s par défaut) ; `--max` limite le nombre de langues, pratique pour un premier essai (`--dry-run --max=2`). Les anciennes lignes des autres langues restent dans le fichier tant que leur lien n'a pas expiré.
 
 ## Garde-fous
 

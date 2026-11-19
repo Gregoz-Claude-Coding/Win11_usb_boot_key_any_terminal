@@ -8,6 +8,7 @@
     <array>
         <string>__PHP__</string>
         <string>__DOSSIER__/maj_lien.php</string>
+__ARGS__
     </array>
     <key>WorkingDirectory</key>
     <string>__DOSSIER__</string>
@@ -18,7 +19,7 @@
         <key>Minute</key>
         <integer>__MINUTE__</integer>
     </dict>
-    <key>StandardOutPath</key>
+__RUNATLOAD__    <key>StandardOutPath</key>
     <string>__DOSSIER__/launchd.out.log</string>
     <key>StandardErrorPath</key>
     <string>__DOSSIER__/launchd.err.log</string>

@@ -17,7 +17,7 @@ declare(strict_types=1);
  * la page est rechargée pour chaque langue, avec une pause entre deux. Tous les liens sont publiés en une seule fois.
  * Si Microsoft limite les demandes (3 échecs de suite), la routine s'arrête et publie ce qu'elle a obtenu.
  *
- * Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=10] [--max=N] [--help]
+ * Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=10] [--max=N] [--etale[=24]] [--cycles=N] [--help]
  * Codes de sortie : 0 ok (au moins un lien), 1 configuration, 2 page ou lien introuvable, 3 publication GitHub.
  */
 
@@ -154,6 +154,15 @@ final class Chrome
             usleep(500000);
         } while (microtime(true) < $fin);
         return null;
+    }
+
+    /** Attend $secondes en vidant le tuyau de Chrome (évite qu'il se remplisse pendant une longue pause). */
+    public function patienter(float $secondes): void
+    {
+        $fin = microtime(true) + $secondes;
+        while (($reste = $fin - microtime(true)) > 0) {
+            $this->lire(min(1.0, $reste));
+        }
     }
 
     /** Clic de souris réel au point (x, y). */
@@ -492,15 +501,58 @@ function lien_pour_langue(Chrome $chrome, string $s, string $langue): string
     return (string)$chrome->evaluer($s, $jsLien);
 }
 
+/** Lien d'une langue contrôlé et prêt à être publié : [code, ['build', 'expiration', 'url']]. */
+function obtenir_entree(Chrome $chrome, string $s, string $nom, array $dejaVus = []): array
+{
+    $url = lien_pour_langue($chrome, $s, $nom);
+    $info = analyser_lien($url);
+    if ($info['expiration'] - time() < VALIDITE_MIN) {
+        throw new RuntimeException('le lien expire dans moins d\'une heure : refusé');
+    }
+    $code = code_langue($info['fichier']);
+    if ($code === null) {
+        throw new RuntimeException('code de langue illisible dans le nom du fichier ' . $info['fichier']);
+    }
+    if (isset($dejaVus[$code])) {
+        throw new RuntimeException("code $code déjà obtenu pour une autre langue");
+    }
+    return [$code, ['build' => $info['build'], 'expiration' => $info['expiration'], 'url' => $url]];
+}
+
+/** Lit la liste des langues de la page déjà ouverte (noms anglais de Microsoft), filtrée par --langue et --max. */
+function lire_langues(Chrome $chrome, string $s, ?string $filtre, int $max): array
+{
+    $liste = $chrome->evaluer($s, js_liste_langues());
+    if (!is_array($liste) || count($liste) === 0) {
+        throw new RuntimeException('Aucune langue lue dans le menu de la page.');
+    }
+    $langues = array_values(array_unique(array_map(fn($l) => (string)$l['language'], $liste)));
+    if ($filtre !== null) {
+        $langues = array_values(array_filter($langues, fn($n) => $n === $filtre));
+        if (!$langues) {
+            throw new RuntimeException("Langue « $filtre » absente de la page.");
+        }
+    }
+    return $max > 0 ? array_slice($langues, 0, $max) : $langues;
+}
+
+function duree_texte(int $sec): string
+{
+    return sprintf('%d min %02d s', intdiv($sec, 60), $sec % 60);
+}
+
 // ------------------------------------------------------------------ Programme
-$opt = getopt('', ['dry-run', 'show', 'page-url:', 'api-base:', 'langue:', 'delai:', 'max:', 'help']);
+$opt = getopt('', ['dry-run', 'show', 'page-url:', 'api-base:', 'langue:', 'delai:', 'max:', 'etale::', 'cycles:', 'help']);
 if (isset($opt['help'])) {
     echo "Usage : php maj_lien.php [--dry-run] [--show] [--langue=French] [--delai=10] [--max=N]\n"
        . "  --dry-run  génère les liens mais ne publie rien\n"
        . "  --show     affiche les liens complets (ils contiennent une signature : à ne pas partager)\n"
        . "  --langue   une seule langue, par son nom anglais chez Microsoft (French, German...) ; défaut : toutes\n"
        . "  --delai    pause en secondes entre deux langues (défaut 10 secondes)\n"
-       . "  --max      nombre maximal de langues traitées (défaut : toutes)\n";
+       . "  --max      nombre maximal de langues traitées (défaut : toutes)\n"
+       . "  --etale[=H] mode étalé : une langue à la fois, publiée aussitôt, avec une pause = H heures / nombre de langues\n"
+       . "             (H = 24 par défaut, 24 h / 37 langues = 38 min 55 s) ; les cycles s'enchaînent jusqu'à l'arrêt (--delai est ignoré)\n"
+       . "  --cycles   avec --etale : nombre de cycles puis arrêt (défaut : sans fin)\n";
     exit(0);
 }
 $dry     = isset($opt['dry-run']);
@@ -509,6 +561,12 @@ $filtre  = isset($opt['langue']) ? (string)$opt['langue'] : null;
 $delaiEnv = getenv('DELAI_LANGUES');
 $delai   = isset($opt['delai']) ? (int)$opt['delai'] : (($delaiEnv !== false && $delaiEnv !== '') ? (int)$delaiEnv : 10);
 $max     = (int)($opt['max'] ?? 0);
+$etale   = isset($opt['etale']) ? (($opt['etale'] === false || $opt['etale'] === '') ? 24.0 : (float)$opt['etale']) : 0.0;
+$cycles  = (int)($opt['cycles'] ?? 0);
+if (isset($opt['etale']) && $etale <= 0) {
+    fwrite(STDERR, "--etale doit être un nombre d'heures strictement positif.\n");
+    exit(1);
+}
 $page    = (string)($opt['page-url'] ?? PAGE);
 $apiBase = (string)($opt['api-base'] ?? 'https://api.github.com');
 
@@ -550,87 +608,156 @@ try {
 
     // 1. Ouvrir la page, choisir l'ISO, lire la liste des langues proposées par Microsoft
     ouvrir_page_edition($chrome, $s, $page);
-    $liste = $chrome->evaluer($s, js_liste_langues());
-    if (!is_array($liste) || count($liste) === 0) {
-        throw new RuntimeException('Aucune langue lue dans le menu de la page.');
-    }
-    $langues = array_values(array_unique(array_map(fn($l) => (string)$l['language'], $liste)));
-    if ($filtre !== null) {
-        $langues = array_values(array_filter($langues, fn($n) => $n === $filtre));
-        if (!$langues) {
-            throw new RuntimeException("Langue « $filtre » absente de la page.");
-        }
-    }
-    if ($max > 0) {
-        $langues = array_slice($langues, 0, $max);
-    }
+    $langues = lire_langues($chrome, $s, $filtre, $max);
     journal(count($langues) . ' langue(s) à traiter : ' . implode(', ', $langues));
 
-    // 2. Un lien par langue (page rechargée à chaque fois, pause entre deux)
-    $entrees = [];
-    $echecs = [];
-    $consecutifs = 0;
-    foreach ($langues as $i => $nom) {
-        if ($i > 0) {
-            sleep($delai);
-        }
-        try {
-            if ($i > 0) {
+    // 2bis. Mode étalé : une langue toutes les (période / nombre de langues), publiée aussitôt
+    if ($etale > 0) {
+        $periode = (int)round($etale * 3600);
+        $cycle = 0;
+        $consecutifs = 0;
+        $arret = false;
+        while (!$arret) {
+            $cycle++;
+            $nb = count($langues);
+            $pause = max(1, intdiv($periode, $nb));
+            $debutCycle = time();
+            journal(sprintf('Cycle %d : %d langue(s) sur %s h, une toutes les %s.', $cycle, $nb,
+                rtrim(rtrim(number_format($etale, 2, '.', ''), '0'), '.'), duree_texte($pause)));
+            foreach ($langues as $i => $nom) {
+                if ($i > 0) {
+                    $heure = $debutCycle + $i * $pause;
+                    if ($heure > time()) {
+                        $chrome->patienter($heure - time());
+                    }
+                    try {
+                        ouvrir_page_edition($chrome, $s, $page);
+                    } catch (Throwable $e) {
+                        journal("$nom : ÉCHEC : " . $e->getMessage());
+                        if (++$consecutifs >= 3) {
+                            journal('3 échecs de suite : arrêt. Aucune tentative de contournement.');
+                            $arret = true;
+                            $sortie = 2;
+                            break;
+                        }
+                        continue;
+                    }
+                }
+                try {
+                    [$code, $entree] = obtenir_entree($chrome, $s, $nom);
+                    journal(sprintf('[%d/%d] %s (%s) : lien obtenu, build %s, valable jusqu\'au %s.',
+                        $i + 1, $nb, $nom, $code, $entree['build'], date('Y-m-d H:i', $entree['expiration'])));
+                    if ($show) {
+                        echo $entree['url'] . "\n";
+                    }
+                    if ($dry) {
+                        journal('Simulation : rien n\'est publié.');
+                    } elseif (publier($apiBase, (string)$token, [$code => $entree])) {
+                        journal("$code publié sur GitHub.");
+                    }
+                    $consecutifs = 0;
+                } catch (BlocageMicrosoft $e) {
+                    journal("$nom : " . $e->getMessage() . ' Arrêt immédiat, plus aucune demande envoyée. Aucune tentative de contournement.');
+                    $arret = true;
+                    $sortie = 2;
+                    break;
+                } catch (Throwable $e) {
+                    journal("$nom : ÉCHEC : " . $e->getMessage());
+                    if (++$consecutifs >= 3) {
+                        journal('3 échecs de suite : arrêt. Aucune tentative de contournement.');
+                        $arret = true;
+                        $sortie = 2;
+                        break;
+                    }
+                }
+            }
+            if ($arret || ($cycles > 0 && $cycle >= $cycles)) {
+                break;
+            }
+            // fin du cycle : attendre l'heure du suivant, puis relire la liste des langues
+            $fin = $debutCycle + $nb * $pause;
+            if ($fin > time()) {
+                $chrome->patienter($fin - time());
+            }
+            try {
                 ouvrir_page_edition($chrome, $s, $page);
-            }
-            $url = lien_pour_langue($chrome, $s, $nom);
-            $info = analyser_lien($url);
-            $reste = $info['expiration'] - time();
-            if ($reste < VALIDITE_MIN) {
-                throw new RuntimeException('le lien expire dans moins d\'une heure : refusé');
-            }
-            $code = code_langue($info['fichier']);
-            if ($code === null) {
-                throw new RuntimeException('code de langue illisible dans le nom du fichier ' . $info['fichier']);
-            }
-            if (isset($entrees[$code])) {
-                throw new RuntimeException("code $code déjà obtenu pour une autre langue");
-            }
-            $entrees[$code] = ['build' => $info['build'], 'expiration' => $info['expiration'], 'url' => $url];
-            $consecutifs = 0;
-            journal(sprintf('%s (%s) : lien obtenu, build %s, valable jusqu\'au %s.',
-                $nom, $code, $info['build'], date('Y-m-d H:i', $info['expiration'])));
-            if ($show) {
-                echo $url . "\n";
-            }
-        } catch (BlocageMicrosoft $e) {
-            $echecs[] = $nom;
-            journal("$nom : " . $e->getMessage() . ' Arrêt immédiat, plus aucune demande envoyée. Réessayez plus tard, avec une pause plus longue (--delai=180). Aucune tentative de contournement.');
-            break;
-        } catch (Throwable $e) {
-            $echecs[] = $nom;
-            journal("$nom : ÉCHEC : " . $e->getMessage());
-            if (++$consecutifs >= 3) {
-                journal('3 échecs de suite : arrêt (Microsoft limite peut-être les demandes). Aucune tentative de contournement.');
+                $langues = lire_langues($chrome, $s, $filtre, $max);
+            } catch (Throwable $e) {
+                journal('ERREUR au début du cycle suivant : ' . $e->getMessage());
+                $sortie = 2;
                 break;
             }
         }
-    }
-    journal(count($entrees) . ' lien(s) obtenu(s), ' . count($echecs) . ' échec(s)' . ($echecs ? ' (' . implode(', ', $echecs) . ')' : '') . '.');
-    if (!$entrees) {
-        throw new RuntimeException('Aucun lien obtenu.');
+        journal('Mode étalé terminé.');
     }
 
-    // 3. Publier tout en une seule fois
-    if ($dry) {
-        journal('Simulation : rien n\'est publié.');
-    } else {
-        try {
-            if (publier($apiBase, (string)$token, $entrees)) {
-                journal('Liens publiés sur GitHub (' . DEPOT . ', ' . FICHIER . ').');
+    if ($etale <= 0) {
+        // 2. Un lien par langue (page rechargée à chaque fois, pause entre deux)
+        $entrees = [];
+        $echecs = [];
+        $consecutifs = 0;
+        foreach ($langues as $i => $nom) {
+            if ($i > 0) {
+                sleep($delai);
             }
-        } catch (Throwable $e) {
-            journal('ERREUR de publication : ' . $e->getMessage());
-            $sortie = 3;
+            try {
+                if ($i > 0) {
+                    ouvrir_page_edition($chrome, $s, $page);
+                }
+                $url = lien_pour_langue($chrome, $s, $nom);
+                $info = analyser_lien($url);
+                $reste = $info['expiration'] - time();
+                if ($reste < VALIDITE_MIN) {
+                    throw new RuntimeException('le lien expire dans moins d\'une heure : refusé');
+                }
+                $code = code_langue($info['fichier']);
+                if ($code === null) {
+                    throw new RuntimeException('code de langue illisible dans le nom du fichier ' . $info['fichier']);
+                }
+                if (isset($entrees[$code])) {
+                    throw new RuntimeException("code $code déjà obtenu pour une autre langue");
+                }
+                $entrees[$code] = ['build' => $info['build'], 'expiration' => $info['expiration'], 'url' => $url];
+                $consecutifs = 0;
+                journal(sprintf('%s (%s) : lien obtenu, build %s, valable jusqu\'au %s.',
+                    $nom, $code, $info['build'], date('Y-m-d H:i', $info['expiration'])));
+                if ($show) {
+                    echo $url . "\n";
+                }
+            } catch (BlocageMicrosoft $e) {
+                $echecs[] = $nom;
+                journal("$nom : " . $e->getMessage() . ' Arrêt immédiat, plus aucune demande envoyée. Réessayez plus tard, avec une pause plus longue (--delai=180). Aucune tentative de contournement.');
+                break;
+            } catch (Throwable $e) {
+                $echecs[] = $nom;
+                journal("$nom : ÉCHEC : " . $e->getMessage());
+                if (++$consecutifs >= 3) {
+                    journal('3 échecs de suite : arrêt (Microsoft limite peut-être les demandes). Aucune tentative de contournement.');
+                    break;
+                }
+            }
         }
-    }
-    if ($echecs && $sortie === 0) {
-        notifier(count($entrees) . ' langue(s) mises à jour, ' . count($echecs) . ' en échec : voir maj_lien.log');
+        journal(count($entrees) . ' lien(s) obtenu(s), ' . count($echecs) . ' échec(s)' . ($echecs ? ' (' . implode(', ', $echecs) . ')' : '') . '.');
+        if (!$entrees) {
+            throw new RuntimeException('Aucun lien obtenu.');
+        }
+
+        // 3. Publier tout en une seule fois
+        if ($dry) {
+            journal('Simulation : rien n\'est publié.');
+        } else {
+            try {
+                if (publier($apiBase, (string)$token, $entrees)) {
+                    journal('Liens publiés sur GitHub (' . DEPOT . ', ' . FICHIER . ').');
+                }
+            } catch (Throwable $e) {
+                journal('ERREUR de publication : ' . $e->getMessage());
+                $sortie = 3;
+            }
+        }
+        if ($echecs && $sortie === 0) {
+            notifier(count($entrees) . ' langue(s) mises à jour, ' . count($echecs) . ' en échec : voir maj_lien.log');
+        }
     }
 } catch (Throwable $e) {
     journal('ERREUR : ' . $e->getMessage());

@@ -57,7 +57,7 @@ Sous macOS et Linux, la vitesse du découpage est mesurée sur la croissance des
 
 1. Recherche les `.iso` du répertoire courant et les liste numérotés avec leur taille. L'option `T` télécharge un ISO depuis Microsoft (voir plus bas). Si aucun ISO n'est trouvé, on peut saisir `T` ou le chemin complet d'un ISO.
 2. Liste les clés USB détectées, demande laquelle effacer, vérifie que la clé est au moins aussi grande que l'ISO, puis demande confirmation (O/N).
-3. Partitionne et formate la clé en FAT32, label `WIN11`, 32 Go maximum.
+3. Si la clé a déjà une première partition FAT32 assez grande, ne reformate que celle-ci et conserve les autres partitions. Sinon, repartitionne : FAT32 `WIN11` (ISO + 2 Go de marge, 32 Go maximum) puis, sur le reste de la clé, une partition de données exFAT `DONNEES`. Si une partition de données contient des fichiers et que la FAT32 est trop petite, le script prévient et n'efface qu'après avoir tapé le mot demandé.
 4. Copie le contenu de l'ISO, sauf `install.wim` et `autorun.inf`. Chaque fichier copié est affiché et journalisé.
 5. Découpe `install.wim` (plus de 4 Go) en morceaux `install*.swm` de 3800 Mo compatibles FAT32, avec une barre de progression.
 6. Si l'ISO contient un `install.esd`, il est simplement copié.

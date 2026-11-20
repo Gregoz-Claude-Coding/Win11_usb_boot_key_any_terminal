@@ -58,6 +58,12 @@ $Textes = @{
         not_usb         = 'Ce numéro n''est pas une clé USB.'
         too_small       = 'Clé trop petite : {0} Go pour un ISO de {1} Go.'
         confirm_erase   = 'Confirmer l''effacement de ''{0}'' ? (O/N)'
+        keep_confirm    = "'{0}' contient déjà une disposition compatible : seule la partition FAT32 sera reformatée, les {1} autre(s) partition(s) sont conservées. Continuer ? (O/N)"
+        data_warn       = "ATTENTION : cette clé contient des fichiers dans une partition de données, et sa partition FAT32 est trop petite pour cet ISO ({0} Go nécessaires). Continuer repartitionne la clé et EFFACE ces fichiers."
+        data_ask        = "Pour les effacer quand même, tape {0} (Entrée pour annuler) : "
+        erase_word      = "EFFACER"
+        data_created    = "Partition de données exFAT « DONNEES » créée : {0} Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)."
+        kept            = "Disposition conservée : seule la partition FAT32 est reformatée."
         copying         = 'Copie des fichiers...'
         robocopy_err    = 'robocopy a rencontré des erreurs (code {0}). Voir {1}'
         bootwim_missing = 'sources\boot.wim absent de la clé : copie incomplète. Voir {0}'
@@ -137,6 +143,12 @@ $Textes = @{
         not_usb         = 'This number is not a USB drive.'
         too_small       = 'USB drive too small: {0} GB for a {1} GB ISO.'
         confirm_erase   = 'Confirm erasing ''{0}''? (Y/N)'
+        keep_confirm    = "'{0}' already has a compatible layout: only the FAT32 partition will be reformatted, the {1} other partition(s) are kept. Continue? (Y/N)"
+        data_warn       = "WARNING: this drive holds files in a data partition, and its FAT32 partition is too small for this ISO ({0} GB needed). Continuing repartitions the drive and ERASES those files."
+        data_ask        = "To erase them anyway, type {0} (Enter to cancel): "
+        erase_word      = "ERASE"
+        data_created    = "exFAT data partition 'DONNEES' created: {0} GB for your files (the FAT32 partition keeps headroom for future Windows versions)."
+        kept            = "Layout kept: only the FAT32 partition is reformatted."
         copying         = 'Copying files...'
         robocopy_err    = 'robocopy hit errors (code {0}). See {1}'
         bootwim_missing = 'sources\boot.wim is missing from the drive: incomplete copy. See {0}'
@@ -216,6 +228,12 @@ $Textes = @{
         not_usb         = "Ese número no es una unidad USB."
         too_small       = "Unidad demasiado pequeña: {0} GB para un ISO de {1} GB."
         confirm_erase   = "¿Confirmar el borrado de '{0}'? (S/N)"
+        keep_confirm    = "'{0}' ya tiene una disposición compatible: solo se reformateará la partición FAT32; las {1} otra(s) partición(es) se conservan. ¿Continuar? (S/N)"
+        data_warn       = "ATENCIÓN: esta unidad tiene archivos en una partición de datos y su partición FAT32 es demasiado pequeña para este ISO (se necesitan {0} GB). Continuar reparticiona la unidad y BORRA esos archivos."
+        data_ask        = "Para borrarlos igualmente, escribe {0} (Intro para cancelar): "
+        erase_word      = "BORRAR"
+        data_created    = "Partición de datos exFAT 'DONNEES' creada: {0} GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)."
+        kept            = "Disposición conservada: solo se reformatea la partición FAT32."
         copying         = "Copiando archivos..."
         robocopy_err    = "robocopy encontró errores (código {0}). Consulta {1}"
         bootwim_missing = "Falta sources\boot.wim en la unidad: copia incompleta. Consulta {0}"
@@ -295,6 +313,12 @@ $Textes = @{
         not_usb         = "Diese Nummer ist kein USB-Laufwerk."
         too_small       = "USB-Laufwerk zu klein: {0} GB für eine ISO mit {1} GB."
         confirm_erase   = "Löschen von '{0}' bestätigen? (J/N)"
+        keep_confirm    = "'{0}' hat bereits ein kompatibles Layout: nur die FAT32-Partition wird neu formatiert, die {1} weitere(n) Partition(en) bleiben erhalten. Fortfahren? (J/N)"
+        data_warn       = "ACHTUNG: Dieses Laufwerk enthält Dateien in einer Datenpartition, und die FAT32-Partition ist für diese ISO zu klein ({0} GB nötig). Fortfahren partitioniert neu und LÖSCHT diese Dateien."
+        data_ask        = "Zum Löschen trotzdem {0} eingeben (Enter = abbrechen): "
+        erase_word      = "LÖSCHEN"
+        data_created    = "exFAT-Datenpartition 'DONNEES' angelegt: {0} GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)."
+        kept            = "Layout beibehalten: nur die FAT32-Partition wird neu formatiert."
         copying         = "Dateien werden kopiert..."
         robocopy_err    = "robocopy hat Fehler gemeldet (Code {0}). Siehe {1}"
         bootwim_missing = "sources\boot.wim fehlt auf dem Laufwerk: unvollständige Kopie. Siehe {0}"
@@ -374,6 +398,12 @@ $Textes = @{
         not_usb         = "Questo numero non è un'unità USB."
         too_small       = "Unità troppo piccola: {0} GB per un ISO da {1} GB."
         confirm_erase   = "Confermare la cancellazione di '{0}'? (S/N)"
+        keep_confirm    = "'{0}' ha già una disposizione compatibile: verrà riformattata solo la partizione FAT32, le altre {1} partizione/i restano intatte. Continuare? (S/N)"
+        data_warn       = "ATTENZIONE: questa unità contiene file in una partizione dati e la partizione FAT32 è troppo piccola per questo ISO (servono {0} GB). Continuare ripartiziona l'unità e CANCELLA quei file."
+        data_ask        = "Per cancellarli comunque, scrivi {0} (Invio per annullare): "
+        erase_word      = "CANCELLA"
+        data_created    = "Partizione dati exFAT 'DONNEES' creata: {0} GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)."
+        kept            = "Disposizione mantenuta: viene riformattata solo la partizione FAT32."
         copying         = "Copia dei file in corso..."
         robocopy_err    = "robocopy ha rilevato errori (codice {0}). Vedi {1}"
         bootwim_missing = "sources\boot.wim assente dall'unità: copia incompleta. Vedi {0}"
@@ -453,6 +483,12 @@ $Textes = @{
         not_usb         = "Esse número não é uma unidade USB."
         too_small       = "Unidade pequena demais: {0} GB para um ISO de {1} GB."
         confirm_erase   = "Confirmar o apagamento de '{0}'? (S/N)"
+        keep_confirm    = "'{0}' já tem uma disposição compatível: só a partição FAT32 será reformatada, as outras {1} partição(ões) são mantidas. Continuar? (S/N)"
+        data_warn       = "ATENÇÃO: esta unidade tem ficheiros numa partição de dados e a partição FAT32 é demasiado pequena para este ISO (são precisos {0} GB). Continuar reparticiona a unidade e APAGA esses ficheiros."
+        data_ask        = "Para os apagar mesmo assim, escreve {0} (Enter para cancelar): "
+        erase_word      = "APAGAR"
+        data_created    = "Partição de dados exFAT 'DONNEES' criada: {0} GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)."
+        kept            = "Disposição mantida: só a partição FAT32 é reformatada."
         copying         = "Copiando arquivos..."
         robocopy_err    = "O robocopy encontrou erros (código {0}). Veja {1}"
         bootwim_missing = "sources\boot.wim ausente da unidade: cópia incompleta. Veja {0}"
@@ -838,14 +874,65 @@ if ($disk.Size -lt $isoTaille) {
     Write-Host (T 'too_small' ([math]::Round($disk.Size / 1GB, 2)), ([math]::Round($isoTaille / 1GB, 2))) -ForegroundColor Red
     return
 }
-if ((Read-Host (T 'confirm_erase' $disk.FriendlyName)) -notmatch '^[oOyYsSjJ]') { return }
+
+# --- Disposition existante : on ne repartitionne pas une clé déjà compatible, et on protège les fichiers de la partition de données ---
+$besoinBoot = $isoTaille + 512MB
+$parts = @(Get-Partition -DiskNumber $n -ErrorAction SilentlyContinue | Where-Object { $_.Type -ne 'Reserved' -and $_.Size -gt 0 } | Sort-Object Offset)
+$p1 = $null; $garde = $false; $risque = $false; $nbAutres = 0
+if ($parts.Count -gt 0) {
+    $p1 = $parts[0]
+    $v1 = $p1 | Get-Volume -ErrorAction SilentlyContinue
+    if ($v1 -and $v1.FileSystem -eq 'FAT32' -and $p1.Size -ge $besoinBoot -and $p1.Size -le 32GB) { $garde = $true }
+    foreach ($q in ($parts | Select-Object -Skip 1)) {
+        $nbAutres++
+        $v = $q | Get-Volume -ErrorAction SilentlyContinue
+        if (-not $v -or -not $v.FileSystem) { continue }
+        if ($v.DriveLetter) {
+            $fichiers = @(Get-ChildItem -LiteralPath ("{0}:\" -f $v.DriveLetter) -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne 'System Volume Information' -and $_.Name -ne '$RECYCLE.BIN' })
+            if ($fichiers.Count -gt 0) { $risque = $true }
+        } else { $risque = $true }   # pas de lettre : impossible de vérifier, on protège par précaution
+    }
+}
+if ($garde) {
+    if ((Read-Host (T 'keep_confirm' $disk.FriendlyName, $nbAutres)) -notmatch '^[oOyYsSjJ]') { return }
+}
+else {
+    if ($risque) {
+        Write-Host (T 'data_warn' ([math]::Round($besoinBoot / 1GB, 1))) -ForegroundColor Red
+        $mot = T 'erase_word'
+        if ((Read-Host (T 'data_ask' $mot)).Trim() -ne $mot) { return }
+    }
+    elseif ((Read-Host (T 'confirm_erase' $disk.FriendlyName)) -notmatch '^[oOyYsSjJ]') { return }
+}
 
 # --- Préparation de la clé ---
-Clear-Disk -Number $n -RemoveData -RemoveOEM -Confirm:$false
-Initialize-Disk -Number $n -PartitionStyle GPT
-$taille = [math]::Min([int64]32GB, (Get-Disk -Number $n).LargestFreeExtent)
-$part = New-Partition -DiskNumber $n -Size $taille -AssignDriveLetter
-Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+if ($garde) {
+    Write-Host (T 'kept') -ForegroundColor Green
+    Format-Volume -Partition $p1 -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+    if (-not (Get-Partition -DiskNumber $n -PartitionNumber $p1.PartitionNumber).DriveLetter) {
+        Add-PartitionAccessPath -DiskNumber $n -PartitionNumber $p1.PartitionNumber -AssignDriveLetter
+    }
+    $part = Get-Partition -DiskNumber $n -PartitionNumber $p1.PartitionNumber
+}
+else {
+    Clear-Disk -Number $n -RemoveData -RemoveOEM -Confirm:$false
+    Initialize-Disk -Number $n -PartitionStyle GPT
+    # FAT32 : ISO + 2 Go de marge (une future version de Windows plus grosse tiendra encore), 32 Go maximum ; le reste en exFAT pour les données
+    $fatTaille = [math]::Min([int64]32GB, [int64]([math]::Ceiling(($isoTaille + 2GB) / 1GB) * 1GB))
+    $libreDispo = (Get-Disk -Number $n).LargestFreeExtent
+    if (($libreDispo - $fatTaille) -ge 3GB) {
+        $part = New-Partition -DiskNumber $n -Size $fatTaille -AssignDriveLetter
+        Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+        $pd = New-Partition -DiskNumber $n -UseMaximumSize -AssignDriveLetter
+        Format-Volume -Partition $pd -FileSystem exFAT -NewFileSystemLabel "DONNEES" -Force | Out-Null
+        Write-Host (T 'data_created' ([math]::Round($pd.Size / 1GB, 1))) -ForegroundColor Green
+    }
+    else {
+        $taille = [math]::Min([int64]32GB, $libreDispo)
+        $part = New-Partition -DiskNumber $n -Size $taille -AssignDriveLetter
+        Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+    }
+}
 $usb = ($part | Get-Volume).DriveLetter + ":"
 
 # --- Montage de l'ISO ---

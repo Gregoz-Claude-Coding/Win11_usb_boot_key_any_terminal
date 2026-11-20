@@ -52,6 +52,13 @@ msg_fr() {
         root_disk) printf '%s' "%s contient le système de fichiers racine : abandon." ;;
         too_small) printf '%s' "Clé trop petite : %s Go pour un ISO de %s Go." ;;
         confirm_erase) printf '%s' "Confirmer l'effacement de '%s' (%s) ? (O/N) " ;;
+        keep_confirm) printf '%s' "'%s' contient déjà une disposition compatible : seule la partition FAT32 sera reformatée, les %s autre(s) partition(s) sont conservées. Continuer ? (O/N) " ;;
+        data_warn) printf '%s' "ATTENTION : cette clé contient des fichiers dans une partition de données, et sa partition FAT32 est trop petite pour cet ISO (%s Go nécessaires). Continuer repartitionne la clé et EFFACE ces fichiers." ;;
+        data_ask) printf '%s' "Pour les effacer quand même, tape %s (Entrée pour annuler) :  " ;;
+        erase_word) printf '%s' "EFFACER" ;;
+        data_created) printf '%s' "Partition de données exFAT « DONNEES » créée : %s Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)." ;;
+        kept) printf '%s' "Disposition conservée : seule la partition FAT32 est reformatée." ;;
+        no_exfat_tool) printf '%s' "mkfs.exfat est absent : pas de partition de données (installe exfatprogs pour l'avoir)." ;;
         preparing) printf '%s' "Préparation de la clé (%s)..." ;;
         partition_fail) printf '%s' "Échec du partitionnement de %s." ;;
         no_mountpoint) printf '%s' "Impossible de trouver le point de montage de la clé." ;;
@@ -147,6 +154,13 @@ msg_en() {
         root_disk) printf '%s' "%s holds the root filesystem: aborting." ;;
         too_small) printf '%s' "USB drive too small: %s GB for a %s GB ISO." ;;
         confirm_erase) printf '%s' "Confirm erasing '%s' (%s)? (Y/N) " ;;
+        keep_confirm) printf '%s' "'%s' already has a compatible layout: only the FAT32 partition will be reformatted, the %s other partition(s) are kept. Continue? (Y/N) " ;;
+        data_warn) printf '%s' "WARNING: this drive holds files in a data partition, and its FAT32 partition is too small for this ISO (%s GB needed). Continuing repartitions the drive and ERASES those files." ;;
+        data_ask) printf '%s' "To erase them anyway, type %s (Enter to cancel):  " ;;
+        erase_word) printf '%s' "ERASE" ;;
+        data_created) printf '%s' "exFAT data partition 'DONNEES' created: %s GB for your files (the FAT32 partition keeps headroom for future Windows versions)." ;;
+        kept) printf '%s' "Layout kept: only the FAT32 partition is reformatted." ;;
+        no_exfat_tool) printf '%s' "mkfs.exfat is missing: no data partition (install exfatprogs to get one)." ;;
         preparing) printf '%s' "Preparing the USB drive (%s)..." ;;
         partition_fail) printf '%s' "Partitioning of %s failed." ;;
         no_mountpoint) printf '%s' "Could not find the drive's mount point." ;;
@@ -242,6 +256,13 @@ msg_es() {
         root_disk) printf '%s' "%s contiene el sistema de archivos raíz: se cancela." ;;
         too_small) printf '%s' "Unidad demasiado pequeña: %s GB para un ISO de %s GB." ;;
         confirm_erase) printf '%s' "¿Confirmar el borrado de '%s' (%s)? (S/N) " ;;
+        keep_confirm) printf '%s' "'%s' ya tiene una disposición compatible: solo se reformateará la partición FAT32; las %s otra(s) partición(es) se conservan. ¿Continuar? (S/N) " ;;
+        data_warn) printf '%s' "ATENCIÓN: esta unidad tiene archivos en una partición de datos y su partición FAT32 es demasiado pequeña para este ISO (se necesitan %s GB). Continuar reparticiona la unidad y BORRA esos archivos." ;;
+        data_ask) printf '%s' "Para borrarlos igualmente, escribe %s (Intro para cancelar):  " ;;
+        erase_word) printf '%s' "BORRAR" ;;
+        data_created) printf '%s' "Partición de datos exFAT 'DONNEES' creada: %s GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)." ;;
+        kept) printf '%s' "Disposición conservada: solo se reformatea la partición FAT32." ;;
+        no_exfat_tool) printf '%s' "Falta mkfs.exfat: no se crea partición de datos (instala exfatprogs para tenerla)." ;;
         preparing) printf '%s' "Preparando la unidad (%s)..." ;;
         partition_fail) printf '%s' "Error al particionar %s." ;;
         no_mountpoint) printf '%s' "No se encontró el punto de montaje de la unidad." ;;
@@ -337,6 +358,13 @@ msg_de() {
         root_disk) printf '%s' "%s enthält das Root-Dateisystem: Abbruch." ;;
         too_small) printf '%s' "USB-Laufwerk zu klein: %s GB für eine ISO mit %s GB." ;;
         confirm_erase) printf '%s' "Löschen von '%s' (%s) bestätigen? (J/N) " ;;
+        keep_confirm) printf '%s' "'%s' hat bereits ein kompatibles Layout: nur die FAT32-Partition wird neu formatiert, die %s weitere(n) Partition(en) bleiben erhalten. Fortfahren? (J/N) " ;;
+        data_warn) printf '%s' "ACHTUNG: Dieses Laufwerk enthält Dateien in einer Datenpartition, und die FAT32-Partition ist für diese ISO zu klein (%s GB nötig). Fortfahren partitioniert neu und LÖSCHT diese Dateien." ;;
+        data_ask) printf '%s' "Zum Löschen trotzdem %s eingeben (Enter = abbrechen):  " ;;
+        erase_word) printf '%s' "LÖSCHEN" ;;
+        data_created) printf '%s' "exFAT-Datenpartition 'DONNEES' angelegt: %s GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)." ;;
+        kept) printf '%s' "Layout beibehalten: nur die FAT32-Partition wird neu formatiert." ;;
+        no_exfat_tool) printf '%s' "mkfs.exfat fehlt: keine Datenpartition (installiere exfatprogs, um sie zu erhalten)." ;;
         preparing) printf '%s' "USB-Laufwerk wird vorbereitet (%s)..." ;;
         partition_fail) printf '%s' "Partitionierung von %s fehlgeschlagen." ;;
         no_mountpoint) printf '%s' "Einhängepunkt des Laufwerks nicht gefunden." ;;
@@ -432,6 +460,13 @@ msg_it() {
         root_disk) printf '%s' "%s contiene il file system root: operazione annullata." ;;
         too_small) printf '%s' "Unità troppo piccola: %s GB per un ISO da %s GB." ;;
         confirm_erase) printf '%s' "Confermare la cancellazione di '%s' (%s)? (S/N) " ;;
+        keep_confirm) printf '%s' "'%s' ha già una disposizione compatibile: verrà riformattata solo la partizione FAT32, le altre %s partizione/i restano intatte. Continuare? (S/N) " ;;
+        data_warn) printf '%s' "ATTENZIONE: questa unità contiene file in una partizione dati e la partizione FAT32 è troppo piccola per questo ISO (servono %s GB). Continuare ripartiziona l'unità e CANCELLA quei file." ;;
+        data_ask) printf '%s' "Per cancellarli comunque, scrivi %s (Invio per annullare):  " ;;
+        erase_word) printf '%s' "CANCELLA" ;;
+        data_created) printf '%s' "Partizione dati exFAT 'DONNEES' creata: %s GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)." ;;
+        kept) printf '%s' "Disposizione mantenuta: viene riformattata solo la partizione FAT32." ;;
+        no_exfat_tool) printf '%s' "mkfs.exfat non trovato: nessuna partizione dati (installa exfatprogs per averla)." ;;
         preparing) printf '%s' "Preparazione dell'unità (%s)..." ;;
         partition_fail) printf '%s' "Partizionamento di %s non riuscito." ;;
         no_mountpoint) printf '%s' "Punto di montaggio dell'unità non trovato." ;;
@@ -527,6 +562,13 @@ msg_pt() {
         root_disk) printf '%s' "%s contém o sistema de arquivos raiz: operação cancelada." ;;
         too_small) printf '%s' "Unidade pequena demais: %s GB para um ISO de %s GB." ;;
         confirm_erase) printf '%s' "Confirmar o apagamento de '%s' (%s)? (S/N) " ;;
+        keep_confirm) printf '%s' "'%s' já tem uma disposição compatível: só a partição FAT32 será reformatada, as outras %s partição(ões) são mantidas. Continuar? (S/N) " ;;
+        data_warn) printf '%s' "ATENÇÃO: esta unidade tem ficheiros numa partição de dados e a partição FAT32 é demasiado pequena para este ISO (são precisos %s GB). Continuar reparticiona a unidade e APAGA esses ficheiros." ;;
+        data_ask) printf '%s' "Para os apagar mesmo assim, escreve %s (Enter para cancelar):  " ;;
+        erase_word) printf '%s' "APAGAR" ;;
+        data_created) printf '%s' "Partição de dados exFAT 'DONNEES' criada: %s GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)." ;;
+        kept) printf '%s' "Disposição mantida: só a partição FAT32 é reformatada." ;;
+        no_exfat_tool) printf '%s' "mkfs.exfat em falta: sem partição de dados (instala exfatprogs para a ter)." ;;
         preparing) printf '%s' "Preparando a unidade (%s)..." ;;
         partition_fail) printf '%s' "Falha ao particionar %s." ;;
         no_mountpoint) printf '%s' "Não foi possível encontrar o ponto de montagem da unidade." ;;
@@ -1126,38 +1168,100 @@ if [ "${octets_cle:-0}" -gt 0 ] && [ "$octets_cle" -lt "$iso_octets" ]; then
     exit 1
 fi
 nom=$(lsblk -dnpo MODEL "$dev" | sed 's/ *$//' | tr -cd '[:print:]')
-read -r -p "$(msg confirm_erase "$nom" "$dev")" rep
-case "$rep" in [oOyYsSjJ]*) ;; *) exit 0 ;; esac
 
-# --- Préparation de la clé (GPT + FAT32, 32 Go maximum) ---
-if [ "$octets_cle" -gt $((32 * 1024 * 1024 * 1024)) ]; then fin="32GiB"; else fin="100%"; fi
+# --- Disposition existante : on ne repartitionne pas une clé déjà compatible, et on protège les fichiers de la partition de données ---
+besoin_boot=$((iso_octets + 512 * 1024 * 1024))
+garde=0; risque=0; nb_autres=0
+parts_exist=$(lsblk -lnpo NAME,TYPE "$dev" | awk '$2=="part" {print $1}')
+p1=$(printf '%s\n' "$parts_exist" | head -1)
+if [ -n "$p1" ]; then
+    fs1=$(lsblk -dnpo FSTYPE "$p1" | tr -d ' ')
+    sz1=$(lsblk -dnbo SIZE "$p1" | tr -d ' ')
+    sig=$(dd if="$p1" bs=1 skip=82 count=8 2>/dev/null)
+    if [ "$fs1" = "vfat" ] && [ "$sig" = "FAT32   " ] && [ "${sz1:-0}" -ge "$besoin_boot" ]; then garde=1; fi
+    for p in $(printf '%s\n' "$parts_exist" | tail -n +2); do
+        nb_autres=$((nb_autres + 1))
+        fs=$(lsblk -dnpo FSTYPE "$p" | tr -d ' ')
+        [ -z "$fs" ] && continue
+        umount "$p" 2>/dev/null
+        tmp=$(mktemp -d)
+        if mount -o ro "$p" "$tmp" 2>/dev/null; then
+            if [ -n "$(ls -A "$tmp" 2>/dev/null | grep -v '^System Volume Information$' | head -1)" ]; then risque=1; fi
+            umount "$tmp" 2>/dev/null
+        else
+            risque=1   # montage impossible : on protège par précaution
+        fi
+        rmdir "$tmp" 2>/dev/null
+    done
+fi
+if [ "$garde" -eq 1 ]; then
+    read -r -p "$(msg keep_confirm "$nom" "$nb_autres")" rep
+    case "$rep" in [oOyYsSjJ]*) ;; *) exit 0 ;; esac
+else
+    if [ "$risque" -eq 1 ]; then
+        erreur "$(msg data_warn "$(en_go "$besoin_boot")")"
+        mot=$(msg erase_word)
+        read -r -p "$(msg data_ask "$mot")" rep
+        [ "$rep" = "$mot" ] || exit 0
+    else
+        read -r -p "$(msg confirm_erase "$nom" "$dev")" rep
+        case "$rep" in [oOyYsSjJ]*) ;; *) exit 0 ;; esac
+    fi
+fi
+
+# --- Préparation de la clé ---
 info "$(msg preparing "$dev")"
 for p in $(lsblk -lnpo NAME "$dev" | tail -n +2); do
     umount "$p" 2>/dev/null
 done
-for p in $(lsblk -lnpo NAME "$dev" | tail -n +2); do
-    wipefs -a "$p" >/dev/null 2>&1
-done
-wipefs -a "$dev" >/dev/null 2>&1
-if ! parted -s "$dev" mklabel gpt mkpart WIN11 fat32 1MiB "$fin"; then
-    erreur "$(msg partition_fail "$dev")"
-    exit 1
-fi
-partprobe "$dev" 2>/dev/null
-udevadm settle 2>/dev/null
-part=""
-for _ in 1 2 3 4 5 6 7 8 9 10; do
-    part=$(lsblk -lnpo NAME,TYPE "$dev" | awk '$2=="part" {print $1; exit}')
-    if [ -n "$part" ] && [ -b "$part" ]; then break; fi
-    sleep 1
-done
-if [ -z "$part" ] || [ ! -b "$part" ]; then
-    erreur "$(msg part_missing)"
-    exit 1
+if [ "$garde" -eq 1 ]; then
+    ok "$(msg kept)"
+    part="$p1"
+else
+    for p in $(lsblk -lnpo NAME "$dev" | tail -n +2); do
+        wipefs -a "$p" >/dev/null 2>&1
+    done
+    wipefs -a "$dev" >/dev/null 2>&1
+    # FAT32 : ISO + 2 Go de marge (32 Go maximum) ; le reste en exFAT pour les données de l'utilisateur
+    fat_mib=$(( (iso_octets + 2147483648 + 1073741823) / 1073741824 * 1024 ))
+    [ "$fat_mib" -gt 32768 ] && fat_mib=32768
+    total_mib=$((octets_cle / 1048576))
+    donnees=0
+    if [ $((total_mib - fat_mib - 2)) -ge 3072 ]; then
+        if command -v mkfs.exfat >/dev/null 2>&1; then donnees=1; else avert "$(msg no_exfat_tool)"; fi
+    fi
+    if [ "$donnees" -eq 1 ]; then
+        parted -s "$dev" mklabel gpt mkpart WIN11 fat32 1MiB "${fat_mib}MiB" mkpart DONNEES ntfs "${fat_mib}MiB" 100%
+    else
+        if [ "$octets_cle" -gt $((32 * 1024 * 1024 * 1024)) ]; then fin="32GiB"; else fin="100%"; fi
+        parted -s "$dev" mklabel gpt mkpart WIN11 fat32 1MiB "$fin"
+    fi
+    if [ $? -ne 0 ]; then
+        erreur "$(msg partition_fail "$dev")"
+        exit 1
+    fi
+    partprobe "$dev" 2>/dev/null
+    udevadm settle 2>/dev/null
+    part=""
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+        part=$(lsblk -lnpo NAME,TYPE "$dev" | awk '$2=="part" {print $1; exit}')
+        if [ -n "$part" ] && [ -b "$part" ]; then break; fi
+        sleep 1
+    done
+    if [ -z "$part" ] || [ ! -b "$part" ]; then
+        erreur "$(msg part_missing)"
+        exit 1
+    fi
 fi
 if ! mkfs.vfat -F 32 -n WIN11 "$part" >/dev/null; then
     erreur "$(msg mkfs_fail "$part")"
     exit 1
+fi
+if [ "${donnees:-0}" -eq 1 ]; then
+    part2=$(lsblk -lnpo NAME,TYPE "$dev" | awk '$2=="part" {print $1}' | sed -n 2p)
+    if [ -n "$part2" ] && mkfs.exfat -L DONNEES "$part2" >/dev/null 2>&1; then
+        ok "$(msg data_created "$(en_go $(( (octets_cle - fat_mib * 1048576) )))")"
+    fi
 fi
 mkdir -p "$usbmnt"
 if ! mount "$part" "$usbmnt"; then

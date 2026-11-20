@@ -64,6 +64,9 @@ $Textes = @{
         erase_word      = "EFFACER"
         data_created    = "Partition de données exFAT « DONNEES » créée : {0} Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)."
         kept            = "Disposition conservée : seule la partition FAT32 est reformatée."
+        eject_ask       = "Éjecter la clé USB en toute sécurité maintenant ? (O/N) "
+        eject_ok        = "Clé éjectée : tu peux la débrancher."
+        eject_fail      = "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher."
         copying         = 'Copie des fichiers...'
         robocopy_err    = 'robocopy a rencontré des erreurs (code {0}). Voir {1}'
         bootwim_missing = 'sources\boot.wim absent de la clé : copie incomplète. Voir {0}'
@@ -149,6 +152,9 @@ $Textes = @{
         erase_word      = "ERASE"
         data_created    = "exFAT data partition 'DONNEES' created: {0} GB for your files (the FAT32 partition keeps headroom for future Windows versions)."
         kept            = "Layout kept: only the FAT32 partition is reformatted."
+        eject_ask       = "Safely eject the USB drive now? (Y/N) "
+        eject_ok        = "Drive ejected: you can unplug it."
+        eject_fail      = "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging."
         copying         = 'Copying files...'
         robocopy_err    = 'robocopy hit errors (code {0}). See {1}'
         bootwim_missing = 'sources\boot.wim is missing from the drive: incomplete copy. See {0}'
@@ -234,6 +240,9 @@ $Textes = @{
         erase_word      = "BORRAR"
         data_created    = "Partición de datos exFAT 'DONNEES' creada: {0} GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)."
         kept            = "Disposición conservada: solo se reformatea la partición FAT32."
+        eject_ask       = "¿Expulsar ahora la unidad USB de forma segura? (S/N) "
+        eject_ok        = "Unidad expulsada: ya puedes desconectarla."
+        eject_fail      = "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla."
         copying         = "Copiando archivos..."
         robocopy_err    = "robocopy encontró errores (código {0}). Consulta {1}"
         bootwim_missing = "Falta sources\boot.wim en la unidad: copia incompleta. Consulta {0}"
@@ -319,6 +328,9 @@ $Textes = @{
         erase_word      = "LÖSCHEN"
         data_created    = "exFAT-Datenpartition 'DONNEES' angelegt: {0} GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)."
         kept            = "Layout beibehalten: nur die FAT32-Partition wird neu formatiert."
+        eject_ask       = "USB-Laufwerk jetzt sicher auswerfen? (J/N) "
+        eject_ok        = "Laufwerk ausgeworfen: Du kannst es abziehen."
+        eject_fail      = "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst."
         copying         = "Dateien werden kopiert..."
         robocopy_err    = "robocopy hat Fehler gemeldet (Code {0}). Siehe {1}"
         bootwim_missing = "sources\boot.wim fehlt auf dem Laufwerk: unvollständige Kopie. Siehe {0}"
@@ -404,6 +416,9 @@ $Textes = @{
         erase_word      = "CANCELLA"
         data_created    = "Partizione dati exFAT 'DONNEES' creata: {0} GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)."
         kept            = "Disposizione mantenuta: viene riformattata solo la partizione FAT32."
+        eject_ask       = "Espellere ora la chiavetta USB in sicurezza? (S/N) "
+        eject_ok        = "Chiavetta espulsa: puoi scollegarla."
+        eject_fail      = "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla."
         copying         = "Copia dei file in corso..."
         robocopy_err    = "robocopy ha rilevato errori (codice {0}). Vedi {1}"
         bootwim_missing = "sources\boot.wim assente dall'unità: copia incompleta. Vedi {0}"
@@ -489,6 +504,9 @@ $Textes = @{
         erase_word      = "APAGAR"
         data_created    = "Partição de dados exFAT 'DONNEES' criada: {0} GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)."
         kept            = "Disposição mantida: só a partição FAT32 é reformatada."
+        eject_ask       = "Ejetar agora a pen USB em segurança? (S/N) "
+        eject_ok        = "Pen ejetada: já a podes desligar."
+        eject_fail      = "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar."
         copying         = "Copiando arquivos..."
         robocopy_err    = "O robocopy encontrou erros (código {0}). Veja {1}"
         bootwim_missing = "sources\boot.wim ausente da unidade: cópia incompleta. Veja {0}"
@@ -1054,4 +1072,21 @@ try {
 }
 finally {
     Dismount-DiskImage -ImagePath $iso | Out-Null
+}
+
+# --- Éjection propre de la clé ---
+if ((Read-Host (T 'eject_ask')) -match '^[oOyYsSjJ]') {
+    $ejecte = $false
+    try {
+        Set-Location $env:SystemRoot
+        $sh = New-Object -ComObject Shell.Application
+        $sh.Namespace(17).ParseName($usb).InvokeVerb('Eject')
+        Start-Sleep -Seconds 3
+        $ejecte = -not (Test-Path -LiteralPath "$usb\")
+    } catch { }
+    if (-not $ejecte) {
+        try { Set-Disk -Number $n -IsOffline $true -ErrorAction Stop; $ejecte = $true } catch { }
+    }
+    if ($ejecte) { Write-Host (T 'eject_ok') -ForegroundColor Green }
+    else { Write-Host (T 'eject_fail') -ForegroundColor Yellow }
 }

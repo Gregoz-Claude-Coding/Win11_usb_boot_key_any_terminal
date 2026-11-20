@@ -58,6 +58,9 @@ msg_fr() {
         erase_word) printf '%s' "EFFACER" ;;
         data_created) printf '%s' "Partition de données exFAT « DONNEES » créée : %s Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)." ;;
         kept) printf '%s' "Disposition conservée : seule la partition FAT32 est reformatée." ;;
+        eject_ask) printf '%s' "Éjecter la clé USB en toute sécurité maintenant ? (O/N) " ;;
+        eject_ok) printf '%s' "Clé éjectée : tu peux la débrancher." ;;
+        eject_fail) printf '%s' "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher." ;;
         preparing) printf '%s' "Préparation de la clé (%s)..." ;;
         partition_fail) printf '%s' "Échec du partitionnement de %s." ;;
         no_mountpoint) printf '%s' "Impossible de trouver le point de montage de la clé." ;;
@@ -159,6 +162,9 @@ msg_en() {
         erase_word) printf '%s' "ERASE" ;;
         data_created) printf '%s' "exFAT data partition 'DONNEES' created: %s GB for your files (the FAT32 partition keeps headroom for future Windows versions)." ;;
         kept) printf '%s' "Layout kept: only the FAT32 partition is reformatted." ;;
+        eject_ask) printf '%s' "Safely eject the USB drive now? (Y/N) " ;;
+        eject_ok) printf '%s' "Drive ejected: you can unplug it." ;;
+        eject_fail) printf '%s' "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging." ;;
         preparing) printf '%s' "Preparing the USB drive (%s)..." ;;
         partition_fail) printf '%s' "Partitioning of %s failed." ;;
         no_mountpoint) printf '%s' "Could not find the drive's mount point." ;;
@@ -260,6 +266,9 @@ msg_es() {
         erase_word) printf '%s' "BORRAR" ;;
         data_created) printf '%s' "Partición de datos exFAT 'DONNEES' creada: %s GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)." ;;
         kept) printf '%s' "Disposición conservada: solo se reformatea la partición FAT32." ;;
+        eject_ask) printf '%s' "¿Expulsar ahora la unidad USB de forma segura? (S/N) " ;;
+        eject_ok) printf '%s' "Unidad expulsada: ya puedes desconectarla." ;;
+        eject_fail) printf '%s' "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla." ;;
         preparing) printf '%s' "Preparando la unidad (%s)..." ;;
         partition_fail) printf '%s' "Error al particionar %s." ;;
         no_mountpoint) printf '%s' "No se encontró el punto de montaje de la unidad." ;;
@@ -361,6 +370,9 @@ msg_de() {
         erase_word) printf '%s' "LÖSCHEN" ;;
         data_created) printf '%s' "exFAT-Datenpartition 'DONNEES' angelegt: %s GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)." ;;
         kept) printf '%s' "Layout beibehalten: nur die FAT32-Partition wird neu formatiert." ;;
+        eject_ask) printf '%s' "USB-Laufwerk jetzt sicher auswerfen? (J/N) " ;;
+        eject_ok) printf '%s' "Laufwerk ausgeworfen: Du kannst es abziehen." ;;
+        eject_fail) printf '%s' "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst." ;;
         preparing) printf '%s' "USB-Laufwerk wird vorbereitet (%s)..." ;;
         partition_fail) printf '%s' "Partitionierung von %s fehlgeschlagen." ;;
         no_mountpoint) printf '%s' "Einhängepunkt des Laufwerks nicht gefunden." ;;
@@ -462,6 +474,9 @@ msg_it() {
         erase_word) printf '%s' "CANCELLA" ;;
         data_created) printf '%s' "Partizione dati exFAT 'DONNEES' creata: %s GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)." ;;
         kept) printf '%s' "Disposizione mantenuta: viene riformattata solo la partizione FAT32." ;;
+        eject_ask) printf '%s' "Espellere ora la chiavetta USB in sicurezza? (S/N) " ;;
+        eject_ok) printf '%s' "Chiavetta espulsa: puoi scollegarla." ;;
+        eject_fail) printf '%s' "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla." ;;
         preparing) printf '%s' "Preparazione dell'unità (%s)..." ;;
         partition_fail) printf '%s' "Partizionamento di %s non riuscito." ;;
         no_mountpoint) printf '%s' "Punto di montaggio dell'unità non trovato." ;;
@@ -563,6 +578,9 @@ msg_pt() {
         erase_word) printf '%s' "APAGAR" ;;
         data_created) printf '%s' "Partição de dados exFAT 'DONNEES' criada: %s GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)." ;;
         kept) printf '%s' "Disposição mantida: só a partição FAT32 é reformatada." ;;
+        eject_ask) printf '%s' "Ejetar agora a pen USB em segurança? (S/N) " ;;
+        eject_ok) printf '%s' "Pen ejetada: já a podes desligar." ;;
+        eject_fail) printf '%s' "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar." ;;
         preparing) printf '%s' "Preparando a unidade (%s)..." ;;
         partition_fail) printf '%s' "Falha ao particionar %s." ;;
         no_mountpoint) printf '%s' "Não foi possível encontrar o ponto de montagem da unidade." ;;
@@ -1329,4 +1347,14 @@ rm -rf "$usb/.fseventsd" "$usb/.Spotlight-V100" "$usb/.Trashes" "$usb/.DS_Store"
 sync
 ok "$(msg done_mac "$usb")"
 echo "$(msg logs "$log" "$dlog" "$dossier/contenu_cle.txt")"
-echo "$(msg eject_hint "$dev")"
+read -r -p "$(msg eject_ask)" rep
+case "$rep" in
+    [oOyYsSjJ]*)
+        cd / || true
+        if diskutil eject "$dev" >/dev/null 2>&1; then
+            ok "$(msg eject_ok)"
+        else
+            avert "$(msg eject_fail)"
+        fi
+        ;;
+esac

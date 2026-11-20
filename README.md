@@ -62,6 +62,7 @@ Sous macOS et Linux, la vitesse du découpage est mesurée sur la croissance des
 5. Découpe `install.wim` (plus de 4 Go) en morceaux `install*.swm` de 3800 Mo compatibles FAT32, avec une barre de progression.
 6. Si l'ISO contient un `install.esd`, il est simplement copié.
 7. Écrit un inventaire de la clé.
+8. Propose d'éjecter la clé proprement (O/N) : éjection Windows (Shell, ou mise hors ligne du disque en repli), `diskutil eject` sous macOS, `udisksctl power-off` ou `eject` sous Linux.
 
 Les journaux sont écrits dans le répertoire courant, jamais dans un dossier temporaire :
 

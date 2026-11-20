@@ -61,6 +61,9 @@ msg_fr() {
         eject_ask) printf '%s' "Éjecter la clé USB en toute sécurité maintenant ? (O/N) " ;;
         eject_ok) printf '%s' "Clé éjectée : tu peux la débrancher." ;;
         eject_fail) printf '%s' "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher." ;;
+        bypass_ask) printf '%s' "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) " ;;
+        bypass_name) printf '%s' "Nom du compte local Windows [%s] : " ;;
+        bypass_done) printf '%s' "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « %s »). Les écrans langue, édition et disque restent affichés." ;;
         no_exfat_tool) printf '%s' "mkfs.exfat est absent : pas de partition de données (installe exfatprogs pour l'avoir)." ;;
         preparing) printf '%s' "Préparation de la clé (%s)..." ;;
         partition_fail) printf '%s' "Échec du partitionnement de %s." ;;
@@ -166,6 +169,9 @@ msg_en() {
         eject_ask) printf '%s' "Safely eject the USB drive now? (Y/N) " ;;
         eject_ok) printf '%s' "Drive ejected: you can unplug it." ;;
         eject_fail) printf '%s' "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging." ;;
+        bypass_ask) printf '%s' "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) " ;;
+        bypass_name) printf '%s' "Windows local account name [%s]: " ;;
+        bypass_done) printf '%s' "Answer file written to the drive: autounattend.xml (local account '%s'). The language, edition and disk screens are still shown." ;;
         no_exfat_tool) printf '%s' "mkfs.exfat is missing: no data partition (install exfatprogs to get one)." ;;
         preparing) printf '%s' "Preparing the USB drive (%s)..." ;;
         partition_fail) printf '%s' "Partitioning of %s failed." ;;
@@ -271,6 +277,9 @@ msg_es() {
         eject_ask) printf '%s' "¿Expulsar ahora la unidad USB de forma segura? (S/N) " ;;
         eject_ok) printf '%s' "Unidad expulsada: ya puedes desconectarla." ;;
         eject_fail) printf '%s' "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla." ;;
+        bypass_ask) printf '%s' "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) " ;;
+        bypass_name) printf '%s' "Nombre de la cuenta local de Windows [%s]: " ;;
+        bypass_done) printf '%s' "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '%s'). Las pantallas de idioma, edición y disco siguen apareciendo." ;;
         no_exfat_tool) printf '%s' "Falta mkfs.exfat: no se crea partición de datos (instala exfatprogs para tenerla)." ;;
         preparing) printf '%s' "Preparando la unidad (%s)..." ;;
         partition_fail) printf '%s' "Error al particionar %s." ;;
@@ -376,6 +385,9 @@ msg_de() {
         eject_ask) printf '%s' "USB-Laufwerk jetzt sicher auswerfen? (J/N) " ;;
         eject_ok) printf '%s' "Laufwerk ausgeworfen: Du kannst es abziehen." ;;
         eject_fail) printf '%s' "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst." ;;
+        bypass_ask) printf '%s' "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) " ;;
+        bypass_name) printf '%s' "Name des lokalen Windows-Kontos [%s]: " ;;
+        bypass_done) printf '%s' "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '%s'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar." ;;
         no_exfat_tool) printf '%s' "mkfs.exfat fehlt: keine Datenpartition (installiere exfatprogs, um sie zu erhalten)." ;;
         preparing) printf '%s' "USB-Laufwerk wird vorbereitet (%s)..." ;;
         partition_fail) printf '%s' "Partitionierung von %s fehlgeschlagen." ;;
@@ -481,6 +493,9 @@ msg_it() {
         eject_ask) printf '%s' "Espellere ora la chiavetta USB in sicurezza? (S/N) " ;;
         eject_ok) printf '%s' "Chiavetta espulsa: puoi scollegarla." ;;
         eject_fail) printf '%s' "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla." ;;
+        bypass_ask) printf '%s' "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) " ;;
+        bypass_name) printf '%s' "Nome dell'account locale di Windows [%s]: " ;;
+        bypass_done) printf '%s' "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '%s'). Le schermate di lingua, edizione e disco restano visibili." ;;
         no_exfat_tool) printf '%s' "mkfs.exfat non trovato: nessuna partizione dati (installa exfatprogs per averla)." ;;
         preparing) printf '%s' "Preparazione dell'unità (%s)..." ;;
         partition_fail) printf '%s' "Partizionamento di %s non riuscito." ;;
@@ -586,6 +601,9 @@ msg_pt() {
         eject_ask) printf '%s' "Ejetar agora a pen USB em segurança? (S/N) " ;;
         eject_ok) printf '%s' "Pen ejetada: já a podes desligar." ;;
         eject_fail) printf '%s' "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar." ;;
+        bypass_ask) printf '%s' "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) " ;;
+        bypass_name) printf '%s' "Nome da conta local do Windows [%s]: " ;;
+        bypass_done) printf '%s' "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '%s'). Os ecrãs de idioma, edição e disco continuam visíveis." ;;
         no_exfat_tool) printf '%s' "mkfs.exfat em falta: sem partição de dados (instala exfatprogs para a ter)." ;;
         preparing) printf '%s' "Preparando a unidade (%s)..." ;;
         partition_fail) printf '%s' "Falha ao particionar %s." ;;
@@ -1227,6 +1245,19 @@ else
     fi
 fi
 
+# --- Réponses automatiques : ignorer les questions de la première configuration de Windows ---
+bypass=0; nom_compte=""
+read -r -p "$(msg bypass_ask)" rep
+case "$rep" in
+    [oOyYsSjJ]*)
+        bypass=1
+        read -r -p "$(msg bypass_name "Utilisateur")" saisie
+        nom_compte=$(printf '%s' "$saisie" | LC_ALL=C tr -d '\000-\037"/\\[]:;|=,+*?<>@%&\047' | sed 's/^ *//; s/ *$//; s/\.*$//')
+        nom_compte="${nom_compte:0:20}"; nom_compte=$(printf '%s' "$nom_compte" | sed 's/ *$//')
+        [ -n "$nom_compte" ] || nom_compte="Utilisateur"
+        ;;
+esac
+
 # --- Préparation de la clé ---
 info "$(msg preparing "$dev")"
 for p in $(lsblk -lnpo NAME "$dev" | tail -n +2); do
@@ -1314,6 +1345,48 @@ fi
 if [ -z "$(find "$usb/sources" -maxdepth 1 -iname 'boot.wim' 2>/dev/null)" ]; then
     erreur "$(msg bootwim_missing "$log")"
     exit 1
+fi
+
+# --- Fichier de réponses automatiques (racine de la clé) ---
+if [ "$bypass" -eq 1 ]; then
+    cat > "$usb/autounattend.xml" <<'XMLEOF'
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+  <settings pass="specialize">
+    <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <RunSynchronous>
+        <RunSynchronousCommand wcm:action="add"><Order>1</Order><Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>2</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>3</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>4</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>5</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+      </RunSynchronous>
+    </component>
+  </settings>
+  <settings pass="oobeSystem">
+    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <OOBE>
+        <HideEULAPage>true</HideEULAPage>
+        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+        <ProtectYourPC>3</ProtectYourPC>
+      </OOBE>
+      <UserAccounts>
+        <LocalAccounts>
+          <LocalAccount wcm:action="add">
+            <Name>@NOM@</Name>
+            <DisplayName>@NOM@</DisplayName>
+            <Group>Administrators</Group>
+          </LocalAccount>
+        </LocalAccounts>
+      </UserAccounts>
+    </component>
+  </settings>
+</unattend>
+XMLEOF
+    sed -i.bak "s/@NOM@/$nom_compte/g" "$usb/autounattend.xml" && rm -f "$usb/autounattend.xml.bak"
+    ok "$(msg bypass_done "$nom_compte")"
 fi
 
 # --- Image d'installation ---

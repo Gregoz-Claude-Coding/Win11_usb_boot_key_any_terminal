@@ -67,6 +67,9 @@ $Textes = @{
         eject_ask       = "Éjecter la clé USB en toute sécurité maintenant ? (O/N) "
         eject_ok        = "Clé éjectée : tu peux la débrancher."
         eject_fail      = "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher."
+        bypass_ask      = "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) "
+        bypass_name     = "Nom du compte local Windows [{0}] : "
+        bypass_done     = "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « {0} »). Les écrans langue, édition et disque restent affichés."
         copying         = 'Copie des fichiers...'
         robocopy_err    = 'robocopy a rencontré des erreurs (code {0}). Voir {1}'
         bootwim_missing = 'sources\boot.wim absent de la clé : copie incomplète. Voir {0}'
@@ -155,6 +158,9 @@ $Textes = @{
         eject_ask       = "Safely eject the USB drive now? (Y/N) "
         eject_ok        = "Drive ejected: you can unplug it."
         eject_fail      = "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging."
+        bypass_ask      = "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) "
+        bypass_name     = "Windows local account name [{0}]: "
+        bypass_done     = "Answer file written to the drive: autounattend.xml (local account '{0}'). The language, edition and disk screens are still shown."
         copying         = 'Copying files...'
         robocopy_err    = 'robocopy hit errors (code {0}). See {1}'
         bootwim_missing = 'sources\boot.wim is missing from the drive: incomplete copy. See {0}'
@@ -243,6 +249,9 @@ $Textes = @{
         eject_ask       = "¿Expulsar ahora la unidad USB de forma segura? (S/N) "
         eject_ok        = "Unidad expulsada: ya puedes desconectarla."
         eject_fail      = "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla."
+        bypass_ask      = "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) "
+        bypass_name     = "Nombre de la cuenta local de Windows [{0}]: "
+        bypass_done     = "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '{0}'). Las pantallas de idioma, edición y disco siguen apareciendo."
         copying         = "Copiando archivos..."
         robocopy_err    = "robocopy encontró errores (código {0}). Consulta {1}"
         bootwim_missing = "Falta sources\boot.wim en la unidad: copia incompleta. Consulta {0}"
@@ -331,6 +340,9 @@ $Textes = @{
         eject_ask       = "USB-Laufwerk jetzt sicher auswerfen? (J/N) "
         eject_ok        = "Laufwerk ausgeworfen: Du kannst es abziehen."
         eject_fail      = "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst."
+        bypass_ask      = "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) "
+        bypass_name     = "Name des lokalen Windows-Kontos [{0}]: "
+        bypass_done     = "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '{0}'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar."
         copying         = "Dateien werden kopiert..."
         robocopy_err    = "robocopy hat Fehler gemeldet (Code {0}). Siehe {1}"
         bootwim_missing = "sources\boot.wim fehlt auf dem Laufwerk: unvollständige Kopie. Siehe {0}"
@@ -419,6 +431,9 @@ $Textes = @{
         eject_ask       = "Espellere ora la chiavetta USB in sicurezza? (S/N) "
         eject_ok        = "Chiavetta espulsa: puoi scollegarla."
         eject_fail      = "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla."
+        bypass_ask      = "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) "
+        bypass_name     = "Nome dell'account locale di Windows [{0}]: "
+        bypass_done     = "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '{0}'). Le schermate di lingua, edizione e disco restano visibili."
         copying         = "Copia dei file in corso..."
         robocopy_err    = "robocopy ha rilevato errori (codice {0}). Vedi {1}"
         bootwim_missing = "sources\boot.wim assente dall'unità: copia incompleta. Vedi {0}"
@@ -507,6 +522,9 @@ $Textes = @{
         eject_ask       = "Ejetar agora a pen USB em segurança? (S/N) "
         eject_ok        = "Pen ejetada: já a podes desligar."
         eject_fail      = "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar."
+        bypass_ask      = "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) "
+        bypass_name     = "Nome da conta local do Windows [{0}]: "
+        bypass_done     = "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '{0}'). Os ecrãs de idioma, edição e disco continuam visíveis."
         copying         = "Copiando arquivos..."
         robocopy_err    = "O robocopy encontrou erros (código {0}). Veja {1}"
         bootwim_missing = "sources\boot.wim ausente da unidade: cópia incompleta. Veja {0}"
@@ -923,6 +941,16 @@ else {
     elseif ((Read-Host (T 'confirm_erase' $disk.FriendlyName)) -notmatch '^[oOyYsSjJ]') { return }
 }
 
+# --- Réponses automatiques : ignorer les questions de la première configuration de Windows ---
+$bypass = $false; $nomCompte = ''
+if ((Read-Host (T 'bypass_ask')) -match '^[oOyYsSjJ]') {
+    $bypass = $true
+    $saisie = Read-Host (T 'bypass_name' 'Utilisateur')
+    $nomCompte = ([regex]::Replace([string]$saisie, '[\x00-\x1f"/\\\[\]:;|=,+*?<>@%&'']', '')).Trim().TrimEnd('.').Trim()
+    if ($nomCompte.Length -gt 20) { $nomCompte = $nomCompte.Substring(0, 20).Trim() }
+    if (-not $nomCompte) { $nomCompte = 'Utilisateur' }
+}
+
 # --- Préparation de la clé ---
 if ($garde) {
     Write-Host (T 'kept') -ForegroundColor Green
@@ -987,6 +1015,49 @@ try {
     if (-not (Test-Path "$usb\sources\boot.wim")) {
         Write-Host (T 'bootwim_missing' $log) -ForegroundColor Red
         return
+    }
+
+    # --- Fichier de réponses automatiques (racine de la clé) ---
+    if ($bypass) {
+        $xml = @'
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+  <settings pass="specialize">
+    <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <RunSynchronous>
+        <RunSynchronousCommand wcm:action="add"><Order>1</Order><Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>2</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>3</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>4</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add"><Order>5</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
+      </RunSynchronous>
+    </component>
+  </settings>
+  <settings pass="oobeSystem">
+    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <OOBE>
+        <HideEULAPage>true</HideEULAPage>
+        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+        <ProtectYourPC>3</ProtectYourPC>
+      </OOBE>
+      <UserAccounts>
+        <LocalAccounts>
+          <LocalAccount wcm:action="add">
+            <Name>@NOM@</Name>
+            <DisplayName>@NOM@</DisplayName>
+            <Group>Administrators</Group>
+          </LocalAccount>
+        </LocalAccounts>
+      </UserAccounts>
+    </component>
+  </settings>
+</unattend>
+'@
+        $xml = $xml.Replace('@NOM@', $nomCompte)
+        [IO.File]::WriteAllText("$usb\autounattend.xml", $xml, (New-Object Text.UTF8Encoding $false))
+        Write-Host (T 'bypass_done' $nomCompte) -ForegroundColor Green
     }
 
     # --- Image d'installation ---

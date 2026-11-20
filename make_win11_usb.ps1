@@ -68,11 +68,11 @@ $Textes = @{
         eject_ok        = "Clé éjectée : tu peux la débrancher."
         eject_fail      = "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher."
         bypass_ask      = "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) "
-        bypass_name     = "Nom du compte local Windows [{0}] : "
+        bypass_name     = "Nom du compte local Windows à créer (appuyez sur Entrée sans rien taper pour utiliser : {0}) : "
         bypass_done     = "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « {0} »). Les écrans langue, édition et disque restent affichés."
-        ua_pc           = "Nom de la machine (Entrée = automatique) : "
-        ua_lang         = "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0] : "
-        ua_edition      = "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home [0] : "
+        ua_pc           = "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : "
+        ua_lang         = "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : "
+        ua_edition      = "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home (appuyez sur le chiffre voulu, Entrée = 0) : "
         ua_auto         = "Ouvrir la session automatiquement, sans mot de passe, au premier démarrage ? (O/N) "
         ua_updates      = "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) "
         ua_hw           = "Ignorer les contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur) ? (O/N) "
@@ -166,11 +166,11 @@ $Textes = @{
         eject_ok        = "Drive ejected: you can unplug it."
         eject_fail      = "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging."
         bypass_ask      = "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) "
-        bypass_name     = "Windows local account name [{0}]: "
+        bypass_name     = "Name of the local Windows account to create (press Enter without typing anything to use: {0}): "
         bypass_done     = "Answer file written to the drive: autounattend.xml (local account '{0}'). The language, edition and disk screens are still shown."
-        ua_pc           = "Computer name (Enter = automatic): "
-        ua_lang         = "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
-        ua_edition      = "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home [0]: "
+        ua_pc           = "Computer name (type a name, or press Enter to let Windows choose one): "
+        ua_lang         = "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): "
+        ua_edition      = "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home (press the number, Enter = 0): "
         ua_auto         = "Sign in automatically (no password) on first start? (Y/N) "
         ua_updates      = "Pause automatic updates (less secure)? (Y/N) "
         ua_hw           = "Skip the Windows 11 compatibility checks (TPM, Secure Boot, memory, CPU)? (Y/N) "
@@ -264,11 +264,11 @@ $Textes = @{
         eject_ok        = "Unidad expulsada: ya puedes desconectarla."
         eject_fail      = "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla."
         bypass_ask      = "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) "
-        bypass_name     = "Nombre de la cuenta local de Windows [{0}]: "
+        bypass_name     = "Nombre de la cuenta local de Windows que se creará (pulsa Intro sin escribir nada para usar: {0}): "
         bypass_done     = "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '{0}'). Las pantallas de idioma, edición y disco siguen apareciendo."
-        ua_pc           = "Nombre del equipo (Intro = automático): "
-        ua_lang         = "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
-        ua_edition      = "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home [0]: "
+        ua_pc           = "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): "
+        ua_lang         = "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): "
+        ua_edition      = "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home (pulsa el número, Intro = 0): "
         ua_auto         = "¿Iniciar sesión automáticamente (sin contraseña) en el primer arranque? (S/N) "
         ua_updates      = "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) "
         ua_hw           = "¿Omitir las comprobaciones de compatibilidad de Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) "
@@ -362,11 +362,11 @@ $Textes = @{
         eject_ok        = "Laufwerk ausgeworfen: Du kannst es abziehen."
         eject_fail      = "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst."
         bypass_ask      = "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) "
-        bypass_name     = "Name des lokalen Windows-Kontos [{0}]: "
+        bypass_name     = "Name des anzulegenden lokalen Windows-Kontos (Eingabetaste ohne Text drücken, um zu verwenden: {0}): "
         bypass_done     = "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '{0}'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar."
-        ua_pc           = "Computername (Eingabe = automatisch): "
-        ua_lang         = "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
-        ua_edition      = "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home [0]: "
+        ua_pc           = "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): "
+        ua_lang         = "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): "
+        ua_edition      = "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home (Ziffer drücken, Eingabe = 0): "
         ua_auto         = "Beim ersten Start automatisch anmelden (ohne Kennwort)? (J/N) "
         ua_updates      = "Automatische Updates pausieren (weniger sicher)? (J/N) "
         ua_hw           = "Windows-11-Kompatibilitätsprüfungen überspringen (TPM, Secure Boot, Speicher, CPU)? (J/N) "
@@ -460,11 +460,11 @@ $Textes = @{
         eject_ok        = "Chiavetta espulsa: puoi scollegarla."
         eject_fail      = "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla."
         bypass_ask      = "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) "
-        bypass_name     = "Nome dell'account locale di Windows [{0}]: "
+        bypass_name     = "Nome dell'account locale di Windows da creare (premi Invio senza scrivere nulla per usare: {0}): "
         bypass_done     = "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '{0}'). Le schermate di lingua, edizione e disco restano visibili."
-        ua_pc           = "Nome del computer (Invio = automatico): "
-        ua_lang         = "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
-        ua_edition      = "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home [0]: "
+        ua_pc           = "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): "
+        ua_lang         = "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): "
+        ua_edition      = "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home (premi il numero, Invio = 0): "
         ua_auto         = "Accedere automaticamente (senza password) al primo avvio? (S/N) "
         ua_updates      = "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) "
         ua_hw           = "Saltare i controlli di compatibilità di Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) "
@@ -558,11 +558,11 @@ $Textes = @{
         eject_ok        = "Pen ejetada: já a podes desligar."
         eject_fail      = "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar."
         bypass_ask      = "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) "
-        bypass_name     = "Nome da conta local do Windows [{0}]: "
+        bypass_name     = "Nome da conta local do Windows a criar (prime Enter sem escrever nada para usar: {0}): "
         bypass_done     = "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '{0}'). Os ecrãs de idioma, edição e disco continuam visíveis."
-        ua_pc           = "Nome do computador (Enter = automático): "
-        ua_lang         = "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
-        ua_edition      = "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home [0]: "
+        ua_pc           = "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): "
+        ua_lang         = "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): "
+        ua_edition      = "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home (prime o número, Enter = 0): "
         ua_auto         = "Iniciar sessão automaticamente (sem palavra-passe) no primeiro arranque? (S/N) "
         ua_updates      = "Pausar as atualizações automáticas (menos seguro)? (S/N) "
         ua_hw           = "Ignorar as verificações de compatibilidade do Windows 11 (TPM, Secure Boot, memória, CPU)? (S/N) "
@@ -985,8 +985,14 @@ else {
 
 # --- Installation automatisée : questions de la première configuration de Windows ---
 $bypass = $false; $nomCompte = ''; $nomPc = ''; $iLoc = 0; $iEd = 0; $uaAuto = $false; $uaUpd = $false; $uaHw = $false
-function Oui([string]$cle) { return ((Read-Host (T $cle)) -match '^[oOyYsSjJ]') }
-function Choix([string]$cle, [int]$max) { $n = 0; if ([int]::TryParse((Read-Host (T $cle)), [ref]$n) -and $n -ge 0 -and $n -le $max) { return $n }; return 0 }
+function Touche([string]$cle) {
+    Write-Host (T $cle) -NoNewline
+    try { $c = [Console]::ReadKey($true).KeyChar } catch { return (Read-Host '') }
+    if ([char]::IsControl($c)) { Write-Host '' } else { Write-Host $c }
+    return [string]$c
+}
+function Oui([string]$cle) { return ((Touche $cle) -match '^[oOyYsSjJ]') }
+function Choix([string]$cle, [int]$max) { $n = 0; if ([int]::TryParse((Touche $cle), [ref]$n) -and $n -ge 0 -and $n -le $max) { return $n }; return 0 }
 if (Oui 'bypass_ask') {
     $bypass = $true
     $saisie = Read-Host (T 'bypass_name' 'Utilisateur')

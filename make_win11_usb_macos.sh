@@ -62,11 +62,11 @@ msg_fr() {
         eject_ok) printf '%s' "Clé éjectée : tu peux la débrancher." ;;
         eject_fail) printf '%s' "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher." ;;
         bypass_ask) printf '%s' "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) " ;;
-        bypass_name) printf '%s' "Nom du compte local Windows [%s] : " ;;
+        bypass_name) printf '%s' "Nom du compte local Windows à créer (appuyez sur Entrée sans rien taper pour utiliser : %s) : " ;;
         bypass_done) printf '%s' "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « %s »). Les écrans langue, édition et disque restent affichés." ;;
-        ua_pc) printf '%s' "Nom de la machine (Entrée = automatique) : " ;;
-        ua_lang) printf '%s' "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0] : " ;;
-        ua_edition) printf '%s' "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home [0] : " ;;
+        ua_pc) printf '%s' "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : " ;;
+        ua_lang) printf '%s' "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
+        ua_edition) printf '%s' "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
         ua_auto) printf '%s' "Ouvrir la session automatiquement, sans mot de passe, au premier démarrage ? (O/N) " ;;
         ua_updates) printf '%s' "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) " ;;
         ua_hw) printf '%s' "Ignorer les contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur) ? (O/N) " ;;
@@ -176,11 +176,11 @@ msg_en() {
         eject_ok) printf '%s' "Drive ejected: you can unplug it." ;;
         eject_fail) printf '%s' "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging." ;;
         bypass_ask) printf '%s' "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) " ;;
-        bypass_name) printf '%s' "Windows local account name [%s]: " ;;
+        bypass_name) printf '%s' "Name of the local Windows account to create (press Enter without typing anything to use: %s): " ;;
         bypass_done) printf '%s' "Answer file written to the drive: autounattend.xml (local account '%s'). The language, edition and disk screens are still shown." ;;
-        ua_pc) printf '%s' "Computer name (Enter = automatic): " ;;
-        ua_lang) printf '%s' "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: " ;;
-        ua_edition) printf '%s' "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home [0]: " ;;
+        ua_pc) printf '%s' "Computer name (type a name, or press Enter to let Windows choose one): " ;;
+        ua_lang) printf '%s' "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): " ;;
+        ua_edition) printf '%s' "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home (press the number, Enter = 0): " ;;
         ua_auto) printf '%s' "Sign in automatically (no password) on first start? (Y/N) " ;;
         ua_updates) printf '%s' "Pause automatic updates (less secure)? (Y/N) " ;;
         ua_hw) printf '%s' "Skip the Windows 11 compatibility checks (TPM, Secure Boot, memory, CPU)? (Y/N) " ;;
@@ -290,11 +290,11 @@ msg_es() {
         eject_ok) printf '%s' "Unidad expulsada: ya puedes desconectarla." ;;
         eject_fail) printf '%s' "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla." ;;
         bypass_ask) printf '%s' "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) " ;;
-        bypass_name) printf '%s' "Nombre de la cuenta local de Windows [%s]: " ;;
+        bypass_name) printf '%s' "Nombre de la cuenta local de Windows que se creará (pulsa Intro sin escribir nada para usar: %s): " ;;
         bypass_done) printf '%s' "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '%s'). Las pantallas de idioma, edición y disco siguen apareciendo." ;;
-        ua_pc) printf '%s' "Nombre del equipo (Intro = automático): " ;;
-        ua_lang) printf '%s' "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: " ;;
-        ua_edition) printf '%s' "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home [0]: " ;;
+        ua_pc) printf '%s' "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): " ;;
+        ua_lang) printf '%s' "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): " ;;
+        ua_edition) printf '%s' "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home (pulsa el número, Intro = 0): " ;;
         ua_auto) printf '%s' "¿Iniciar sesión automáticamente (sin contraseña) en el primer arranque? (S/N) " ;;
         ua_updates) printf '%s' "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) " ;;
         ua_hw) printf '%s' "¿Omitir las comprobaciones de compatibilidad de Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) " ;;
@@ -404,11 +404,11 @@ msg_de() {
         eject_ok) printf '%s' "Laufwerk ausgeworfen: Du kannst es abziehen." ;;
         eject_fail) printf '%s' "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst." ;;
         bypass_ask) printf '%s' "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) " ;;
-        bypass_name) printf '%s' "Name des lokalen Windows-Kontos [%s]: " ;;
+        bypass_name) printf '%s' "Name des anzulegenden lokalen Windows-Kontos (Eingabetaste ohne Text drücken, um zu verwenden: %s): " ;;
         bypass_done) printf '%s' "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '%s'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar." ;;
-        ua_pc) printf '%s' "Computername (Eingabe = automatisch): " ;;
-        ua_lang) printf '%s' "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: " ;;
-        ua_edition) printf '%s' "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home [0]: " ;;
+        ua_pc) printf '%s' "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): " ;;
+        ua_lang) printf '%s' "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): " ;;
+        ua_edition) printf '%s' "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home (Ziffer drücken, Eingabe = 0): " ;;
         ua_auto) printf '%s' "Beim ersten Start automatisch anmelden (ohne Kennwort)? (J/N) " ;;
         ua_updates) printf '%s' "Automatische Updates pausieren (weniger sicher)? (J/N) " ;;
         ua_hw) printf '%s' "Windows-11-Kompatibilitätsprüfungen überspringen (TPM, Secure Boot, Speicher, CPU)? (J/N) " ;;
@@ -518,11 +518,11 @@ msg_it() {
         eject_ok) printf '%s' "Chiavetta espulsa: puoi scollegarla." ;;
         eject_fail) printf '%s' "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla." ;;
         bypass_ask) printf '%s' "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) " ;;
-        bypass_name) printf '%s' "Nome dell'account locale di Windows [%s]: " ;;
+        bypass_name) printf '%s' "Nome dell'account locale di Windows da creare (premi Invio senza scrivere nulla per usare: %s): " ;;
         bypass_done) printf '%s' "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '%s'). Le schermate di lingua, edizione e disco restano visibili." ;;
-        ua_pc) printf '%s' "Nome del computer (Invio = automatico): " ;;
-        ua_lang) printf '%s' "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: " ;;
-        ua_edition) printf '%s' "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home [0]: " ;;
+        ua_pc) printf '%s' "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): " ;;
+        ua_lang) printf '%s' "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): " ;;
+        ua_edition) printf '%s' "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home (premi il numero, Invio = 0): " ;;
         ua_auto) printf '%s' "Accedere automaticamente (senza password) al primo avvio? (S/N) " ;;
         ua_updates) printf '%s' "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) " ;;
         ua_hw) printf '%s' "Saltare i controlli di compatibilità di Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) " ;;
@@ -632,11 +632,11 @@ msg_pt() {
         eject_ok) printf '%s' "Pen ejetada: já a podes desligar." ;;
         eject_fail) printf '%s' "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar." ;;
         bypass_ask) printf '%s' "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) " ;;
-        bypass_name) printf '%s' "Nome da conta local do Windows [%s]: " ;;
+        bypass_name) printf '%s' "Nome da conta local do Windows a criar (prime Enter sem escrever nada para usar: %s): " ;;
         bypass_done) printf '%s' "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '%s'). Os ecrãs de idioma, edição e disco continuam visíveis." ;;
-        ua_pc) printf '%s' "Nome do computador (Enter = automático): " ;;
-        ua_lang) printf '%s' "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: " ;;
-        ua_edition) printf '%s' "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home [0]: " ;;
+        ua_pc) printf '%s' "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): " ;;
+        ua_lang) printf '%s' "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): " ;;
+        ua_edition) printf '%s' "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home (prime o número, Enter = 0): " ;;
         ua_auto) printf '%s' "Iniciar sessão automaticamente (sem palavra-passe) no primeiro arranque? (S/N) " ;;
         ua_updates) printf '%s' "Pausar as atualizações automáticas (menos seguro)? (S/N) " ;;
         ua_hw) printf '%s' "Ignorar as verificações de compatibilidade do Windows 11 (TPM, Secure Boot, memória, CPU)? (S/N) " ;;
@@ -1271,10 +1271,11 @@ fi
 
 # --- Installation automatisée : questions de la première configuration de Windows ---
 oui() { case "$1" in [oOyYsSjJ]*) return 0 ;; esac; return 1; }
-choix() { local n; read -r -p "$(msg "$1")" n; case "$n" in [0-9]) [ "$n" -le "$2" ] && { echo "$n"; return; } ;; esac; echo 0; }
+touche() { TOUCHE=""; printf '%s' "$(msg "$1")" >&2; IFS= read -r -n 1 TOUCHE || true; [ -n "$TOUCHE" ] && echo >&2; return 0; }
+choix() { touche "$1"; case "$TOUCHE" in [0-9]) [ "$TOUCHE" -le "$2" ] && { echo "$TOUCHE"; return; } ;; esac; echo 0; }
 bypass=0; nom_compte=""; nom_pc=""; i_loc=0; i_ed=0; ua_auto=0; ua_upd=0; ua_hw=0
-read -r -p "$(msg bypass_ask)" rep
-if oui "$rep"; then
+touche bypass_ask
+if oui "$TOUCHE"; then
     bypass=1
     read -r -p "$(msg bypass_name "Utilisateur")" saisie
     nom_compte=$(printf '%s' "$saisie" | LC_ALL=C tr -d '\000-\037"/\\[]:;|=,+*?<>@%&\047' | sed 's/^ *//; s/ *$//; s/\.*$//')
@@ -1285,9 +1286,9 @@ if oui "$rep"; then
     case "$nom_pc" in *[!0-9]*) ;; *) nom_pc="" ;; esac
     i_loc=$(choix ua_lang 7)
     i_ed=$(choix ua_edition 2)
-    read -r -p "$(msg ua_auto)" rep; oui "$rep" && ua_auto=1
-    read -r -p "$(msg ua_updates)" rep; oui "$rep" && ua_upd=1
-    read -r -p "$(msg ua_hw)" rep; oui "$rep" && ua_hw=1
+    touche ua_auto; oui "$TOUCHE" && ua_auto=1
+    touche ua_updates; oui "$TOUCHE" && ua_upd=1
+    touche ua_hw; oui "$TOUCHE" && ua_hw=1
 fi
 
 # --- Préparation de la clé ---

@@ -65,10 +65,13 @@ $Textes = @{
         data_created    = "Partition de données exFAT « DONNEES » créée : {0} Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)."
         kept            = "Disposition conservée : seule la partition FAT32 est reformatée."
         eject_ask       = "Éjecter la clé USB en toute sécurité maintenant ? (O/N) "
+        busy_prep       = "Préparation de la clé (effacement, partitions, formatage)"
+        busy_flush      = "Écriture finale sur la clé, ne la débranche pas"
+        busy_eject      = "Éjection de la clé"
         eject_ok        = "Clé éjectée : tu peux la débrancher."
         eject_fail      = "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher."
         bypass_ask      = "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) "
-        bypass_name     = "Nom du compte local Windows à créer (appuyez sur Entrée sans rien taper pour utiliser : {0}) : "
+        bypass_name     = "Nom du compte local Windows à créer (appuyez sur Entrée sans rien taper pour '{0}') : "
         bypass_done     = "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « {0} »). Les écrans langue, édition et disque restent affichés."
         ua_pc           = "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : "
         ua_lang         = "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : "
@@ -163,10 +166,13 @@ $Textes = @{
         data_created    = "exFAT data partition 'DONNEES' created: {0} GB for your files (the FAT32 partition keeps headroom for future Windows versions)."
         kept            = "Layout kept: only the FAT32 partition is reformatted."
         eject_ask       = "Safely eject the USB drive now? (Y/N) "
+        busy_prep       = "Preparing the drive (erasing, partitioning, formatting)"
+        busy_flush      = "Final write to the drive, do not unplug it"
+        busy_eject      = "Ejecting the drive"
         eject_ok        = "Drive ejected: you can unplug it."
         eject_fail      = "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging."
         bypass_ask      = "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) "
-        bypass_name     = "Name of the local Windows account to create (press Enter without typing anything to use: {0}): "
+        bypass_name     = "Name of the local Windows account to create (press Enter without typing anything for '{0}'): "
         bypass_done     = "Answer file written to the drive: autounattend.xml (local account '{0}'). The language, edition and disk screens are still shown."
         ua_pc           = "Computer name (type a name, or press Enter to let Windows choose one): "
         ua_lang         = "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): "
@@ -261,10 +267,13 @@ $Textes = @{
         data_created    = "Partición de datos exFAT 'DONNEES' creada: {0} GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)."
         kept            = "Disposición conservada: solo se reformatea la partición FAT32."
         eject_ask       = "¿Expulsar ahora la unidad USB de forma segura? (S/N) "
+        busy_prep       = "Preparando la unidad (borrado, particiones, formato)"
+        busy_flush      = "Escritura final en la unidad, no la desconectes"
+        busy_eject      = "Expulsando la unidad"
         eject_ok        = "Unidad expulsada: ya puedes desconectarla."
         eject_fail      = "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla."
         bypass_ask      = "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) "
-        bypass_name     = "Nombre de la cuenta local de Windows que se creará (pulsa Intro sin escribir nada para usar: {0}): "
+        bypass_name     = "Nombre de la cuenta local de Windows que se creará (pulsa Intro sin escribir nada para '{0}'): "
         bypass_done     = "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '{0}'). Las pantallas de idioma, edición y disco siguen apareciendo."
         ua_pc           = "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): "
         ua_lang         = "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): "
@@ -359,10 +368,13 @@ $Textes = @{
         data_created    = "exFAT-Datenpartition 'DONNEES' angelegt: {0} GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)."
         kept            = "Layout beibehalten: nur die FAT32-Partition wird neu formatiert."
         eject_ask       = "USB-Laufwerk jetzt sicher auswerfen? (J/N) "
+        busy_prep       = "Stick wird vorbereitet (Löschen, Partitionieren, Formatieren)"
+        busy_flush      = "Letzte Schreibvorgänge auf den Stick, nicht abziehen"
+        busy_eject      = "Stick wird ausgeworfen"
         eject_ok        = "Laufwerk ausgeworfen: Du kannst es abziehen."
         eject_fail      = "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst."
         bypass_ask      = "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) "
-        bypass_name     = "Name des anzulegenden lokalen Windows-Kontos (Eingabetaste ohne Text drücken, um zu verwenden: {0}): "
+        bypass_name     = "Name des anzulegenden lokalen Windows-Kontos (Eingabetaste ohne Text drücken für '{0}'): "
         bypass_done     = "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '{0}'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar."
         ua_pc           = "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): "
         ua_lang         = "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): "
@@ -457,10 +469,13 @@ $Textes = @{
         data_created    = "Partizione dati exFAT 'DONNEES' creata: {0} GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)."
         kept            = "Disposizione mantenuta: viene riformattata solo la partizione FAT32."
         eject_ask       = "Espellere ora la chiavetta USB in sicurezza? (S/N) "
+        busy_prep       = "Preparazione della chiavetta (cancellazione, partizioni, formattazione)"
+        busy_flush      = "Scrittura finale sulla chiavetta, non scollegarla"
+        busy_eject      = "Espulsione della chiavetta"
         eject_ok        = "Chiavetta espulsa: puoi scollegarla."
         eject_fail      = "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla."
         bypass_ask      = "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) "
-        bypass_name     = "Nome dell'account locale di Windows da creare (premi Invio senza scrivere nulla per usare: {0}): "
+        bypass_name     = "Nome dell'account locale di Windows da creare (premi Invio senza scrivere nulla per '{0}'): "
         bypass_done     = "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '{0}'). Le schermate di lingua, edizione e disco restano visibili."
         ua_pc           = "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): "
         ua_lang         = "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): "
@@ -555,10 +570,13 @@ $Textes = @{
         data_created    = "Partição de dados exFAT 'DONNEES' criada: {0} GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)."
         kept            = "Disposição mantida: só a partição FAT32 é reformatada."
         eject_ask       = "Ejetar agora a pen USB em segurança? (S/N) "
+        busy_prep       = "A preparar a pen (apagar, partições, formatar)"
+        busy_flush      = "Escrita final na pen, não a desligues"
+        busy_eject      = "A ejetar a pen"
         eject_ok        = "Pen ejetada: já a podes desligar."
         eject_fail      = "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar."
         bypass_ask      = "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) "
-        bypass_name     = "Nome da conta local do Windows a criar (prime Enter sem escrever nada para usar: {0}): "
+        bypass_name     = "Nome da conta local do Windows a criar (prime Enter sem escrever nada para '{0}'): "
         bypass_done     = "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '{0}'). Os ecrãs de idioma, edição e disco continuam visíveis."
         ua_pc           = "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): "
         ua_lang         = "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): "
@@ -606,6 +624,59 @@ function T([string]$cle, [object[]]$a = @()) {
     if ($a.Count -gt 0) { return ($f -f $a) }
     return $f
 }
+
+# --- Animation (barre qui va et vient + chrono) pour les étapes silencieuses ---
+if (-not ('PocketSpin' -as [type])) {
+    Add-Type -TypeDefinition @"
+using System;
+using System.Diagnostics;
+using System.Threading;
+public static class PocketSpin {
+    static Thread t; static volatile bool run;
+    public static void Start(string msg) {
+        Stop();
+        run = true;
+        t = new Thread(() => {
+            var sw = Stopwatch.StartNew(); int i = 0;
+            while (run) {
+                try {
+                    int p = i % 12; if (p > 6) p = 12 - p;
+                    string bar = new string(' ', p) + "===" + new string(' ', 6 - p);
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write("\r  [" + bar + "] " + msg + "  " + (int)sw.Elapsed.TotalSeconds + "s   ");
+                    Console.ResetColor();
+                } catch { }
+                i++; Thread.Sleep(120);
+            }
+        });
+        t.IsBackground = true; t.Start();
+    }
+    public static void Stop() {
+        if (t == null) return;
+        run = false; t.Join(); t = null;
+        try { Console.Write("\r" + new string(' ', Math.Max(1, Console.WindowWidth - 1)) + "\r"); } catch { }
+    }
+}
+"@
+}
+function Start-Anim([string]$texte) { try { [PocketSpin]::Start($texte) } catch { Write-Host $texte -ForegroundColor Cyan } }
+function Stop-Anim { try { [PocketSpin]::Stop() } catch { } }
+
+# --- Bannière PocketBoot ---
+function Show-Banniere {
+    $b = 'Cyan'; $g = 'Green'
+    Write-Host ''
+    $l = @(
+        @('  ___           _        _  ', ' ___            _   '),
+        @(' | _ \___  __| |_____| |_', '| _ ) ___  ___| |_ '),
+        @(' |  _/ _ \/ _| / / -_)  _', '| _ \/ _ \/ _ \  _|'),
+        @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
+    )
+    foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste' -ForegroundColor DarkGray
+    Write-Host ''
+}
+Show-Banniere
 
 # --- Droits administrateur ---
 $admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -860,8 +931,8 @@ function Invoke-TelechargementMicrosoft {
     Write-Host (T 'dl_done' $dest) -ForegroundColor Green
     Write-Host (T 'dl_speed' (Get-Vitesse (Get-Item -LiteralPath $dest).Length $swDl.Elapsed.TotalSeconds))
 
-    Write-Host (T 'sha_calc') -ForegroundColor Cyan
-    $calc = (Get-FileHash -Algorithm SHA256 -LiteralPath $dest).Hash
+    Start-Anim (T 'sha_calc')
+    try { $calc = (Get-FileHash -Algorithm SHA256 -LiteralPath $dest).Hash } finally { Stop-Anim }
     $reconnu = $null
     try {
         $reconnu = ((Invoke-WebRequest -Uri $UrlHashes -UseBasicParsing -TimeoutSec 15).Content -split "`n") |
@@ -1010,8 +1081,10 @@ if (Oui 'bypass_ask') {
 }
 
 # --- Préparation de la clé ---
+Start-Anim (T 'busy_prep')
+try {
 if ($garde) {
-    Write-Host (T 'kept') -ForegroundColor Green
+    Stop-Anim; Write-Host (T 'kept') -ForegroundColor Green; Start-Anim (T 'busy_prep')
     Format-Volume -Partition $p1 -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
     if (-not (Get-Partition -DiskNumber $n -PartitionNumber $p1.PartitionNumber).DriveLetter) {
         Add-PartitionAccessPath -DiskNumber $n -PartitionNumber $p1.PartitionNumber -AssignDriveLetter
@@ -1029,7 +1102,7 @@ else {
         Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
         $pd = New-Partition -DiskNumber $n -UseMaximumSize -AssignDriveLetter
         Format-Volume -Partition $pd -FileSystem exFAT -NewFileSystemLabel "DONNEES" -Force | Out-Null
-        Write-Host (T 'data_created' ([math]::Round($pd.Size / 1GB, 1))) -ForegroundColor Green
+        Stop-Anim; Write-Host (T 'data_created' ([math]::Round($pd.Size / 1GB, 1))) -ForegroundColor Green
     }
     else {
         $taille = [math]::Min([int64]32GB, $libreDispo)
@@ -1037,6 +1110,7 @@ else {
         Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
     }
 }
+} finally { Stop-Anim }
 $usb = ($part | Get-Volume).DriveLetter + ":"
 
 # --- Montage de l'ISO ---
@@ -1203,7 +1277,9 @@ try {
     }
 
     # --- Vitesse d'écriture réelle : on vide le cache d'écriture de la clé, puis on mesure ---
+    Start-Anim (T 'busy_flush')
     try { Write-VolumeCache -DriveLetter $usb.TrimEnd(':') -ErrorAction Stop } catch { }
+    Stop-Anim
     $swTotal.Stop()
     $ecritTotal = $libreAvant - [IO.DriveInfo]::new($usb).AvailableFreeSpace
     $vTotal = Get-Vitesse $ecritTotal $swTotal.Elapsed.TotalSeconds
@@ -1227,6 +1303,7 @@ Write-Host (T 'recap_key' ([math]::Round($disk.Size / 1GB, 1))) -ForegroundColor
 # --- Éjection propre de la clé ---
 if ((Read-Host (T 'eject_ask')) -match '^[oOyYsSjJ]') {
     $ejecte = $false
+    Start-Anim (T 'busy_eject')
     try {
         Set-Location $env:SystemRoot
         $sh = New-Object -ComObject Shell.Application
@@ -1237,6 +1314,7 @@ if ((Read-Host (T 'eject_ask')) -match '^[oOyYsSjJ]') {
     if (-not $ejecte) {
         try { Set-Disk -Number $n -IsOffline $true -ErrorAction Stop; $ejecte = $true } catch { }
     }
+    Stop-Anim
     if ($ejecte) { Write-Host (T 'eject_ok') -ForegroundColor Green }
     else { Write-Host (T 'eject_fail') -ForegroundColor Yellow }
 }

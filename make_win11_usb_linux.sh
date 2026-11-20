@@ -9,10 +9,48 @@
 
 # ==== FONCTIONS ====
 rouge=$'\033[31m'; vert=$'\033[32m'; jaune=$'\033[33m'; cyan=$'\033[36m'; raz=$'\033[0m'
-info()   { printf '%s%s%s\n' "$cyan"  "$*" "$raz"; }
-ok()     { printf '%s%s%s\n' "$vert"  "$*" "$raz"; }
-avert()  { printf '%s%s%s\n' "$jaune" "$*" "$raz"; }
-erreur() { printf '%s%s%s\n' "$rouge" "$*" "$raz" >&2; }
+info()   { anim_stop; printf '%s%s%s\n' "$cyan"  "$*" "$raz"; }
+ok()     { anim_stop; printf '%s%s%s\n' "$vert"  "$*" "$raz"; }
+avert()  { anim_stop; printf '%s%s%s\n' "$jaune" "$*" "$raz"; }
+erreur() { anim_stop; printf '%s%s%s\n' "$rouge" "$*" "$raz" >&2; }
+
+# ---- Animation (spinner + chrono) pour les étapes silencieuses ----
+anim_pid=""
+anim_start() {
+    [ -t 2 ] || return 0
+    anim_stop
+    (
+        i=0; s=$(date +%s)
+        while :; do
+            p=$(( i % 12 )); [ "$p" -gt 6 ] && p=$(( 12 - p ))
+            bar=""; k=0
+            while [ "$k" -lt 9 ]; do
+                if [ "$k" -ge "$p" ] && [ "$k" -lt $(( p + 3 )) ]; then bar="$bar="; else bar="$bar "; fi
+                k=$(( k + 1 ))
+            done
+            printf '\r\033[K%s  [%s] %s  %ds%s' "$cyan" "$bar" "$1" $(( $(date +%s) - s )) "$raz" >&2
+            i=$(( i + 1 )); sleep 0.12
+        done
+    ) &
+    anim_pid=$!
+    disown "$anim_pid" 2>/dev/null
+}
+anim_stop() {
+    [ -n "$anim_pid" ] || return 0
+    kill "$anim_pid" 2>/dev/null
+    anim_pid=""
+    printf '\r\033[K' >&2
+}
+
+banniere() {
+    [ -t 1 ] || return 0
+    local b=$'\033[38;5;111m' g=$'\033[38;5;84m' d=$'\033[2m'
+    printf '\n%s  ___           _        _  %s ___            _   %s\n' "$b" "$g" "$raz"
+    printf '%s | _ \\___  __| |_____| |_%s| _ ) ___  ___| |_ %s\n' "$b" "$g" "$raz"
+    printf '%s |  _/ _ \\/ _| / / -_)  _%s| _ \\/ _ \\/ _ \\  _|%s\n' "$b" "$g" "$raz"
+    printf '%s |_| \\___/\\__|_\\_\\___|\\__%s|___/\\___/\\___/\\__|%s\n' "$b" "$g" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste%s\n\n' "$d" "$raz"
+}
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
 # Langues : fr, en, es, de, it, pt. Forcer une langue : sudo env WIN11_LANG=en bash ...   Ajouter une langue : ajouter une fonction msg_xx.
@@ -59,10 +97,13 @@ msg_fr() {
         data_created) printf '%s' "Partition de données exFAT « DONNEES » créée : %s Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)." ;;
         kept) printf '%s' "Disposition conservée : seule la partition FAT32 est reformatée." ;;
         eject_ask) printf '%s' "Éjecter la clé USB en toute sécurité maintenant ? (O/N) " ;;
+        busy_prep) printf '%s' "Préparation de la clé (effacement, partitions, formatage)" ;;
+        busy_flush) printf '%s' "Écriture finale sur la clé, ne la débranche pas" ;;
+        busy_eject) printf '%s' "Éjection de la clé" ;;
         eject_ok) printf '%s' "Clé éjectée : tu peux la débrancher." ;;
         eject_fail) printf '%s' "Éjection impossible (clé encore utilisée ?). Ferme les fenêtres qui l'utilisent puis éjecte-la depuis le système avant de la débrancher." ;;
         bypass_ask) printf '%s' "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) " ;;
-        bypass_name) printf '%s' "Nom du compte local Windows à créer (appuyez sur Entrée sans rien taper pour utiliser : %s) : " ;;
+        bypass_name) printf '%s' "Nom du compte local Windows à créer (appuyez sur Entrée sans rien taper pour '%s') : " ;;
         bypass_done) printf '%s' "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « %s »). Les écrans langue, édition et disque restent affichés." ;;
         ua_pc) printf '%s' "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : " ;;
         ua_lang) printf '%s' "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
@@ -174,10 +215,13 @@ msg_en() {
         data_created) printf '%s' "exFAT data partition 'DONNEES' created: %s GB for your files (the FAT32 partition keeps headroom for future Windows versions)." ;;
         kept) printf '%s' "Layout kept: only the FAT32 partition is reformatted." ;;
         eject_ask) printf '%s' "Safely eject the USB drive now? (Y/N) " ;;
+        busy_prep) printf '%s' "Preparing the drive (erasing, partitioning, formatting)" ;;
+        busy_flush) printf '%s' "Final write to the drive, do not unplug it" ;;
+        busy_eject) printf '%s' "Ejecting the drive" ;;
         eject_ok) printf '%s' "Drive ejected: you can unplug it." ;;
         eject_fail) printf '%s' "Could not eject (drive still in use?). Close any window using it, then eject it from the system before unplugging." ;;
         bypass_ask) printf '%s' "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) " ;;
-        bypass_name) printf '%s' "Name of the local Windows account to create (press Enter without typing anything to use: %s): " ;;
+        bypass_name) printf '%s' "Name of the local Windows account to create (press Enter without typing anything for '%s'): " ;;
         bypass_done) printf '%s' "Answer file written to the drive: autounattend.xml (local account '%s'). The language, edition and disk screens are still shown." ;;
         ua_pc) printf '%s' "Computer name (type a name, or press Enter to let Windows choose one): " ;;
         ua_lang) printf '%s' "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): " ;;
@@ -289,10 +333,13 @@ msg_es() {
         data_created) printf '%s' "Partición de datos exFAT 'DONNEES' creada: %s GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)." ;;
         kept) printf '%s' "Disposición conservada: solo se reformatea la partición FAT32." ;;
         eject_ask) printf '%s' "¿Expulsar ahora la unidad USB de forma segura? (S/N) " ;;
+        busy_prep) printf '%s' "Preparando la unidad (borrado, particiones, formato)" ;;
+        busy_flush) printf '%s' "Escritura final en la unidad, no la desconectes" ;;
+        busy_eject) printf '%s' "Expulsando la unidad" ;;
         eject_ok) printf '%s' "Unidad expulsada: ya puedes desconectarla." ;;
         eject_fail) printf '%s' "No se pudo expulsar (¿unidad en uso?). Cierra las ventanas que la usen y exprúlsala desde el sistema antes de desconectarla." ;;
         bypass_ask) printf '%s' "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) " ;;
-        bypass_name) printf '%s' "Nombre de la cuenta local de Windows que se creará (pulsa Intro sin escribir nada para usar: %s): " ;;
+        bypass_name) printf '%s' "Nombre de la cuenta local de Windows que se creará (pulsa Intro sin escribir nada para '%s'): " ;;
         bypass_done) printf '%s' "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '%s'). Las pantallas de idioma, edición y disco siguen apareciendo." ;;
         ua_pc) printf '%s' "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): " ;;
         ua_lang) printf '%s' "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): " ;;
@@ -404,10 +451,13 @@ msg_de() {
         data_created) printf '%s' "exFAT-Datenpartition 'DONNEES' angelegt: %s GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)." ;;
         kept) printf '%s' "Layout beibehalten: nur die FAT32-Partition wird neu formatiert." ;;
         eject_ask) printf '%s' "USB-Laufwerk jetzt sicher auswerfen? (J/N) " ;;
+        busy_prep) printf '%s' "Stick wird vorbereitet (Löschen, Partitionieren, Formatieren)" ;;
+        busy_flush) printf '%s' "Letzte Schreibvorgänge auf den Stick, nicht abziehen" ;;
+        busy_eject) printf '%s' "Stick wird ausgeworfen" ;;
         eject_ok) printf '%s' "Laufwerk ausgeworfen: Du kannst es abziehen." ;;
         eject_fail) printf '%s' "Auswerfen nicht möglich (Laufwerk noch in Benutzung?). Schließe Fenster, die es nutzen, und wirf es im System aus, bevor du es abziehst." ;;
         bypass_ask) printf '%s' "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) " ;;
-        bypass_name) printf '%s' "Name des anzulegenden lokalen Windows-Kontos (Eingabetaste ohne Text drücken, um zu verwenden: %s): " ;;
+        bypass_name) printf '%s' "Name des anzulegenden lokalen Windows-Kontos (Eingabetaste ohne Text drücken für '%s'): " ;;
         bypass_done) printf '%s' "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '%s'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar." ;;
         ua_pc) printf '%s' "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): " ;;
         ua_lang) printf '%s' "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): " ;;
@@ -519,10 +569,13 @@ msg_it() {
         data_created) printf '%s' "Partizione dati exFAT 'DONNEES' creata: %s GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)." ;;
         kept) printf '%s' "Disposizione mantenuta: viene riformattata solo la partizione FAT32." ;;
         eject_ask) printf '%s' "Espellere ora la chiavetta USB in sicurezza? (S/N) " ;;
+        busy_prep) printf '%s' "Preparazione della chiavetta (cancellazione, partizioni, formattazione)" ;;
+        busy_flush) printf '%s' "Scrittura finale sulla chiavetta, non scollegarla" ;;
+        busy_eject) printf '%s' "Espulsione della chiavetta" ;;
         eject_ok) printf '%s' "Chiavetta espulsa: puoi scollegarla." ;;
         eject_fail) printf '%s' "Impossibile espellere (chiavetta ancora in uso?). Chiudi le finestre che la usano ed espellila dal sistema prima di scollegarla." ;;
         bypass_ask) printf '%s' "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) " ;;
-        bypass_name) printf '%s' "Nome dell'account locale di Windows da creare (premi Invio senza scrivere nulla per usare: %s): " ;;
+        bypass_name) printf '%s' "Nome dell'account locale di Windows da creare (premi Invio senza scrivere nulla per '%s'): " ;;
         bypass_done) printf '%s' "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '%s'). Le schermate di lingua, edizione e disco restano visibili." ;;
         ua_pc) printf '%s' "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): " ;;
         ua_lang) printf '%s' "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): " ;;
@@ -634,10 +687,13 @@ msg_pt() {
         data_created) printf '%s' "Partição de dados exFAT 'DONNEES' criada: %s GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)." ;;
         kept) printf '%s' "Disposição mantida: só a partição FAT32 é reformatada." ;;
         eject_ask) printf '%s' "Ejetar agora a pen USB em segurança? (S/N) " ;;
+        busy_prep) printf '%s' "A preparar a pen (apagar, partições, formatar)" ;;
+        busy_flush) printf '%s' "Escrita final na pen, não a desligues" ;;
+        busy_eject) printf '%s' "A ejetar a pen" ;;
         eject_ok) printf '%s' "Pen ejetada: já a podes desligar." ;;
         eject_fail) printf '%s' "Não foi possível ejetar (pen ainda em uso?). Fecha as janelas que a usam e ejeta-a pelo sistema antes de a desligar." ;;
         bypass_ask) printf '%s' "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) " ;;
-        bypass_name) printf '%s' "Nome da conta local do Windows a criar (prime Enter sem escrever nada para usar: %s): " ;;
+        bypass_name) printf '%s' "Nome da conta local do Windows a criar (prime Enter sem escrever nada para '%s'): " ;;
         bypass_done) printf '%s' "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '%s'). Os ecrãs de idioma, edição e disco continuam visíveis." ;;
         ua_pc) printf '%s' "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): " ;;
         ua_lang) printf '%s' "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): " ;;
@@ -1104,8 +1160,9 @@ telecharger_depuis_microsoft() {
     ok "$(msg dl_done "$dossier/$nom")"
     echo "$(msg dl_speed "$(vitesse "$(wc -c < "$dossier/$nom" | tr -d ' ')" "$dt")")"
 
-    info "$(msg sha_calc)"
+    anim_start "$(msg sha_calc)"
     calc=$(calculer_sha256 "$dossier/$nom")
+    anim_stop
     reconnu=$(curl -fsSL -m 15 "$URL_HASHES" 2>/dev/null | tr -d '\r' | grep -v '^[[:space:]]*#' |
               awk -F';' -v h="$calc" 'toupper($3)==toupper(h) {print $1 " - " $2; exit}')
     if [ -n "$reconnu" ]; then
@@ -1132,6 +1189,7 @@ telecharger_depuis_microsoft() {
 
 # --- Langue des menus (langue du système, repli : anglais) ---
 choisir_langue_ui
+banniere
 
 # --- Droits administrateur ---
 if [ "$(id -u)" -ne 0 ]; then
@@ -1172,7 +1230,7 @@ nettoyage() {
         done
     fi
 }
-trap nettoyage EXIT
+trap "anim_stop; nettoyage" EXIT
 trap 'exit 130' INT TERM
 
 # --- Recherche des ISO dans le répertoire courant ---
@@ -1311,6 +1369,7 @@ fi
 
 # --- Préparation de la clé ---
 info "$(msg preparing "$dev")"
+anim_start "$(msg busy_prep)"
 for p in $(lsblk -lnpo NAME "$dev" | tail -n +2); do
     umount "$p" 2>/dev/null
 done
@@ -1363,6 +1422,7 @@ if [ "${donnees:-0}" -eq 1 ]; then
         ok "$(msg data_created "$(en_go $(( (octets_cle - fat_mib * 1048576) )))")"
     fi
 fi
+anim_stop
 mkdir -p "$usbmnt"
 if ! mount "$part" "$usbmnt"; then
     erreur "$(msg mount_fail "$part")"
@@ -1544,10 +1604,11 @@ fi
 ) > "$dossier/contenu_cle.txt"
 
 # --- Écriture définitive et démontage de la clé ---
-info "$(msg syncing)"
+anim_start "$(msg syncing)"
 sync
 cd "$dossier" || exit 1
 sync
+anim_stop
 
 # --- Vitesse d'écriture réelle (le cache d'écriture est vidé : sync terminé) ---
 ecrit=$(( $(du -sk "$usbmnt" 2>/dev/null | awk '{print $1}') * 1024 ))
@@ -1568,6 +1629,7 @@ read -r -p "$(msg eject_ask)" rep
 case "$rep" in
     [oOyYsSjJ]*)
         cd / || true
+        anim_start "$(msg busy_eject)"
         for p in $(lsblk -lnpo NAME "$dev" | tail -n +2); do umount "$p" 2>/dev/null; done
         sync
         if command -v udisksctl >/dev/null 2>&1 && udisksctl power-off -b "$dev" >/dev/null 2>&1; then

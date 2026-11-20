@@ -62,7 +62,7 @@ Sous macOS et Linux, la vitesse du découpage est mesurée sur la croissance des
 5. Découpe `install.wim` (plus de 4 Go) en morceaux `install*.swm` de 3800 Mo compatibles FAT32, avec une barre de progression.
 6. Si l'ISO contient un `install.esd`, il est simplement copié.
 7. Écrit un inventaire de la clé.
-8. Propose avant la création d'ignorer les questions de la première configuration de Windows (O/N) : écrit un `autounattend.xml` à la racine de la clé, avec un compte **local administrateur sans mot de passe** (nom demandé avant la création), sans compte Microsoft ni offres Microsoft 365 / Edge. Les écrans langue, édition et choix du disque restent affichés. Comportement à confirmer sur chaque version de Windows 11.
+8. Propose avant la création d'automatiser l'installation de Windows (O/N) : écrit un `autounattend.xml` à la racine de la clé avec un compte **local administrateur sans mot de passe** (sans compte Microsoft ni offres Microsoft 365 / Edge), puis demande les options : nom de la machine, langue + clavier + fuseau, édition (Pro / Famille), ouverture de session automatique, pause des mises à jour automatiques (moins sûr), contournement des contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur). Le choix du disque reste toujours manuel : rien n'est effacé automatiquement. À la fin, la taille de la clé est rappelée pour la repérer dans la liste des disques. Comportement à confirmer sur chaque version de Windows 11.
 9. Propose d'éjecter la clé proprement (O/N) : éjection Windows (Shell, ou mise hors ligne du disque en repli), `diskutil eject` sous macOS, `udisksctl power-off` ou `eject` sous Linux.
 
 Les journaux sont écrits dans le répertoire courant, jamais dans un dossier temporaire :

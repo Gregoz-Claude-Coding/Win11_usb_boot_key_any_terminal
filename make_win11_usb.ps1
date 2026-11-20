@@ -70,6 +70,13 @@ $Textes = @{
         bypass_ask      = "Ignorer les questions de l'installation de Windows (compte local, sans compte Microsoft ni offres Microsoft 365) ? (O/N) "
         bypass_name     = "Nom du compte local Windows [{0}] : "
         bypass_done     = "Réponses automatiques écrites sur la clé : autounattend.xml (compte local « {0} »). Les écrans langue, édition et disque restent affichés."
+        ua_pc           = "Nom de la machine (Entrée = automatique) : "
+        ua_lang         = "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0] : "
+        ua_edition      = "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home [0] : "
+        ua_auto         = "Ouvrir la session automatiquement, sans mot de passe, au premier démarrage ? (O/N) "
+        ua_updates      = "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) "
+        ua_hw           = "Ignorer les contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur) ? (O/N) "
+        recap_key       = "Clé de {0} Go : repérez cette taille dans la liste des disques de l'installateur Windows."
         copying         = 'Copie des fichiers...'
         robocopy_err    = 'robocopy a rencontré des erreurs (code {0}). Voir {1}'
         bootwim_missing = 'sources\boot.wim absent de la clé : copie incomplète. Voir {0}'
@@ -161,6 +168,13 @@ $Textes = @{
         bypass_ask      = "Skip the Windows setup questions (local account, no Microsoft account or Microsoft 365 offers)? (Y/N) "
         bypass_name     = "Windows local account name [{0}]: "
         bypass_done     = "Answer file written to the drive: autounattend.xml (local account '{0}'). The language, edition and disk screens are still shown."
+        ua_pc           = "Computer name (Enter = automatic): "
+        ua_lang         = "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
+        ua_edition      = "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home [0]: "
+        ua_auto         = "Sign in automatically (no password) on first start? (Y/N) "
+        ua_updates      = "Pause automatic updates (less secure)? (Y/N) "
+        ua_hw           = "Skip the Windows 11 compatibility checks (TPM, Secure Boot, memory, CPU)? (Y/N) "
+        recap_key       = "{0} GB drive: look for this size in the Windows setup disk list."
         copying         = 'Copying files...'
         robocopy_err    = 'robocopy hit errors (code {0}). See {1}'
         bootwim_missing = 'sources\boot.wim is missing from the drive: incomplete copy. See {0}'
@@ -252,6 +266,13 @@ $Textes = @{
         bypass_ask      = "¿Omitir las preguntas de la instalación de Windows (cuenta local, sin cuenta Microsoft ni ofertas de Microsoft 365)? (S/N) "
         bypass_name     = "Nombre de la cuenta local de Windows [{0}]: "
         bypass_done     = "Archivo de respuestas escrito en la unidad: autounattend.xml (cuenta local '{0}'). Las pantallas de idioma, edición y disco siguen apareciendo."
+        ua_pc           = "Nombre del equipo (Intro = automático): "
+        ua_lang         = "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
+        ua_edition      = "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home [0]: "
+        ua_auto         = "¿Iniciar sesión automáticamente (sin contraseña) en el primer arranque? (S/N) "
+        ua_updates      = "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) "
+        ua_hw           = "¿Omitir las comprobaciones de compatibilidad de Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) "
+        recap_key       = "Unidad de {0} GB: busca este tamaño en la lista de discos del instalador de Windows."
         copying         = "Copiando archivos..."
         robocopy_err    = "robocopy encontró errores (código {0}). Consulta {1}"
         bootwim_missing = "Falta sources\boot.wim en la unidad: copia incompleta. Consulta {0}"
@@ -343,6 +364,13 @@ $Textes = @{
         bypass_ask      = "Fragen der Windows-Einrichtung überspringen (lokales Konto, ohne Microsoft-Konto und Microsoft-365-Angebote)? (J/N) "
         bypass_name     = "Name des lokalen Windows-Kontos [{0}]: "
         bypass_done     = "Antwortdatei auf den Stick geschrieben: autounattend.xml (lokales Konto '{0}'). Sprach-, Editions- und Datenträgerauswahl bleiben sichtbar."
+        ua_pc           = "Computername (Eingabe = automatisch): "
+        ua_lang         = "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
+        ua_edition      = "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home [0]: "
+        ua_auto         = "Beim ersten Start automatisch anmelden (ohne Kennwort)? (J/N) "
+        ua_updates      = "Automatische Updates pausieren (weniger sicher)? (J/N) "
+        ua_hw           = "Windows-11-Kompatibilitätsprüfungen überspringen (TPM, Secure Boot, Speicher, CPU)? (J/N) "
+        recap_key       = "Stick mit {0} GB: Diese Größe in der Datenträgerliste des Windows-Setups suchen."
         copying         = "Dateien werden kopiert..."
         robocopy_err    = "robocopy hat Fehler gemeldet (Code {0}). Siehe {1}"
         bootwim_missing = "sources\boot.wim fehlt auf dem Laufwerk: unvollständige Kopie. Siehe {0}"
@@ -434,6 +462,13 @@ $Textes = @{
         bypass_ask      = "Saltare le domande dell'installazione di Windows (account locale, senza account Microsoft né offerte Microsoft 365)? (S/N) "
         bypass_name     = "Nome dell'account locale di Windows [{0}]: "
         bypass_done     = "File di risposte scritto sulla chiavetta: autounattend.xml (account locale '{0}'). Le schermate di lingua, edizione e disco restano visibili."
+        ua_pc           = "Nome del computer (Invio = automatico): "
+        ua_lang         = "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
+        ua_edition      = "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home [0]: "
+        ua_auto         = "Accedere automaticamente (senza password) al primo avvio? (S/N) "
+        ua_updates      = "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) "
+        ua_hw           = "Saltare i controlli di compatibilità di Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) "
+        recap_key       = "Chiavetta da {0} GB: cerca questa dimensione nell'elenco dei dischi del programma di installazione di Windows."
         copying         = "Copia dei file in corso..."
         robocopy_err    = "robocopy ha rilevato errori (codice {0}). Vedi {1}"
         bootwim_missing = "sources\boot.wim assente dall'unità: copia incompleta. Vedi {0}"
@@ -525,6 +560,13 @@ $Textes = @{
         bypass_ask      = "Ignorar as perguntas da instalação do Windows (conta local, sem conta Microsoft nem ofertas do Microsoft 365)? (S/N) "
         bypass_name     = "Nome da conta local do Windows [{0}]: "
         bypass_done     = "Ficheiro de respostas escrito na pen: autounattend.xml (conta local '{0}'). Os ecrãs de idioma, edição e disco continuam visíveis."
+        ua_pc           = "Nome do computador (Enter = automático): "
+        ua_lang         = "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português [0]: "
+        ua_edition      = "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home [0]: "
+        ua_auto         = "Iniciar sessão automaticamente (sem palavra-passe) no primeiro arranque? (S/N) "
+        ua_updates      = "Pausar as atualizações automáticas (menos seguro)? (S/N) "
+        ua_hw           = "Ignorar as verificações de compatibilidade do Windows 11 (TPM, Secure Boot, memória, CPU)? (S/N) "
+        recap_key       = "Pen de {0} GB: procura este tamanho na lista de discos do instalador do Windows."
         copying         = "Copiando arquivos..."
         robocopy_err    = "O robocopy encontrou erros (código {0}). Veja {1}"
         bootwim_missing = "sources\boot.wim ausente da unidade: cópia incompleta. Veja {0}"
@@ -941,14 +983,24 @@ else {
     elseif ((Read-Host (T 'confirm_erase' $disk.FriendlyName)) -notmatch '^[oOyYsSjJ]') { return }
 }
 
-# --- Réponses automatiques : ignorer les questions de la première configuration de Windows ---
-$bypass = $false; $nomCompte = ''
-if ((Read-Host (T 'bypass_ask')) -match '^[oOyYsSjJ]') {
+# --- Installation automatisée : questions de la première configuration de Windows ---
+$bypass = $false; $nomCompte = ''; $nomPc = ''; $iLoc = 0; $iEd = 0; $uaAuto = $false; $uaUpd = $false; $uaHw = $false
+function Oui([string]$cle) { return ((Read-Host (T $cle)) -match '^[oOyYsSjJ]') }
+function Choix([string]$cle, [int]$max) { $n = 0; if ([int]::TryParse((Read-Host (T $cle)), [ref]$n) -and $n -ge 0 -and $n -le $max) { return $n }; return 0 }
+if (Oui 'bypass_ask') {
     $bypass = $true
     $saisie = Read-Host (T 'bypass_name' 'Utilisateur')
     $nomCompte = ([regex]::Replace([string]$saisie, '[\x00-\x1f"/\\\[\]:;|=,+*?<>@%&'']', '')).Trim().TrimEnd('.').Trim()
     if ($nomCompte.Length -gt 20) { $nomCompte = $nomCompte.Substring(0, 20).Trim() }
     if (-not $nomCompte) { $nomCompte = 'Utilisateur' }
+    $nomPc = ((Read-Host (T 'ua_pc')) -replace '[ _]', '-') -replace '[^A-Za-z0-9-]', ''
+    $nomPc = $nomPc.Trim('-'); if ($nomPc.Length -gt 15) { $nomPc = $nomPc.Substring(0, 15).Trim('-') }
+    if ($nomPc -match '^[0-9]*$') { $nomPc = '' }
+    $iLoc = Choix 'ua_lang' 7
+    $iEd = Choix 'ua_edition' 2
+    $uaAuto = Oui 'ua_auto'
+    $uaUpd = Oui 'ua_updates'
+    $uaHw = Oui 'ua_hw'
 }
 
 # --- Préparation de la clé ---
@@ -1019,44 +1071,63 @@ try {
 
     # --- Fichier de réponses automatiques (racine de la clé) ---
     if ($bypass) {
-        $xml = @'
-<?xml version="1.0" encoding="utf-8"?>
-<unattend xmlns="urn:schemas-microsoft-com:unattend">
-  <settings pass="specialize">
-    <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <RunSynchronous>
-        <RunSynchronousCommand wcm:action="add"><Order>1</Order><Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
-        <RunSynchronousCommand wcm:action="add"><Order>2</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
-        <RunSynchronousCommand wcm:action="add"><Order>3</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
-        <RunSynchronousCommand wcm:action="add"><Order>4</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
-        <RunSynchronousCommand wcm:action="add"><Order>5</Order><Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>
-      </RunSynchronous>
-    </component>
-  </settings>
-  <settings pass="oobeSystem">
-    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      <OOBE>
-        <HideEULAPage>true</HideEULAPage>
-        <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
-        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
-        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
-        <ProtectYourPC>3</ProtectYourPC>
-      </OOBE>
-      <UserAccounts>
-        <LocalAccounts>
-          <LocalAccount wcm:action="add">
-            <Name>@NOM@</Name>
-            <DisplayName>@NOM@</DisplayName>
-            <Group>Administrators</Group>
-          </LocalAccount>
-        </LocalAccounts>
-      </UserAccounts>
-    </component>
-  </settings>
-</unattend>
-'@
-        $xml = $xml.Replace('@NOM@', $nomCompte)
-        [IO.File]::WriteAllText("$usb\autounattend.xml", $xml, (New-Object Text.UTF8Encoding $false))
+        $ns = 'processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+        function RegLigne([int]$o, [string]$k, [string]$v) { "        <RunSynchronousCommand wcm:action=`"add`"><Order>$o</Order><Path>reg.exe add `"$k`" /v $v /t REG_DWORD /d 1 /f</Path></RunSynchronousCommand>" }
+        $langues = @(
+            @('fr-FR', '040c:0000040c', 'Romance Standard Time'), @('en-GB', '0809:00000809', 'GMT Standard Time'),
+            @('en-US', '0409:00000409', ''), @('de-DE', '0407:00000407', 'W. Europe Standard Time'),
+            @('es-ES', '0c0a:0000040a', 'Romance Standard Time'), @('it-IT', '0410:00000410', 'W. Europe Standard Time'),
+            @('pt-PT', '0816:00000816', 'GMT Standard Time'))
+        $loc = $null; if ($iLoc -ge 1) { $loc = $langues[$iLoc - 1] }
+        $cle = ''; if ($iEd -eq 1) { $cle = 'W269N-WFGWX-YVC9B-4J6C9-T83GX' } elseif ($iEd -eq 2) { $cle = 'TX9XD-98N7V-6WMQ6-BX7FG-H8Q99' }
+        $x = New-Object System.Collections.Generic.List[string]
+        $x.Add('<?xml version="1.0" encoding="utf-8"?>'); $x.Add('<unattend xmlns="urn:schemas-microsoft-com:unattend">')
+        if ($loc -or $cle -or $uaHw) {
+            $x.Add('  <settings pass="windowsPE">')
+            if ($loc) {
+                $x.Add("    <component name=`"Microsoft-Windows-International-Core-WinPE`" $ns>")
+                $x.Add("      <SetupUILanguage><UILanguage>$($loc[0])</UILanguage></SetupUILanguage>"); $x.Add("      <InputLocale>$($loc[1])</InputLocale>")
+                $x.Add("      <SystemLocale>$($loc[0])</SystemLocale>"); $x.Add("      <UILanguage>$($loc[0])</UILanguage>"); $x.Add("      <UserLocale>$($loc[0])</UserLocale>")
+                $x.Add('    </component>')
+            }
+            if ($cle -or $uaHw) {
+                $x.Add("    <component name=`"Microsoft-Windows-Setup`" $ns>")
+                if ($uaHw) {
+                    $x.Add('      <RunSynchronous>'); $i = 1
+                    foreach ($v in 'BypassTPMCheck', 'BypassSecureBootCheck', 'BypassRAMCheck', 'BypassCPUCheck') { $x.Add((RegLigne $i 'HKLM\SYSTEM\Setup\LabConfig' $v)); $i++ }
+                    $x.Add('      </RunSynchronous>')
+                }
+                if ($cle) { $x.Add("      <UserData><AcceptEula>true</AcceptEula><ProductKey><Key>$cle</Key><WillShowUI>OnError</WillShowUI></ProductKey></UserData>") }
+                $x.Add('    </component>')
+            }
+            $x.Add('  </settings>')
+        }
+        $x.Add('  <settings pass="specialize">'); $x.Add("    <component name=`"Microsoft-Windows-Deployment`" $ns>"); $x.Add('      <RunSynchronous>')
+        $pol = 'HKLM\SOFTWARE\Policies\Microsoft\Windows'
+        $regs = @(@('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE', 'BypassNRO'), @("$pol\CloudContent", 'DisableWindowsConsumerFeatures'), @("$pol\CloudContent", 'DisableSoftLanding'), @("$pol\OOBE", 'DisablePrivacyExperience'), @('HKLM\SOFTWARE\Policies\Microsoft\Edge', 'HideFirstRunExperience'))
+        if ($uaUpd) { $regs += , @("$pol\WindowsUpdate\AU", 'NoAutoUpdate'); $regs += , @("$pol\WindowsUpdate", 'ExcludeWUDriversInQualityUpdate') }
+        $i = 1; foreach ($r in $regs) { $x.Add((RegLigne $i $r[0] $r[1])); $i++ }
+        $x.Add('      </RunSynchronous>'); $x.Add('    </component>')
+        if ($nomPc -or ($loc -and $loc[2])) {
+            $x.Add("    <component name=`"Microsoft-Windows-Shell-Setup`" $ns>")
+            if ($nomPc) { $x.Add("      <ComputerName>$nomPc</ComputerName>") }
+            if ($loc -and $loc[2]) { $x.Add("      <TimeZone>$($loc[2])</TimeZone>") }
+            $x.Add('    </component>')
+        }
+        $x.Add('  </settings>'); $x.Add('  <settings pass="oobeSystem">')
+        if ($loc) {
+            $x.Add("    <component name=`"Microsoft-Windows-International-Core`" $ns>")
+            $x.Add("      <InputLocale>$($loc[1])</InputLocale>"); $x.Add("      <SystemLocale>$($loc[0])</SystemLocale>"); $x.Add("      <UILanguage>$($loc[0])</UILanguage>"); $x.Add("      <UserLocale>$($loc[0])</UserLocale>")
+            $x.Add('    </component>')
+        }
+        $x.Add("    <component name=`"Microsoft-Windows-Shell-Setup`" $ns>")
+        $x.Add('      <OOBE><HideEULAPage>true</HideEULAPage><HideOEMRegistrationScreen>true</HideOEMRegistrationScreen><HideOnlineAccountScreens>true</HideOnlineAccountScreens><HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE><ProtectYourPC>3</ProtectYourPC></OOBE>')
+        $x.Add('      <UserAccounts><LocalAccounts><LocalAccount wcm:action="add">')
+        $x.Add("        <Name>$nomCompte</Name><DisplayName>$nomCompte</DisplayName><Group>Administrators</Group>")
+        $x.Add('      </LocalAccount></LocalAccounts></UserAccounts>')
+        if ($uaAuto) { $x.Add("      <AutoLogon><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>$nomCompte</Username><Password><Value></Value><PlainText>true</PlainText></Password></AutoLogon>") }
+        $x.Add('    </component>'); $x.Add('  </settings>'); $x.Add('</unattend>')
+        [IO.File]::WriteAllText("$usb\autounattend.xml", ($x -join "`r`n") + "`r`n", (New-Object Text.UTF8Encoding $false))
         Write-Host (T 'bypass_done' $nomCompte) -ForegroundColor Green
     }
 
@@ -1144,6 +1215,8 @@ try {
 finally {
     Dismount-DiskImage -ImagePath $iso | Out-Null
 }
+
+Write-Host (T 'recap_key' ([math]::Round($disk.Size / 1GB, 1))) -ForegroundColor Cyan
 
 # --- Éjection propre de la clé ---
 if ((Read-Host (T 'eject_ask')) -match '^[oOyYsSjJ]') {

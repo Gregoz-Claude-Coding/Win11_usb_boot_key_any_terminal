@@ -907,7 +907,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-21)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-22)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1543,7 +1543,7 @@ function Effacer([string]$f) {
     Remove-Item -LiteralPath $f -Force
 }
 $travailWifi = Test-Path -LiteralPath (Join-Path $dir 'wifi.ps1')
-if ($travailWifi) { Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $dir 'wifi.ps1') }
+if ($travailWifi) { Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-Command', "& ([ScriptBlock]::Create((Get-Content -LiteralPath '$dir\wifi.ps1' -Raw)))" }
 if ($vider) { cmd.exe /c "net user ""$nom"" """"" | Out-Null }
 foreach ($d in (Get-PSDrive -PSProvider FileSystem)) {
     $r = $d.Root
@@ -1842,7 +1842,7 @@ try {
         $x.Add('      </LocalAccount></LocalAccounts></UserAccounts>')
         if ($uaAuto) { $x.Add("      <AutoLogon><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>$nomCompte</Username>$pwXml</AutoLogon>") }
         if ($uaAuto -or $wifi) {
-            $x.Add('      <FirstLogonCommands><SynchronousCommand wcm:action="add"><Order>1</Order><CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\PocketBoot\firstlogon.ps1</CommandLine><Description>PocketBoot</Description></SynchronousCommand></FirstLogonCommands>')
+            $x.Add('      <FirstLogonCommands><SynchronousCommand wcm:action="add"><Order>1</Order><CommandLine>powershell.exe -NoProfile -Command &quot;&amp; ([ScriptBlock]::Create((Get-Content -LiteralPath ''C:\PocketBoot\firstlogon.ps1'' -Raw)))&quot;</CommandLine><Description>PocketBoot</Description></SynchronousCommand></FirstLogonCommands>')
         }
         $x.Add('    </component>')
         $x.Add('  </settings>'); $x.Add('  <!-- PocketBoot -->'); $x.Add('</unattend>')

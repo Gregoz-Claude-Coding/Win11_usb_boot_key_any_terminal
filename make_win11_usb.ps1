@@ -781,7 +781,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-11)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-12)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -915,7 +915,7 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
     $ok = $true
     $sw = [Diagnostics.Stopwatch]::StartNew()
     $tPrev = 0.0; $bPrev = [int64]0; $vit = 0.0; $b = [int64]0
-    $script:DlPause = 0.0
+    $script:DlPause = 0.0; $script:DlErr = ""
     try {
         if ($fs.Length -lt $total) { $fs.SetLength($total) }
         $slotLibres = New-Object System.Collections.Generic.Stack[int]
@@ -929,7 +929,7 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
                 $psi = New-Object Diagnostics.ProcessStartInfo
                 $psi.FileName = "curl.exe"
                 $psi.Arguments = "-sSL --fail --connect-timeout 20 --speed-limit 1024 --speed-time 30 -r $deb-$fin -o `"$tmp`" `"$url`""
-                $psi.UseShellExecute = $false; $psi.CreateNoWindow = $true
+                $psi.UseShellExecute = $false; $psi.CreateNoWindow = $true; $psi.RedirectStandardError = $true
                 $p = [Diagnostics.Process]::Start($psi)
                 [void]$actifs.Add([pscustomobject]@{ P = $p; K = $k; Slot = $slot; Tmp = $tmp; Deb = $deb; Len = ($fin - $deb + 1) })
             }
@@ -960,6 +960,7 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
                     [void]$faits.Add($a.K); Add-Content -LiteralPath $fichierDone -Value $a.K
                 }
                 else {
+                    $script:DlErr = "curl code " + $a.P.ExitCode + " : " + $a.P.StandardError.ReadToEnd().Trim()
                     Remove-Item -LiteralPath $a.Tmp -Force -ErrorAction SilentlyContinue
                     $essais[$a.K] = 1 + [int]$essais[$a.K]
                     if ($essais[$a.K] -ge 8) { $ok = $false; break }
@@ -1215,11 +1216,9 @@ function Invoke-TelechargementMicrosoft {
         }
     }
     catch {
-        if ($ptot -gt 64MB) {
-            Write-Host (T 'dl_fail') -ForegroundColor Red
-            return $false
-        }
-        Write-Host (T 'bits_fail' $_.Exception.Message) -ForegroundColor Yellow
+        $detail = if ($script:DlErr) { $script:DlErr } else { $_.Exception.Message }
+        Write-Host (T 'bits_fail' $detail) -ForegroundColor Yellow
+        Remove-Item -LiteralPath "$part.done" -Force -ErrorAction SilentlyContinue
         Remove-Item -LiteralPath $part -Force -ErrorAction SilentlyContinue
         $swDl.Restart()
         & curl.exe -L --fail --progress-bar -o $part $url | Out-Host

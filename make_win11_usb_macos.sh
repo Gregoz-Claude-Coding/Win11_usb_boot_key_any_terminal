@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-8)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-9)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -177,7 +177,7 @@ msg_fr() {
         m_ed) printf '%s' "Édition" ;;
         m_ask) printf '%s' "me le demander" ;;
         m_home) printf '%s' "Famille" ;;
-        m_auto) printf '%s' "Session ouverte automatiquement, sans mot de passe" ;;
+        m_auto) printf '%s' "Session automatique sans mot de passe (peut bloquer)" ;;
         m_upd) printf '%s' "Mettre en pause les mises à jour (moins sûr)" ;;
         m_hw) printf '%s' "Ignorer les contrôles TPM / Secure Boot / mémoire / CPU" ;;
         menu_dl_title) printf '%s' "Téléchargement de l'ISO depuis Microsoft" ;;
@@ -311,7 +311,7 @@ msg_en() {
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "ask me during setup" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Sign in automatically, no password" ;;
+        m_auto) printf '%s' "Automatic sign-in, no password (may block setup)" ;;
         m_upd) printf '%s' "Pause automatic updates (less secure)" ;;
         m_hw) printf '%s' "Skip TPM / Secure Boot / memory / CPU checks" ;;
         menu_dl_title) printf '%s' "Downloading the ISO from Microsoft" ;;
@@ -445,7 +445,7 @@ msg_es() {
         m_ed) printf '%s' "Edición" ;;
         m_ask) printf '%s' "preguntármelo" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Inicio de sesión automático, sin contraseña" ;;
+        m_auto) printf '%s' "Inicio automático sin contraseña (puede bloquear)" ;;
         m_upd) printf '%s' "Pausar las actualizaciones (menos seguro)" ;;
         m_hw) printf '%s' "Omitir controles TPM / Secure Boot / memoria / CPU" ;;
         menu_dl_title) printf '%s' "Descarga del ISO desde Microsoft" ;;
@@ -579,7 +579,7 @@ msg_de() {
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "mich fragen" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Automatisch anmelden, ohne Kennwort" ;;
+        m_auto) printf '%s' "Automatische Anmeldung ohne Kennwort (kann blockieren)" ;;
         m_upd) printf '%s' "Updates pausieren (weniger sicher)" ;;
         m_hw) printf '%s' "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen" ;;
         menu_dl_title) printf '%s' "ISO von Microsoft herunterladen" ;;
@@ -713,7 +713,7 @@ msg_it() {
         m_ed) printf '%s' "Edizione" ;;
         m_ask) printf '%s' "chiedimelo" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Accesso automatico, senza password" ;;
+        m_auto) printf '%s' "Accesso automatico senza password (può bloccare)" ;;
         m_upd) printf '%s' "Sospendi gli aggiornamenti (meno sicuro)" ;;
         m_hw) printf '%s' "Salta i controlli TPM / Secure Boot / memoria / CPU" ;;
         menu_dl_title) printf '%s' "Download dell'ISO da Microsoft" ;;
@@ -847,7 +847,7 @@ msg_pt() {
         m_ed) printf '%s' "Edição" ;;
         m_ask) printf '%s' "perguntar-me" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Início de sessão automático, sem palavra-passe" ;;
+        m_auto) printf '%s' "Início automático sem palavra-passe (pode bloquear)" ;;
         m_upd) printf '%s' "Pausar as atualizações (menos seguro)" ;;
         m_hw) printf '%s' "Ignorar verificações de TPM / Secure Boot / memória / CPU" ;;
         menu_dl_title) printf '%s' "Transferir o ISO da Microsoft" ;;

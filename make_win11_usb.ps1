@@ -39,7 +39,7 @@ $Textes = @{
         m_ed            = 'Édition'
         m_ask           = 'me le demander'
         m_home          = 'Famille'
-        m_auto          = 'Session ouverte automatiquement, sans mot de passe'
+        m_auto          = 'Session automatique sans mot de passe (peut bloquer)'
         m_upd           = 'Mettre en pause les mises à jour (moins sûr)'
         m_hw            = 'Ignorer les contrôles TPM / Secure Boot / mémoire / CPU'
         menu_dl_title   = 'Téléchargement de l''ISO depuis Microsoft'
@@ -157,7 +157,7 @@ $Textes = @{
         m_ed            = 'Edition'
         m_ask           = 'ask me during setup'
         m_home          = 'Home'
-        m_auto          = 'Sign in automatically, no password'
+        m_auto          = 'Automatic sign-in, no password (may block setup)'
         m_upd           = 'Pause automatic updates (less secure)'
         m_hw            = 'Skip TPM / Secure Boot / memory / CPU checks'
         menu_dl_title   = 'Downloading the ISO from Microsoft'
@@ -275,7 +275,7 @@ $Textes = @{
         m_ed            = "Edición"
         m_ask           = "preguntármelo"
         m_home          = "Home"
-        m_auto          = "Inicio de sesión automático, sin contraseña"
+        m_auto          = "Inicio automático sin contraseña (puede bloquear)"
         m_upd           = "Pausar las actualizaciones (menos seguro)"
         m_hw            = "Omitir controles TPM / Secure Boot / memoria / CPU"
         menu_dl_title   = "Descarga del ISO desde Microsoft"
@@ -393,7 +393,7 @@ $Textes = @{
         m_ed            = "Edition"
         m_ask           = "mich fragen"
         m_home          = "Home"
-        m_auto          = "Automatisch anmelden, ohne Kennwort"
+        m_auto          = "Automatische Anmeldung ohne Kennwort (kann blockieren)"
         m_upd           = "Updates pausieren (weniger sicher)"
         m_hw            = "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen"
         menu_dl_title   = "ISO von Microsoft herunterladen"
@@ -511,7 +511,7 @@ $Textes = @{
         m_ed            = "Edizione"
         m_ask           = "chiedimelo"
         m_home          = "Home"
-        m_auto          = "Accesso automatico, senza password"
+        m_auto          = "Accesso automatico senza password (può bloccare)"
         m_upd           = "Sospendi gli aggiornamenti (meno sicuro)"
         m_hw            = "Salta i controlli TPM / Secure Boot / memoria / CPU"
         menu_dl_title   = "Download dell'ISO da Microsoft"
@@ -629,7 +629,7 @@ $Textes = @{
         m_ed            = "Edição"
         m_ask           = "perguntar-me"
         m_home          = "Home"
-        m_auto          = "Início de sessão automático, sem palavra-passe"
+        m_auto          = "Início automático sem palavra-passe (pode bloquear)"
         m_upd           = "Pausar as atualizações (menos seguro)"
         m_hw            = "Ignorar verificações de TPM / Secure Boot / memória / CPU"
         menu_dl_title   = "Transferir o ISO da Microsoft"
@@ -775,7 +775,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-8)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-9)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere

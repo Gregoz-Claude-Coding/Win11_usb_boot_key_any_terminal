@@ -45,10 +45,11 @@ anim_stop() {
 banniere() {
     [ -t 1 ] || return 0
     local b=$'\033[38;5;111m' g=$'\033[38;5;84m' d=$'\033[2m'
-    printf '\n%s  ___           _        _  %s ___            _   %s\n' "$b" "$g" "$raz"
-    printf '%s | _ \\___  __| |_____| |_%s| _ ) ___  ___| |_ %s\n' "$b" "$g" "$raz"
-    printf '%s |  _/ _ \\/ _| / / -_)  _%s| _ \\/ _ \\/ _ \\  _|%s\n' "$b" "$g" "$raz"
-    printf '%s |_| \\___/\\__|_\\_\\___|\\__%s|___/\\___/\\___/\\__|%s\n' "$b" "$g" "$raz"
+    printf '\n'
+    printf '%s%s%s%s%s\n' "$b" ' ___           _         _   ' "$g" ' ___            _   ' "$raz"
+    printf '%s%s%s%s%s\n' "$b" '| _ \ ___  __ | |__ ___ | |_ ' "$g" '| _ ) ___  ___ | |_ ' "$raz"
+    printf '%s%s%s%s%s\n' "$b" '|  _// _ \/ _|| / // -_)|  _|' "$g" '| _ \/ _ \/ _ \|  _|' "$raz"
+    printf '%s%s%s%s%s\n' "$b" '|_|  \___/\__||_\_\\___| \__|' "$g" '|___/\___/\___/ \__|' "$raz"
     printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste%s\n\n' "$d" "$raz"
 }
 

@@ -781,7 +781,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-12)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-13)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -975,7 +975,8 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
             $t = $sw.Elapsed.TotalSeconds
             if ($t - $tPrev -ge 1) { $vit = [math]::Round((($b - $bPrev) / 1MB) / ($t - $tPrev), 1); $tPrev = $t; $bPrev = $b }
             $pct = [int][math]::Floor(100 * [math]::Min($b, $total) / $total)
-            [Console]::Write("`r  {0,3} %   {1} / {2} GB   {3} MB/s   {4}   " -f $pct, [math]::Round($b / 1GB, 2), [math]::Round($total / 1GB, 2), $vit, (T 'dl_pause_hint'))
+            $ligne = "`r  {0,3} %   {1} / {2} GB   {3} MB/s   {4}   " -f $pct, [math]::Round($b / 1GB, 2), [math]::Round($total / 1GB, 2), $vit, (T 'dl_pause_hint')
+            [Console]::Write($ligne)
         }
         [Console]::WriteLine()
     }

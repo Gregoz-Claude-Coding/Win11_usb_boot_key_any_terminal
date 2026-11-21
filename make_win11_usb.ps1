@@ -907,7 +907,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-20)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-21)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1542,19 +1542,8 @@ function Effacer([string]$f) {
     } catch { }
     Remove-Item -LiteralPath $f -Force
 }
-$profils = @(Get-ChildItem -LiteralPath $dir -Filter 'wifi*.xml' -File | Sort-Object Name)
-foreach ($pf in $profils) {
-    netsh wlan add profile filename="$($pf.FullName)" user=all | Out-Null
-    $ssid = ([xml](Get-Content -LiteralPath $pf.FullName -Raw)).WLANProfile.name
-    $essais = if ($profils.Count -gt 1) { 8 } else { 20 }
-    $ok = $false
-    for ($i = 0; $i -lt $essais; $i++) {
-        netsh wlan connect name="$ssid" | Out-Null
-        Start-Sleep -Seconds 4
-        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { $ok = $true; break }
-    }
-    if ($ok) { break }
-}
+$travailWifi = Test-Path -LiteralPath (Join-Path $dir 'wifi.ps1')
+if ($travailWifi) { Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $dir 'wifi.ps1') }
 if ($vider) { cmd.exe /c "net user ""$nom"" """"" | Out-Null }
 foreach ($d in (Get-PSDrive -PSProvider FileSystem)) {
     $r = $d.Root
@@ -1574,8 +1563,70 @@ foreach ($f in 'unattend.xml', 'autounattend.xml') {
     if (Test-Path -LiteralPath $p) { Effacer $p }
 }
 Get-ChildItem -LiteralPath 'C:\Windows\Panther\UnattendGC' -File -Force | ForEach-Object { Effacer $_.FullName }
-Get-ChildItem -LiteralPath $dir -File -Force | Where-Object { $_.FullName -ne $PSCommandPath } | ForEach-Object { Effacer $_.FullName }
-Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-Command', "Start-Sleep 3; Remove-Item -LiteralPath '$dir' -Recurse -Force"
+if (-not $travailWifi) {
+    Get-ChildItem -LiteralPath $dir -File -Force | Where-Object { $_.FullName -ne $PSCommandPath } | ForEach-Object { Effacer $_.FullName }
+    Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-Command', "Start-Sleep 3; Remove-Item -LiteralPath '$dir' -Recurse -Force"
+}
+'@
+}
+
+function Get-ModeleWifi {
+    return @'
+# PocketBoot : connexion Wi-Fi apres la premiere ouverture de session (patiente jusqu'a 12 minutes que la carte Wi-Fi soit prete)
+$ErrorActionPreference = 'SilentlyContinue'
+$dir = 'C:\PocketBoot'
+$log = 'C:\Windows\Temp\PocketBoot-wifi.log'
+function L([string]$m) { Add-Content -LiteralPath $log -Value ((Get-Date -Format 's') + ' ' + $m) }
+function Effacer([string]$f) {
+    try {
+        $len = (Get-Item -LiteralPath $f -Force).Length
+        if ($len -gt 0) {
+            $fs = [IO.File]::Open($f, 'Open', 'Write')
+            $fs.Write((New-Object byte[] $len), 0, $len); $fs.Flush(); $fs.Dispose()
+        }
+    } catch { }
+    Remove-Item -LiteralPath $f -Force
+}
+function Carte { Get-NetAdapter | Where-Object { $_.PhysicalMediaType -like '*802.11*' -or $_.InterfaceDescription -match 'Wi-?Fi|Wireless|WLAN|802\.11' } | Select-Object -First 1 }
+function Internet {
+    try {
+        $c = New-Object Net.Sockets.TcpClient
+        $ar = $c.BeginConnect('1.1.1.1', 443, $null, $null)
+        $r = $ar.AsyncWaitHandle.WaitOne(3000) -and $c.Connected
+        $c.Close()
+        return $r
+    } catch { return $false }
+}
+L 'debut'
+Set-Service -Name WlanSvc -StartupType Automatic
+Start-Service -Name WlanSvc
+$profils = @(Get-ChildItem -LiteralPath $dir -Filter 'wifi*.xml' -File | Sort-Object Name)
+$fin = (Get-Date).AddMinutes(12)
+$ok = $false; $vu = $false
+while (-not $ok -and (Get-Date) -lt $fin) {
+    $a = Carte
+    if (-not $a) { if (-not $vu) { L 'aucune carte Wi-Fi detectee (pilote absent ou pas encore installe) : nouvel essai' ; $vu = $true }; Start-Sleep -Seconds 10; continue }
+    if ($vu) { L ('carte Wi-Fi detectee : ' + $a.InterfaceDescription); $vu = $false }
+    if ($a.Status -eq 'Disabled') { Enable-NetAdapter -Name $a.Name -Confirm:$false }
+    foreach ($pf in $profils) {
+        $ssid = ([xml](Get-Content -LiteralPath $pf.FullName -Raw)).WLANProfile.name
+        $auth = ([xml](Get-Content -LiteralPath $pf.FullName -Raw)).WLANProfile.MSM.security.authEncryption.authentication
+        $r1 = (netsh wlan add profile filename="$($pf.FullName)" user=all 2>&1) -join ' '
+        L ("profil " + $auth + " : " + $r1)
+        $r2 = (netsh wlan connect name="$ssid" 2>&1) -join ' '
+        L ("connexion : " + $r2)
+        for ($i = 0; $i -lt 6; $i++) {
+            Start-Sleep -Seconds 4
+            if (Internet) { $ok = $true; break }
+        }
+        L ('internet : ' + $ok)
+        if ($ok) { break }
+    }
+    if (-not $ok) { Start-Sleep -Seconds 10 }
+}
+L ('fin, connecte = ' + $ok)
+foreach ($f in (Get-ChildItem -LiteralPath $dir -File -Force)) { Effacer $f.FullName }
+Remove-Item -LiteralPath $dir -Recurse -Force
 '@
 }
 
@@ -1803,6 +1854,7 @@ try {
             $modele = (Get-ModelePremiereSession).Replace('__NAME__', $nomCompte).Replace('__RESET__', $vider)
             [IO.File]::WriteAllText((Join-Path $oem 'firstlogon.ps1'), $modele, (New-Object Text.UTF8Encoding $true))
             if ($wifi) {
+                [IO.File]::WriteAllText((Join-Path $oem 'wifi.ps1'), (Get-ModeleWifi), (New-Object Text.UTF8Encoding $true))
                 $ws = [Security.SecurityElement]::Escape($wifiSsid); $wk = [Security.SecurityElement]::Escape($wifiPwd)
                 $auths = if ($wifiAuth -eq 2) { @('WPA3SAE') } elseif ($wifiAuth -eq 1) { @('WPA2PSK') } else { @('WPA2PSK', 'WPA3SAE') }
                 for ($ai = 0; $ai -lt $auths.Count; $ai++) {

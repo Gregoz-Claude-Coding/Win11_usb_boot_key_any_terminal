@@ -1,3 +1,5 @@
+> **Ce dépôt est regroupé dans [PocketBoot](https://github.com/gregorybrice-coder/PocketBoot)** (scripts dans `scripts/`, application Android dans `android/`). Les scripts et `iso_links.txt` restent ici le temps de la transition, mais les nouvelles versions sont publiées dans PocketBoot.
+
 # Win11_usb_boot_key_any_terminal
 
 Crée une clé USB bootable Windows 11 (UEFI, FAT32) à partir d'un fichier ISO, depuis **Windows, macOS ou Linux**. Les scripts peuvent aussi télécharger l'ISO depuis le serveur de Microsoft.

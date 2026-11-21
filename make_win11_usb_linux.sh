@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-6)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-7)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -171,9 +171,9 @@ msg_fr() {
         confirm_dl) printf '%s' "Lancer le téléchargement vers %s ? (O/N) " ;;
         dl_running) printf '%s' "Téléchargement (reprise possible si interrompu)..." ;;
         dl_par) printf '%s' "Téléchargement en parallèle sur %s connexions (reprise possible)..." ;;
-        menu_help) printf '%s' "↑↓ déplacer · Espace cocher · ←→ changer la valeur · Entrée valider · Échap annuler" ;;
+        menu_help) printf '%s' "↑↓ choisir · Espace cocher · ←→ changer · Entrée valider · Échap annuler" ;;
         menu_opts_title) printf '%s' "Options de l'installation de Windows" ;;
-        m_bypass) printf '%s' "Ignorer les questions d'installation (compte local, sans offres 365)" ;;
+        m_bypass) printf '%s' "Sauter les questions d'installation (compte local)" ;;
         m_lang) printf '%s' "Langue, clavier et fuseau" ;;
         m_ed) printf '%s' "Édition" ;;
         m_ask) printf '%s' "me le demander" ;;
@@ -306,9 +306,9 @@ msg_en() {
         confirm_dl) printf '%s' "Start the download to %s? (Y/N) " ;;
         dl_running) printf '%s' "Downloading (resumable if interrupted)..." ;;
         dl_par) printf '%s' "Parallel download on %s connections (resumable)..." ;;
-        menu_help) printf '%s' "↑↓ move · Space toggle · ←→ change value · Enter confirm · Esc cancel" ;;
+        menu_help) printf '%s' "↑↓ move · Space tick · ←→ change · Enter OK · Esc cancel" ;;
         menu_opts_title) printf '%s' "Windows installation options" ;;
-        m_bypass) printf '%s' "Skip setup questions (local account, no 365 offers)" ;;
+        m_bypass) printf '%s' "Skip setup questions (local account)" ;;
         m_lang) printf '%s' "Language, keyboard, time zone" ;;
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "ask me during setup" ;;
@@ -441,9 +441,9 @@ msg_es() {
         confirm_dl) printf '%s' "¿Iniciar la descarga en %s? (S/N) " ;;
         dl_running) printf '%s' "Descargando (se puede reanudar si se interrumpe)..." ;;
         dl_par) printf '%s' "Descarga en paralelo con %s conexiones (se puede reanudar)..." ;;
-        menu_help) printf '%s' "↑↓ mover · Espacio marcar · ←→ cambiar valor · Intro validar · Esc cancelar" ;;
+        menu_help) printf '%s' "↑↓ mover · Espacio marcar · ←→ cambiar · Intro validar · Esc cancelar" ;;
         menu_opts_title) printf '%s' "Opciones de la instalación de Windows" ;;
-        m_bypass) printf '%s' "Omitir las preguntas de instalación (cuenta local, sin ofertas 365)" ;;
+        m_bypass) printf '%s' "Omitir preguntas de instalación (cuenta local)" ;;
         m_lang) printf '%s' "Idioma, teclado y zona horaria" ;;
         m_ed) printf '%s' "Edición" ;;
         m_ask) printf '%s' "preguntármelo" ;;
@@ -576,9 +576,9 @@ msg_de() {
         confirm_dl) printf '%s' "Download nach %s starten? (J/N) " ;;
         dl_running) printf '%s' "Download läuft (fortsetzbar bei Unterbrechung)..." ;;
         dl_par) printf '%s' "Paralleler Download mit %s Verbindungen (fortsetzbar)..." ;;
-        menu_help) printf '%s' "↑↓ bewegen · Leertaste wählen · ←→ Wert ändern · Eingabe bestätigen · Esc abbrechen" ;;
+        menu_help) printf '%s' "↑↓ wählen · Leertaste anhaken · ←→ ändern · Eingabe OK · Esc abbrechen" ;;
         menu_opts_title) printf '%s' "Optionen der Windows-Installation" ;;
-        m_bypass) printf '%s' "Einrichtungsfragen überspringen (lokales Konto, ohne 365-Angebote)" ;;
+        m_bypass) printf '%s' "Einrichtungsfragen überspringen (lokales Konto)" ;;
         m_lang) printf '%s' "Sprache, Tastatur, Zeitzone" ;;
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "mich fragen" ;;
@@ -711,9 +711,9 @@ msg_it() {
         confirm_dl) printf '%s' "Avviare il download in %s? (S/N) " ;;
         dl_running) printf '%s' "Download in corso (riprendibile se interrotto)..." ;;
         dl_par) printf '%s' "Download parallelo su %s connessioni (riprendibile)..." ;;
-        menu_help) printf '%s' "↑↓ muovi · Spazio seleziona · ←→ cambia valore · Invio conferma · Esc annulla" ;;
+        menu_help) printf '%s' "↑↓ muovi · Spazio spunta · ←→ cambia · Invio conferma · Esc annulla" ;;
         menu_opts_title) printf '%s' "Opzioni di installazione di Windows" ;;
-        m_bypass) printf '%s' "Salta le domande di installazione (account locale, senza offerte 365)" ;;
+        m_bypass) printf '%s' "Salta le domande di installazione (account locale)" ;;
         m_lang) printf '%s' "Lingua, tastiera, fuso orario" ;;
         m_ed) printf '%s' "Edizione" ;;
         m_ask) printf '%s' "chiedimelo" ;;
@@ -846,9 +846,9 @@ msg_pt() {
         confirm_dl) printf '%s' "Iniciar o download em %s? (S/N) " ;;
         dl_running) printf '%s' "Baixando (retomável se interrompido)..." ;;
         dl_par) printf '%s' "Transferência em paralelo com %s ligações (retomável)..." ;;
-        menu_help) printf '%s' "↑↓ mover · Espaço marcar · ←→ mudar valor · Enter confirmar · Esc cancelar" ;;
+        menu_help) printf '%s' "↑↓ mover · Espaço marcar · ←→ mudar · Enter confirmar · Esc cancelar" ;;
         menu_opts_title) printf '%s' "Opções da instalação do Windows" ;;
-        m_bypass) printf '%s' "Ignorar as perguntas da instalação (conta local, sem ofertas 365)" ;;
+        m_bypass) printf '%s' "Ignorar perguntas da instalação (conta local)" ;;
         m_lang) printf '%s' "Idioma, teclado, fuso horário" ;;
         m_ed) printf '%s' "Edição" ;;
         m_ask) printf '%s' "perguntar-me" ;;
@@ -1172,18 +1172,19 @@ obtenir_lien_manuel() {
 # M_DEP (1 = ligne visible seulement si la première case est cochée). Retour : 0 validé, 1 annulé, 2 pas de terminal.
 m_visible() { [ "${M_DEP[$1]}" != 1 ] || [ "${M_VAL[0]}" = 1 ]; }
 menu_cases() {
-    local n=${#M_TYPE[@]} cur=0 i j k k2 first=1 nb v lib pointeur d
+    local n=${#M_TYPE[@]} cur=0 i j k k2 first=1 nb v lib pointeur d cols max texte
     { [ -t 0 ] && [ -t 2 ]; } || return 2
+    cols=$(tput cols 2>/dev/null || echo 80); max=$((cols - 3))
     printf '\033[?25l' >&2
     while :; do
         [ "$first" -eq 0 ] && printf '\033[%dA' $((n + 2)) >&2
         first=0
-        printf '\r\033[K  %s%s%s\n' "$cyan" "$M_TITRE" "$raz" >&2
-        printf '\r\033[K  %s\n' "$(msg menu_help)" >&2
+        texte="  $M_TITRE"; printf '\r\033[K%s%s%s\n' "$cyan" "${texte:0:$max}" "$raz" >&2
+        texte="  $(msg menu_help)"; printf '\r\033[K%s\n' "${texte:0:$max}" >&2
         i=0
         while [ "$i" -lt "$n" ]; do
             if m_visible "$i"; then
-                if [ "$i" -eq "$cur" ]; then pointeur="${cyan}>${raz}"; else pointeur=" "; fi
+                if [ "$i" -eq "$cur" ]; then pointeur=">"; else pointeur=" "; fi
                 if [ "${M_TYPE[$i]}" = c ]; then
                     if [ "${M_VAL[$i]}" = 1 ]; then v="[x]"; else v="[ ]"; fi
                     lib="${M_LABEL[$i]}"
@@ -1191,8 +1192,8 @@ menu_cases() {
                     v="   "
                     lib="${M_LABEL[$i]} :  < $(printf '%s' "${M_OPTS[$i]}" | awk -F'|' -v n=$(( ${M_VAL[$i]} + 1 )) '{print $n}') >"
                 fi
-                [ "$i" -eq "$cur" ] && lib="${cyan}${lib}${raz}"
-                printf '\r\033[K %s %s %s\n' "$pointeur" "$v" "$lib" >&2
+                texte=" $pointeur $v $lib"; texte="${texte:0:$max}"
+                if [ "$i" -eq "$cur" ]; then printf '\r\033[K%s%s%s\n' "$cyan" "$texte" "$raz" >&2; else printf '\r\033[K%s\n' "$texte" >&2; fi
             else
                 printf '\r\033[K\n' >&2
             fi

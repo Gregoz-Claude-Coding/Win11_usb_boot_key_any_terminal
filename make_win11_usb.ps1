@@ -32,9 +32,9 @@ $Textes = @{
         confirm_dl      = 'Lancer le téléchargement vers {0} ? (O/N)'
         dl_running      = 'Téléchargement...'
         dl_par          = 'Téléchargement en parallèle sur {0} connexions (reprise possible)...'
-        menu_help       = '↑↓ déplacer · Espace cocher · ←→ changer la valeur · Entrée valider · Échap annuler'
+        menu_help       = '↑↓ choisir · Espace cocher · ←→ changer · Entrée valider · Échap annuler'
         menu_opts_title = 'Options de l''installation de Windows'
-        m_bypass        = 'Ignorer les questions d''installation (compte local, sans offres 365)'
+        m_bypass        = 'Sauter les questions d''installation (compte local)'
         m_lang          = 'Langue, clavier et fuseau'
         m_ed            = 'Édition'
         m_ask           = 'me le demander'
@@ -150,9 +150,9 @@ $Textes = @{
         confirm_dl      = 'Start the download to {0}? (Y/N)'
         dl_running      = 'Downloading...'
         dl_par          = 'Parallel download on {0} connections (resumable)...'
-        menu_help       = '↑↓ move · Space toggle · ←→ change value · Enter confirm · Esc cancel'
+        menu_help       = '↑↓ move · Space tick · ←→ change · Enter OK · Esc cancel'
         menu_opts_title = 'Windows installation options'
-        m_bypass        = 'Skip setup questions (local account, no 365 offers)'
+        m_bypass        = 'Skip setup questions (local account)'
         m_lang          = 'Language, keyboard, time zone'
         m_ed            = 'Edition'
         m_ask           = 'ask me during setup'
@@ -268,9 +268,9 @@ $Textes = @{
         confirm_dl      = "¿Iniciar la descarga en {0}? (S/N)"
         dl_running      = "Descargando..."
         dl_par          = "Descarga en paralelo con {0} conexiones (se puede reanudar)..."
-        menu_help       = "↑↓ mover · Espacio marcar · ←→ cambiar valor · Intro validar · Esc cancelar"
+        menu_help       = "↑↓ mover · Espacio marcar · ←→ cambiar · Intro validar · Esc cancelar"
         menu_opts_title = "Opciones de la instalación de Windows"
-        m_bypass        = "Omitir las preguntas de instalación (cuenta local, sin ofertas 365)"
+        m_bypass        = "Omitir preguntas de instalación (cuenta local)"
         m_lang          = "Idioma, teclado y zona horaria"
         m_ed            = "Edición"
         m_ask           = "preguntármelo"
@@ -386,9 +386,9 @@ $Textes = @{
         confirm_dl      = "Download nach {0} starten? (J/N)"
         dl_running      = "Download läuft..."
         dl_par          = "Paralleler Download mit {0} Verbindungen (fortsetzbar)..."
-        menu_help       = "↑↓ bewegen · Leertaste wählen · ←→ Wert ändern · Eingabe bestätigen · Esc abbrechen"
+        menu_help       = "↑↓ wählen · Leertaste anhaken · ←→ ändern · Eingabe OK · Esc abbrechen"
         menu_opts_title = "Optionen der Windows-Installation"
-        m_bypass        = "Einrichtungsfragen überspringen (lokales Konto, ohne 365-Angebote)"
+        m_bypass        = "Einrichtungsfragen überspringen (lokales Konto)"
         m_lang          = "Sprache, Tastatur, Zeitzone"
         m_ed            = "Edition"
         m_ask           = "mich fragen"
@@ -504,9 +504,9 @@ $Textes = @{
         confirm_dl      = "Avviare il download in {0}? (S/N)"
         dl_running      = "Download in corso..."
         dl_par          = "Download parallelo su {0} connessioni (riprendibile)..."
-        menu_help       = "↑↓ muovi · Spazio seleziona · ←→ cambia valore · Invio conferma · Esc annulla"
+        menu_help       = "↑↓ muovi · Spazio spunta · ←→ cambia · Invio conferma · Esc annulla"
         menu_opts_title = "Opzioni di installazione di Windows"
-        m_bypass        = "Salta le domande di installazione (account locale, senza offerte 365)"
+        m_bypass        = "Salta le domande di installazione (account locale)"
         m_lang          = "Lingua, tastiera, fuso orario"
         m_ed            = "Edizione"
         m_ask           = "chiedimelo"
@@ -622,9 +622,9 @@ $Textes = @{
         confirm_dl      = "Iniciar o download em {0}? (S/N)"
         dl_running      = "Baixando..."
         dl_par          = "Transferência em paralelo com {0} ligações (retomável)..."
-        menu_help       = "↑↓ mover · Espaço marcar · ←→ mudar valor · Enter confirmar · Esc cancelar"
+        menu_help       = "↑↓ mover · Espaço marcar · ←→ mudar · Enter confirmar · Esc cancelar"
         menu_opts_title = "Opções da instalação do Windows"
-        m_bypass        = "Ignorar as perguntas da instalação (conta local, sem ofertas 365)"
+        m_bypass        = "Ignorar perguntas da instalação (conta local)"
         m_lang          = "Idioma, teclado, fuso horário"
         m_ed            = "Edição"
         m_ask           = "perguntar-me"
@@ -775,7 +775,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-6)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-7)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -820,16 +820,16 @@ function Show-Menu([string]$titre, [object[]]$lignes) {
     try {
         while ($true) {
             [Console]::SetCursorPosition(0, $top)
-            Write-Host ("  " + $titre).PadRight($larg) -ForegroundColor Cyan
-            Write-Host ("  " + (T 'menu_help')).PadRight($larg) -ForegroundColor DarkGray
+            Write-Host (("  " + $titre).PadRight($larg).Substring(0, $larg)) -ForegroundColor Cyan
+            Write-Host (("  " + (T 'menu_help')).PadRight($larg).Substring(0, $larg)) -ForegroundColor DarkGray
             for ($i = 0; $i -lt $n; $i++) {
                 $l = $lignes[$i]
                 if (-not (& $visible $i)) { Write-Host ''.PadRight($larg); continue }
                 if ($l.Type -eq 'c') { $v = $(if ($l.Val -eq 1) { '[x]' } else { '[ ]' }); $txt = $l.Label }
                 else { $v = '   '; $txt = "$($l.Label) :  < $($l.Opts[$l.Val]) >" }
                 $ptr = $(if ($i -eq $cur) { '>' } else { ' ' })
-                $ligne = " $ptr $v $txt"
-                if ($i -eq $cur) { Write-Host $ligne.PadRight($larg) -ForegroundColor Cyan } else { Write-Host $ligne.PadRight($larg) }
+                $ligne = (" $ptr $v $txt").PadRight($larg).Substring(0, $larg)
+                if ($i -eq $cur) { Write-Host $ligne -ForegroundColor Cyan } else { Write-Host $ligne }
             }
             $k = [Console]::ReadKey($true)
             $act = 0

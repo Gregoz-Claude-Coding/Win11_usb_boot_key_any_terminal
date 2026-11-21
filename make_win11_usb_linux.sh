@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-16)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-17)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -123,6 +123,9 @@ msg_fr() {
         ua_wifi_pwd2) printf '%s' "Confirmez le mot de passe du Wi-Fi : " ;;
         ua_wifi_bad) printf '%s' "Mot de passe Wi-Fi trop court ou différent. Recommencez." ;;
         ua_wifi) printf '%s' "Connecter automatiquement le PC à un réseau Wi-Fi au premier démarrage ? (O/N) " ;;
+        ua_wifi_use) printf '%s' "Utiliser le réseau Wi-Fi actuel de ce PC (%s, sécurité %s) ? (O/N) " ;;
+        ua_wifi_sec) printf '%s' "Sécurité du Wi-Fi : 0 = automatique (WPA2 puis WPA3), 1 = WPA2 ou mixte, 2 = WPA3 seul [0] : " ;;
+        ua_wifi_nodet) printf '%s' "(Détection automatique indisponible : ce PC n'est pas connecté en Wi-Fi.)" ;;
         ua_pwdmode) printf '%s' "Saisir vous-même le mot de passe admin (sinon provisoire automatique, puis vide) ? (O/N) " ;;
         ua_clean) printf '%s' "Laissez la clé branchée jusqu'au bureau : au premier démarrage, les mots de passe seront effacés de la clé." ;;
         ua_updates) printf '%s' "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) " ;;
@@ -274,6 +277,9 @@ msg_en() {
         ua_wifi_pwd2) printf '%s' "Confirm the Wi-Fi password: " ;;
         ua_wifi_bad) printf '%s' "Wi-Fi password too short or mismatching. Try again." ;;
         ua_wifi) printf '%s' "Connect the PC to a Wi-Fi network automatically on first start? (Y/N) " ;;
+        ua_wifi_use) printf '%s' "Use this PC's current Wi-Fi network (%s, security %s)? (Y/N) " ;;
+        ua_wifi_sec) printf '%s' "Wi-Fi security: 0 = automatic (WPA2 then WPA3), 1 = WPA2 or mixed, 2 = WPA3 only [0]: " ;;
+        ua_wifi_nodet) printf '%s' "(Automatic detection unavailable: this PC is not connected over Wi-Fi.)" ;;
         ua_pwdmode) printf '%s' "Type the admin password yourself (otherwise temporary automatic, then empty)? (Y/N) " ;;
         ua_clean) printf '%s' "Keep the drive plugged in until the desktop appears: on first start the passwords will be erased from the drive." ;;
         ua_updates) printf '%s' "Pause automatic updates (less secure)? (Y/N) " ;;
@@ -425,6 +431,9 @@ msg_es() {
         ua_wifi_pwd2) printf '%s' "Confirma la contraseña del Wi-Fi: " ;;
         ua_wifi_bad) printf '%s' "Contraseña Wi-Fi demasiado corta o diferente. Inténtalo de nuevo." ;;
         ua_wifi) printf '%s' "¿Conectar el PC automáticamente a una red Wi-Fi en el primer arranque? (S/N) " ;;
+        ua_wifi_use) printf '%s' "¿Usar la red Wi-Fi actual de este PC (%s, seguridad %s)? (S/N) " ;;
+        ua_wifi_sec) printf '%s' "Seguridad del Wi-Fi: 0 = automática (WPA2 y luego WPA3), 1 = WPA2 o mixta, 2 = solo WPA3 [0]: " ;;
+        ua_wifi_nodet) printf '%s' "(Detección automática no disponible: este PC no está conectado por Wi-Fi.)" ;;
         ua_pwdmode) printf '%s' "¿Escribir tú mismo la contraseña admin (si no, temporal automática y luego vacía)? (S/N) " ;;
         ua_clean) printf '%s' "Deja la unidad conectada hasta que aparezca el escritorio: en el primer arranque se borrarán las contraseñas de la unidad." ;;
         ua_updates) printf '%s' "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) " ;;
@@ -576,6 +585,9 @@ msg_de() {
         ua_wifi_pwd2) printf '%s' "WLAN-Kennwort bestätigen: " ;;
         ua_wifi_bad) printf '%s' "WLAN-Kennwort zu kurz oder abweichend. Bitte erneut versuchen." ;;
         ua_wifi) printf '%s' "PC beim ersten Start automatisch mit einem WLAN verbinden? (J/N) " ;;
+        ua_wifi_use) printf '%s' "Aktuelles WLAN dieses PCs verwenden (%s, Sicherheit %s)? (J/N) " ;;
+        ua_wifi_sec) printf '%s' "WLAN-Sicherheit: 0 = automatisch (WPA2, dann WPA3), 1 = WPA2 oder gemischt, 2 = nur WPA3 [0]: " ;;
+        ua_wifi_nodet) printf '%s' "(Automatische Erkennung nicht verfügbar: Dieser PC ist nicht per WLAN verbunden.)" ;;
         ua_pwdmode) printf '%s' "Admin-Kennwort selbst eingeben (sonst temporär automatisch, danach leer)? (J/N) " ;;
         ua_clean) printf '%s' "Stick bis zum Desktop eingesteckt lassen: beim ersten Start werden die Kennwörter vom Stick gelöscht." ;;
         ua_updates) printf '%s' "Automatische Updates pausieren (weniger sicher)? (J/N) " ;;
@@ -727,6 +739,9 @@ msg_it() {
         ua_wifi_pwd2) printf '%s' "Conferma la password del Wi-Fi: " ;;
         ua_wifi_bad) printf '%s' "Password Wi-Fi troppo corta o diversa. Riprova." ;;
         ua_wifi) printf '%s' "Collegare automaticamente il PC a una rete Wi-Fi al primo avvio? (S/N) " ;;
+        ua_wifi_use) printf '%s' "Usare la rete Wi-Fi attuale di questo PC (%s, sicurezza %s)? (S/N) " ;;
+        ua_wifi_sec) printf '%s' "Sicurezza del Wi-Fi: 0 = automatica (WPA2 poi WPA3), 1 = WPA2 o mista, 2 = solo WPA3 [0]: " ;;
+        ua_wifi_nodet) printf '%s' "(Rilevamento automatico non disponibile: questo PC non è collegato in Wi-Fi.)" ;;
         ua_pwdmode) printf '%s' "Digitare tu la password admin (altrimenti provvisoria automatica, poi vuota)? (S/N) " ;;
         ua_clean) printf '%s' "Lascia la chiavetta inserita fino alla comparsa del desktop: al primo avvio le password verranno cancellate dalla chiavetta." ;;
         ua_updates) printf '%s' "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) " ;;
@@ -878,6 +893,9 @@ msg_pt() {
         ua_wifi_pwd2) printf '%s' "Confirma a palavra-passe do Wi-Fi: " ;;
         ua_wifi_bad) printf '%s' "Palavra-passe Wi-Fi demasiado curta ou diferente. Tenta novamente." ;;
         ua_wifi) printf '%s' "Ligar o PC automaticamente a uma rede Wi-Fi no primeiro arranque? (S/N) " ;;
+        ua_wifi_use) printf '%s' "Usar a rede Wi-Fi atual deste PC (%s, segurança %s)? (S/N) " ;;
+        ua_wifi_sec) printf '%s' "Segurança do Wi-Fi: 0 = automática (WPA2 e depois WPA3), 1 = WPA2 ou mista, 2 = apenas WPA3 [0]: " ;;
+        ua_wifi_nodet) printf '%s' "(Deteção automática indisponível: este PC não está ligado por Wi-Fi.)" ;;
         ua_pwdmode) printf '%s' "Escrever tu a palavra-passe admin (senão provisória automática, depois vazia)? (S/N) " ;;
         ua_clean) printf '%s' "Deixa a pen ligada até aparecer o ambiente de trabalho: no primeiro arranque as palavras-passe serão apagadas da pen." ;;
         ua_updates) printf '%s' "Pausar as atualizações automáticas (menos seguro)? (S/N) " ;;
@@ -1756,7 +1774,6 @@ $ErrorActionPreference = 'SilentlyContinue'
 $dir = 'C:\PocketBoot'
 $nom = '__NAME__'
 $vider = __RESET__
-$wifi = Join-Path $dir 'wifi.xml'
 function Effacer([string]$f) {
     try {
         $len = (Get-Item -LiteralPath $f -Force).Length
@@ -1767,14 +1784,18 @@ function Effacer([string]$f) {
     } catch { }
     Remove-Item -LiteralPath $f -Force
 }
-if (Test-Path -LiteralPath $wifi) {
-    netsh wlan add profile filename="$wifi" user=all | Out-Null
-    $ssid = ([xml](Get-Content -LiteralPath $wifi -Raw)).WLANProfile.name
-    for ($i = 0; $i -lt 20; $i++) {
+$profils = @(Get-ChildItem -LiteralPath $dir -Filter 'wifi*.xml' -File | Sort-Object Name)
+foreach ($pf in $profils) {
+    netsh wlan add profile filename="$($pf.FullName)" user=all | Out-Null
+    $ssid = ([xml](Get-Content -LiteralPath $pf.FullName -Raw)).WLANProfile.name
+    $essais = if ($profils.Count -gt 1) { 8 } else { 20 }
+    $ok = $false
+    for ($i = 0; $i -lt $essais; $i++) {
         netsh wlan connect name="$ssid" | Out-Null
         Start-Sleep -Seconds 4
-        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { break }
+        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { $ok = $true; break }
     }
+    if ($ok) { break }
 }
 if ($vider) { cmd.exe /c "net user ""$nom"" """"" | Out-Null }
 foreach ($d in (Get-PSDrive -PSProvider FileSystem)) {
@@ -1798,6 +1819,20 @@ Get-ChildItem -LiteralPath 'C:\Windows\Panther\UnattendGC' -File -Force | ForEac
 Get-ChildItem -LiteralPath $dir -File -Force | Where-Object { $_.FullName -ne $PSCommandPath } | ForEach-Object { Effacer $_.FullName }
 Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-Command', "Start-Sleep 3; Remove-Item -LiteralPath '$dir' -Recurse -Force"
 PBEOF
+}
+wifi_actuel() {
+    WIFI_CUR_SSID=""; WIFI_CUR_AUTH=0
+    local l sec
+    if command -v nmcli >/dev/null 2>&1; then
+        l=$(nmcli -t -f ACTIVE,SSID,SECURITY dev wifi 2>/dev/null | grep '^yes:' | head -1)
+        if [ -n "$l" ]; then
+            l=${l#yes:}; sec=${l##*:}
+            WIFI_CUR_SSID=$(printf '%s' "${l%:*}" | sed 's/\\:/:/g')
+        fi
+    fi
+    if [ -z "$WIFI_CUR_SSID" ] && command -v iwgetid >/dev/null 2>&1; then WIFI_CUR_SSID=$(iwgetid -r 2>/dev/null); sec=""; fi
+    case "$sec" in *WPA3*) case "$sec" in *WPA2*) WIFI_CUR_AUTH=1 ;; *) WIFI_CUR_AUTH=2 ;; esac ;; *WPA*) WIFI_CUR_AUTH=1 ;; esac
+    [ -n "$WIFI_CUR_SSID" ]
 }
 oui() { case "$1" in [oOyYsSjJ]*) return 0 ;; esac; return 1; }
 touche() { TOUCHE=""; printf '%s' "$(msg "$1")" >&2; IFS= read -r -n 1 TOUCHE || true; [ -n "$TOUCHE" ] && echo >&2; return 0; }
@@ -1839,14 +1874,26 @@ if [ "$bypass" -eq 1 ]; then
         fi
     fi
     if [ "$wifi" -eq 1 ]; then
+        wifi_auth=0; utilise=0
+        if wifi_actuel; then
+            case "$WIFI_CUR_AUTH" in 1) lib=WPA2 ;; 2) lib=WPA3 ;; *) lib="?" ;; esac
+            touche_a() { TOUCHE=""; printf '%s' "$(msg "$1" "$2" "$3")" >&2; IFS= read -r -n 1 TOUCHE || true; [ -n "$TOUCHE" ] && echo >&2; return 0; }
+            touche_a ua_wifi_use "$WIFI_CUR_SSID" "$lib"
+            if oui "$TOUCHE"; then utilise=1; wifi_ssid="$WIFI_CUR_SSID"; wifi_auth="$WIFI_CUR_AUTH"; fi
+        else
+            printf '%s\n' "$(msg ua_wifi_nodet)" >&2
+        fi
         while :; do
-            read -r -p "$(msg ua_wifi_ssid)" wifi_ssid
-            [ -n "$wifi_ssid" ] || continue
+            if [ "$utilise" -eq 0 ]; then
+                read -r -p "$(msg ua_wifi_ssid)" wifi_ssid
+                [ -n "$wifi_ssid" ] || continue
+            fi
             read -rs -p "$(msg ua_wifi_pwd)" wifi_pwd; echo
             read -rs -p "$(msg ua_wifi_pwd2)" wifi_pwd2; echo
             [ "${#wifi_pwd}" -ge 8 ] && [ "$wifi_pwd" = "$wifi_pwd2" ] && break
             avert "$(msg ua_wifi_bad)"
         done
+        if [ "$wifi_auth" -eq 0 ]; then wifi_auth=$(choix ua_wifi_sec 2); fi
     fi
     if [ "$ua_auto" -eq 1 ] || [ "$wifi" -eq 1 ]; then avert "$(msg ua_clean)"; fi
 fi
@@ -2047,7 +2094,12 @@ if [ "$bypass" -eq 1 ]; then
         if [ "$wifi" -eq 1 ]; then
             xesc() { printf '%s' "$1" | sed "s/&/\\&amp;/g; s/</\\&lt;/g; s/>/\\&gt;/g; s/\"/\\&quot;/g; s/'/\\&apos;/g"; }
             w_s=$(xesc "$wifi_ssid"); w_k=$(xesc "$wifi_pwd")
-            printf '%s' "<?xml version=\"1.0\"?><WLANProfile xmlns=\"http://www.microsoft.com/networking/WLAN/profile/v1\"><name>$w_s</name><SSIDConfig><SSID><name>$w_s</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>WPA2PSK</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>$w_k</keyMaterial></sharedKey></security></MSM></WLANProfile>" > "$oem/wifi.xml"
+            wauths="WPA2PSK WPA3SAE"; case "$wifi_auth" in 1) wauths="WPA2PSK" ;; 2) wauths="WPA3SAE" ;; esac
+            wn=0
+            for wa in $wauths; do
+                wn=$((wn+1))
+                printf '%s' "<?xml version=\"1.0\"?><WLANProfile xmlns=\"http://www.microsoft.com/networking/WLAN/profile/v1\"><name>$w_s</name><SSIDConfig><SSID><name>$w_s</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>$wa</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>$w_k</keyMaterial></sharedKey></security></MSM></WLANProfile>" > "$oem/wifi$wn.xml"
+            done
         fi
     fi
     ok "$(msg bypass_done "$nom_compte")"

@@ -108,6 +108,9 @@ $Textes = @{
         ua_wifi_pwd2    = "Confirmez le mot de passe du Wi-Fi : "
         ua_wifi_bad     = "Mot de passe Wi-Fi trop court ou différent. Recommencez."
         ua_wifi         = "Connecter automatiquement le PC à un réseau Wi-Fi au premier démarrage ? (O/N) "
+        ua_wifi_use     = "Utiliser le réseau Wi-Fi actuel de ce PC ({0}, sécurité {1}) ? (O/N) "
+        ua_wifi_sec     = "Sécurité du Wi-Fi : 0 = automatique (WPA2 puis WPA3), 1 = WPA2 ou mixte, 2 = WPA3 seul [0] : "
+        ua_wifi_nodet   = "(Détection automatique indisponible : ce PC n'est pas connecté en Wi-Fi.)"
         ua_pwdmode      = "Saisir vous-même le mot de passe admin (sinon provisoire automatique, puis vide) ? (O/N) "
         ua_clean        = "Laissez la clé branchée jusqu'au bureau : au premier démarrage, les mots de passe seront effacés de la clé."
         ua_updates      = "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) "
@@ -242,6 +245,9 @@ $Textes = @{
         ua_wifi_pwd2    = "Confirm the Wi-Fi password: "
         ua_wifi_bad     = "Wi-Fi password too short or mismatching. Try again."
         ua_wifi         = "Connect the PC to a Wi-Fi network automatically on first start? (Y/N) "
+        ua_wifi_use     = "Use this PC's current Wi-Fi network ({0}, security {1})? (Y/N) "
+        ua_wifi_sec     = "Wi-Fi security: 0 = automatic (WPA2 then WPA3), 1 = WPA2 or mixed, 2 = WPA3 only [0]: "
+        ua_wifi_nodet   = "(Automatic detection unavailable: this PC is not connected over Wi-Fi.)"
         ua_pwdmode      = "Type the admin password yourself (otherwise temporary automatic, then empty)? (Y/N) "
         ua_clean        = "Keep the drive plugged in until the desktop appears: on first start the passwords will be erased from the drive."
         ua_updates      = "Pause automatic updates (less secure)? (Y/N) "
@@ -376,6 +382,9 @@ $Textes = @{
         ua_wifi_pwd2    = "Confirma la contraseña del Wi-Fi: "
         ua_wifi_bad     = "Contraseña Wi-Fi demasiado corta o diferente. Inténtalo de nuevo."
         ua_wifi         = "¿Conectar el PC automáticamente a una red Wi-Fi en el primer arranque? (S/N) "
+        ua_wifi_use     = "¿Usar la red Wi-Fi actual de este PC ({0}, seguridad {1})? (S/N) "
+        ua_wifi_sec     = "Seguridad del Wi-Fi: 0 = automática (WPA2 y luego WPA3), 1 = WPA2 o mixta, 2 = solo WPA3 [0]: "
+        ua_wifi_nodet   = "(Detección automática no disponible: este PC no está conectado por Wi-Fi.)"
         ua_pwdmode      = "¿Escribir tú mismo la contraseña admin (si no, temporal automática y luego vacía)? (S/N) "
         ua_clean        = "Deja la unidad conectada hasta que aparezca el escritorio: en el primer arranque se borrarán las contraseñas de la unidad."
         ua_updates      = "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) "
@@ -510,6 +519,9 @@ $Textes = @{
         ua_wifi_pwd2    = "WLAN-Kennwort bestätigen: "
         ua_wifi_bad     = "WLAN-Kennwort zu kurz oder abweichend. Bitte erneut versuchen."
         ua_wifi         = "PC beim ersten Start automatisch mit einem WLAN verbinden? (J/N) "
+        ua_wifi_use     = "Aktuelles WLAN dieses PCs verwenden ({0}, Sicherheit {1})? (J/N) "
+        ua_wifi_sec     = "WLAN-Sicherheit: 0 = automatisch (WPA2, dann WPA3), 1 = WPA2 oder gemischt, 2 = nur WPA3 [0]: "
+        ua_wifi_nodet   = "(Automatische Erkennung nicht verfügbar: Dieser PC ist nicht per WLAN verbunden.)"
         ua_pwdmode      = "Admin-Kennwort selbst eingeben (sonst temporär automatisch, danach leer)? (J/N) "
         ua_clean        = "Stick bis zum Desktop eingesteckt lassen: beim ersten Start werden die Kennwörter vom Stick gelöscht."
         ua_updates      = "Automatische Updates pausieren (weniger sicher)? (J/N) "
@@ -644,6 +656,9 @@ $Textes = @{
         ua_wifi_pwd2    = "Conferma la password del Wi-Fi: "
         ua_wifi_bad     = "Password Wi-Fi troppo corta o diversa. Riprova."
         ua_wifi         = "Collegare automaticamente il PC a una rete Wi-Fi al primo avvio? (S/N) "
+        ua_wifi_use     = "Usare la rete Wi-Fi attuale di questo PC ({0}, sicurezza {1})? (S/N) "
+        ua_wifi_sec     = "Sicurezza del Wi-Fi: 0 = automatica (WPA2 poi WPA3), 1 = WPA2 o mista, 2 = solo WPA3 [0]: "
+        ua_wifi_nodet   = "(Rilevamento automatico non disponibile: questo PC non è collegato in Wi-Fi.)"
         ua_pwdmode      = "Digitare tu la password admin (altrimenti provvisoria automatica, poi vuota)? (S/N) "
         ua_clean        = "Lascia la chiavetta inserita fino alla comparsa del desktop: al primo avvio le password verranno cancellate dalla chiavetta."
         ua_updates      = "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) "
@@ -778,6 +793,9 @@ $Textes = @{
         ua_wifi_pwd2    = "Confirma a palavra-passe do Wi-Fi: "
         ua_wifi_bad     = "Palavra-passe Wi-Fi demasiado curta ou diferente. Tenta novamente."
         ua_wifi         = "Ligar o PC automaticamente a uma rede Wi-Fi no primeiro arranque? (S/N) "
+        ua_wifi_use     = "Usar a rede Wi-Fi atual deste PC ({0}, segurança {1})? (S/N) "
+        ua_wifi_sec     = "Segurança do Wi-Fi: 0 = automática (WPA2 e depois WPA3), 1 = WPA2 ou mista, 2 = apenas WPA3 [0]: "
+        ua_wifi_nodet   = "(Deteção automática indisponível: este PC não está ligado por Wi-Fi.)"
         ua_pwdmode      = "Escrever tu a palavra-passe admin (senão provisória automática, depois vazia)? (S/N) "
         ua_clean        = "Deixa a pen ligada até aparecer o ambiente de trabalho: no primeiro arranque as palavras-passe serão apagadas da pen."
         ua_updates      = "Pausar as atualizações automáticas (menos seguro)? (S/N) "
@@ -871,7 +889,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-16)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-17)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1453,14 +1471,28 @@ else {
 
 # --- Installation automatisée : questions de la première configuration de Windows ---
 $bypass = $false; $nomCompte = ''; $nomPc = ''; $iLoc = 0; $iEd = 0; $uaAuto = $false; $mdp = ''; $pwdAsk = $false; $wifi = $false; $wifiSsid = ''; $wifiPwd = ''; $uaUpd = $false; $uaHw = $false
-function Touche([string]$cle) {
-    Write-Host (T $cle) -NoNewline
+function Touche([string]$cle, [object[]]$a = @()) {
+    Write-Host (T $cle $a) -NoNewline
     try { $c = [Console]::ReadKey($true).KeyChar } catch { return (Read-Host '') }
     if ([char]::IsControl($c)) { Write-Host '' } else { Write-Host $c }
     return [string]$c
 }
-function Oui([string]$cle) { return ((Touche $cle) -match '^[oOyYsSjJ]') }
+function Oui([string]$cle, [object[]]$a = @()) { return ((Touche $cle $a) -match '^[oOyYsSjJ]') }
 function Choix([string]$cle, [int]$max) { $n = 0; if ([int]::TryParse((Touche $cle), [ref]$n) -and $n -ge 0 -and $n -le $max) { return $n }; return 0 }
+function Get-WifiActuel {
+    try {
+        $o = (netsh wlan show interfaces) 2>$null
+        if (-not $o) { return $null }
+        $ssid = $null; $auth = 0
+        foreach ($l in $o) {
+            if ($l -match '^\s*SSID\s*:\s*(.+?)\s*$') { $ssid = $Matches[1] }
+            elseif ($l -match 'WPA3') { $auth = 2 }
+            elseif ($l -match 'WPA2' -and $auth -eq 0) { $auth = 1 }
+        }
+        if ($ssid) { return @{ Ssid = $ssid; Auth = $auth } }
+    } catch { }
+    return $null
+}
 function Get-ModelePremiereSession {
     return @'
 # PocketBoot : premiere ouverture de session (Wi-Fi, mot de passe provisoire, nettoyage)
@@ -1468,7 +1500,6 @@ $ErrorActionPreference = 'SilentlyContinue'
 $dir = 'C:\PocketBoot'
 $nom = '__NAME__'
 $vider = __RESET__
-$wifi = Join-Path $dir 'wifi.xml'
 function Effacer([string]$f) {
     try {
         $len = (Get-Item -LiteralPath $f -Force).Length
@@ -1479,14 +1510,18 @@ function Effacer([string]$f) {
     } catch { }
     Remove-Item -LiteralPath $f -Force
 }
-if (Test-Path -LiteralPath $wifi) {
-    netsh wlan add profile filename="$wifi" user=all | Out-Null
-    $ssid = ([xml](Get-Content -LiteralPath $wifi -Raw)).WLANProfile.name
-    for ($i = 0; $i -lt 20; $i++) {
+$profils = @(Get-ChildItem -LiteralPath $dir -Filter 'wifi*.xml' -File | Sort-Object Name)
+foreach ($pf in $profils) {
+    netsh wlan add profile filename="$($pf.FullName)" user=all | Out-Null
+    $ssid = ([xml](Get-Content -LiteralPath $pf.FullName -Raw)).WLANProfile.name
+    $essais = if ($profils.Count -gt 1) { 8 } else { 20 }
+    $ok = $false
+    for ($i = 0; $i -lt $essais; $i++) {
         netsh wlan connect name="$ssid" | Out-Null
         Start-Sleep -Seconds 4
-        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { break }
+        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { $ok = $true; break }
     }
+    if ($ok) { break }
 }
 if ($vider) { cmd.exe /c "net user ""$nom"" """"" | Out-Null }
 foreach ($d in (Get-PSDrive -PSProvider FileSystem)) {
@@ -1565,9 +1600,19 @@ if ($bypass) {
         }
     }
     if ($wifi) {
+        $wifiAuth = 0; $utilise = $false
+        $cur = Get-WifiActuel
+        if ($cur) {
+            $lib = switch ($cur.Auth) { 1 { 'WPA2' } 2 { 'WPA3' } default { '?' } }
+            $utilise = Oui 'ua_wifi_use' @($cur.Ssid, $lib)
+        }
+        else { Write-Host (T 'ua_wifi_nodet') -ForegroundColor DarkGray }
+        if ($utilise) { $wifiSsid = $cur.Ssid; $wifiAuth = $cur.Auth }
         while ($true) {
-            $wifiSsid = (Read-Host (T 'ua_wifi_ssid')).Trim()
-            if (-not $wifiSsid) { continue }
+            if (-not $utilise) {
+                $wifiSsid = (Read-Host (T 'ua_wifi_ssid')).Trim()
+                if (-not $wifiSsid) { continue }
+            }
             $a1 = Read-Host (T 'ua_wifi_pwd') -AsSecureString
             $a2 = Read-Host (T 'ua_wifi_pwd2') -AsSecureString
             $w1 = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($a1))
@@ -1575,6 +1620,7 @@ if ($bypass) {
             if ($w1.Length -ge 8 -and ($w1 -ceq $w2)) { $wifiPwd = $w1; break }
             Write-Host (T 'ua_wifi_bad') -ForegroundColor Red
         }
+        if ($wifiAuth -eq 0) { $wifiAuth = Choix 'ua_wifi_sec' 2 }
     }
     if ($uaAuto -or $wifi) { Write-Host (T 'ua_clean') -ForegroundColor Yellow }
 }
@@ -1721,8 +1767,11 @@ try {
             [IO.File]::WriteAllText((Join-Path $oem 'firstlogon.ps1'), $modele, (New-Object Text.UTF8Encoding $true))
             if ($wifi) {
                 $ws = [Security.SecurityElement]::Escape($wifiSsid); $wk = [Security.SecurityElement]::Escape($wifiPwd)
-                $wx = '<?xml version="1.0"?><WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1"><name>' + $ws + '</name><SSIDConfig><SSID><name>' + $ws + '</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>WPA2PSK</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>' + $wk + '</keyMaterial></sharedKey></security></MSM></WLANProfile>'
-                [IO.File]::WriteAllText((Join-Path $oem 'wifi.xml'), $wx, (New-Object Text.UTF8Encoding $false))
+                $auths = if ($wifiAuth -eq 2) { @('WPA3SAE') } elseif ($wifiAuth -eq 1) { @('WPA2PSK') } else { @('WPA2PSK', 'WPA3SAE') }
+                for ($ai = 0; $ai -lt $auths.Count; $ai++) {
+                    $wx = '<?xml version="1.0"?><WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1"><name>' + $ws + '</name><SSIDConfig><SSID><name>' + $ws + '</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>' + $auths[$ai] + '</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>' + $wk + '</keyMaterial></sharedKey></security></MSM></WLANProfile>'
+                    [IO.File]::WriteAllText((Join-Path $oem ('wifi' + ($ai + 1) + '.xml')), $wx, (New-Object Text.UTF8Encoding $false))
+                }
             }
         }
         Write-Host (T 'bypass_done' $nomCompte) -ForegroundColor Green

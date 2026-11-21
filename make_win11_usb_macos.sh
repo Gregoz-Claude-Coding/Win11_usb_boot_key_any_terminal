@@ -1480,8 +1480,18 @@ mdutil -i off "$usb" >/dev/null 2>&1   # pas d'indexation Spotlight sur la clé
 # --- Montage de l'ISO ---
 hdiutil detach "$isomnt" -force >/dev/null 2>&1
 mkdir -p "$isomnt"
-if ! hdiutil attach -nobrowse -readonly -noverify -mountpoint "$isomnt" "$iso" >/dev/null; then
+# Si l'ISO est déjà montée ailleurs (ancienne exécution, Finder...), on la démonte d'abord
+for dev in $(hdiutil info | awk -v f="$iso" '/^image-path/ {sub(/^image-path *: */,""); on=($0==f)} on && /^\/dev\/disk[0-9]+[ \t]/ {print $1}'); do
+    hdiutil detach "$dev" -force >/dev/null 2>&1
+done
+monte=0
+for essai in 1 2 3 4 5; do
+    if err=$(hdiutil attach -nobrowse -readonly -noverify -mountpoint "$isomnt" "$iso" 2>&1 >/dev/null); then monte=1; break; fi
+    sleep 3
+done
+if [ "$monte" -ne 1 ]; then
     erreur "$(msg iso_mount_fail_mac)"
+    [ -n "$err" ] && printf '%s\n' "$err" >&2
     exit 1
 fi
 src="$isomnt"

@@ -31,6 +31,7 @@ $Textes = @{
         insufficient    = 'Espace disque insuffisant : il manque {0} Go.'
         confirm_dl      = 'Lancer le téléchargement vers {0} ? (O/N)'
         dl_running      = 'Téléchargement...'
+        dl_par          = 'Téléchargement en parallèle sur {0} connexions (reprise possible)...'
         bits_fail       = 'BITS en échec ({0}) : essai avec curl.exe...'
         dl_fail         = 'Échec du téléchargement (lien expiré ou réseau ?). Génère un nouveau lien sur la page Microsoft.'
         dl_done         = 'Téléchargement terminé : {0}'
@@ -132,6 +133,7 @@ $Textes = @{
         insufficient    = 'Not enough disk space: {0} GB missing.'
         confirm_dl      = 'Start the download to {0}? (Y/N)'
         dl_running      = 'Downloading...'
+        dl_par          = 'Parallel download on {0} connections (resumable)...'
         bits_fail       = 'BITS failed ({0}): trying curl.exe...'
         dl_fail         = 'Download failed (expired link or network?). Generate a new link on the Microsoft page.'
         dl_done         = 'Download finished: {0}'
@@ -233,6 +235,7 @@ $Textes = @{
         insufficient    = "Espacio en disco insuficiente: faltan {0} GB."
         confirm_dl      = "¿Iniciar la descarga en {0}? (S/N)"
         dl_running      = "Descargando..."
+        dl_par          = "Descarga en paralelo con {0} conexiones (se puede reanudar)..."
         bits_fail       = "BITS falló ({0}): probando con curl.exe..."
         dl_fail         = "Error en la descarga (¿enlace caducado o red?). Genera un nuevo enlace en la página de Microsoft."
         dl_done         = "Descarga terminada: {0}"
@@ -334,6 +337,7 @@ $Textes = @{
         insufficient    = "Nicht genug Speicherplatz: {0} GB fehlen."
         confirm_dl      = "Download nach {0} starten? (J/N)"
         dl_running      = "Download läuft..."
+        dl_par          = "Paralleler Download mit {0} Verbindungen (fortsetzbar)..."
         bits_fail       = "BITS fehlgeschlagen ({0}): Versuch mit curl.exe..."
         dl_fail         = "Download fehlgeschlagen (Link abgelaufen oder Netzwerk?). Erzeuge einen neuen Link auf der Microsoft-Seite."
         dl_done         = "Download abgeschlossen: {0}"
@@ -435,6 +439,7 @@ $Textes = @{
         insufficient    = "Spazio su disco insufficiente: mancano {0} GB."
         confirm_dl      = "Avviare il download in {0}? (S/N)"
         dl_running      = "Download in corso..."
+        dl_par          = "Download parallelo su {0} connessioni (riprendibile)..."
         bits_fail       = "BITS non riuscito ({0}): provo con curl.exe..."
         dl_fail         = "Download non riuscito (link scaduto o rete?). Genera un nuovo link sulla pagina Microsoft."
         dl_done         = "Download completato: {0}"
@@ -536,6 +541,7 @@ $Textes = @{
         insufficient    = "Espaço em disco insuficiente: faltam {0} GB."
         confirm_dl      = "Iniciar o download em {0}? (S/N)"
         dl_running      = "Baixando..."
+        dl_par          = "Transferência em paralelo com {0} ligações (retomável)..."
         bits_fail       = "BITS falhou ({0}): tentando com curl.exe..."
         dl_fail         = "Falha no download (link expirado ou rede?). Gere um novo link na página da Microsoft."
         dl_done         = "Download concluído: {0}"
@@ -700,6 +706,97 @@ function Format-Duree([double]$secondes) {
 # Vitesse en Mo/s (1 décimale)
 function Get-Vitesse([int64]$octets, [double]$secondes) {
     return [math]::Round($octets / 1MB / [math]::Max(1, $secondes), 1)
+}
+
+# Taille totale si le serveur accepte les requêtes par tronçons (Range), sinon 0
+function Get-TailleTroncons([string]$url) {
+    try {
+        $h = & curl.exe -s -L -D - -o NUL --connect-timeout 20 -m 30 -r 0-0 $url 2>$null
+        $texte = ($h -join "`n")
+        if ($texte -match '(?im)^HTTP/\S+\s+206' -and $texte -match '(?im)^content-range:\s*bytes\s+0-0/(\d+)') { return [int64]$Matches[1] }
+    }
+    catch { }
+    return [int64]0
+}
+
+# Téléchargement par tronçons de 32 Mio, 8 curl.exe en parallèle, écrits directement dans le fichier final.
+# Reprise possible : les tronçons terminés sont listés dans "fichier.done".
+function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$total) {
+    $nb = 8
+    $seg = [int64](32MB)
+    $nbSeg = [int][math]::Ceiling($total / $seg)
+    $fichierDone = "$dest.done"
+    $faits = New-Object 'System.Collections.Generic.HashSet[int]'
+    if (Test-Path -LiteralPath $fichierDone) {
+        foreach ($l in (Get-Content -LiteralPath $fichierDone -ErrorAction SilentlyContinue)) { if ($l -match '^\d+$') { [void]$faits.Add([int]$l) } }
+    }
+    elseif ((Test-Path -LiteralPath $dest) -and ((Get-Item -LiteralPath $dest).Length -ge $seg)) {
+        $pleins = [int][math]::Floor((Get-Item -LiteralPath $dest).Length / $seg)
+        for ($i = 0; $i -lt $pleins; $i++) { [void]$faits.Add($i); Add-Content -LiteralPath $fichierDone -Value $i }
+    }
+    $attente = New-Object 'System.Collections.Generic.Queue[int]'
+    for ($i = 0; $i -lt $nbSeg; $i++) { if (-not $faits.Contains($i)) { $attente.Enqueue($i) } }
+    $actifs = New-Object System.Collections.ArrayList
+    $essais = @{}
+    $fs = [IO.File]::Open($dest, [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::Write, [IO.FileShare]::Read)
+    $ok = $true
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    $tPrev = 0.0; $bPrev = [int64]0; $vit = 0.0
+    try {
+        if ($fs.Length -lt $total) { $fs.SetLength($total) }
+        $slotLibres = New-Object System.Collections.Generic.Stack[int]
+        for ($i = $nb - 1; $i -ge 0; $i--) { $slotLibres.Push($i) }
+        while ($attente.Count -gt 0 -or $actifs.Count -gt 0) {
+            while ($attente.Count -gt 0 -and $actifs.Count -lt $nb) {
+                $k = $attente.Dequeue(); $slot = $slotLibres.Pop()
+                $deb = [int64]$k * $seg; $fin = [math]::Min($deb + $seg, $total) - 1
+                $tmp = "$dest.t$slot"
+                Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+                $psi = New-Object Diagnostics.ProcessStartInfo
+                $psi.FileName = "curl.exe"
+                $psi.Arguments = "-sSL --fail --connect-timeout 20 --speed-limit 1024 --speed-time 30 -r $deb-$fin -o `"$tmp`" `"$url`""
+                $psi.UseShellExecute = $false; $psi.CreateNoWindow = $true
+                $p = [Diagnostics.Process]::Start($psi)
+                [void]$actifs.Add([pscustomobject]@{ P = $p; K = $k; Slot = $slot; Tmp = $tmp; Deb = $deb; Len = ($fin - $deb + 1) })
+            }
+            Start-Sleep -Milliseconds 400
+            foreach ($a in @($actifs)) {
+                if (-not $a.P.HasExited) { continue }
+                $bon = ($a.P.ExitCode -eq 0) -and (Test-Path -LiteralPath $a.Tmp) -and ((Get-Item -LiteralPath $a.Tmp).Length -eq $a.Len)
+                [void]$actifs.Remove($a); $slotLibres.Push($a.Slot)
+                if ($bon) {
+                    $in = [IO.File]::OpenRead($a.Tmp)
+                    try { [void]$fs.Seek($a.Deb, [IO.SeekOrigin]::Begin); $in.CopyTo($fs) } finally { $in.Dispose() }
+                    $fs.Flush()
+                    Remove-Item -LiteralPath $a.Tmp -Force -ErrorAction SilentlyContinue
+                    [void]$faits.Add($a.K); Add-Content -LiteralPath $fichierDone -Value $a.K
+                }
+                else {
+                    Remove-Item -LiteralPath $a.Tmp -Force -ErrorAction SilentlyContinue
+                    $essais[$a.K] = 1 + [int]$essais[$a.K]
+                    if ($essais[$a.K] -ge 8) { $ok = $false; break }
+                    Start-Sleep -Seconds ([math]::Min($essais[$a.K], 5))
+                    $attente.Enqueue($a.K)
+                }
+            }
+            if (-not $ok) { break }
+            $b = [int64]0
+            foreach ($k in $faits) { $b += [math]::Min($seg, $total - [int64]$k * $seg) }
+            foreach ($a in $actifs) { if (Test-Path -LiteralPath $a.Tmp) { $b += (Get-Item -LiteralPath $a.Tmp -ErrorAction SilentlyContinue).Length } }
+            $t = $sw.Elapsed.TotalSeconds
+            if ($t - $tPrev -ge 1) { $vit = [math]::Round((($b - $bPrev) / 1MB) / ($t - $tPrev), 1); $tPrev = $t; $bPrev = $b }
+            $pct = [int][math]::Floor(100 * [math]::Min($b, $total) / $total)
+            [Console]::Write("`r  {0,3} %   {1} / {2} GB   {3} MB/s   " -f $pct, [math]::Round($b / 1GB, 2), [math]::Round($total / 1GB, 2), $vit)
+        }
+        [Console]::WriteLine()
+    }
+    finally {
+        foreach ($a in @($actifs)) { try { if (-not $a.P.HasExited) { $a.P.Kill() } } catch { } }
+        $fs.Dispose()
+        Get-ChildItem -Path "$dest.t*" -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+    }
+    if ($ok -and $faits.Count -ge $nbSeg) { Remove-Item -LiteralPath $fichierDone -Force -ErrorAction SilentlyContinue; return $true }
+    return $false
 }
 
 # Espace libre (octets) du volume qui contient $chemin, $null si indéterminable
@@ -910,11 +1007,23 @@ function Invoke-TelechargementMicrosoft {
     $part = "$dest.part"
     $ok = $false
     $swDl = [Diagnostics.Stopwatch]::StartNew()
+    $ptot = Get-TailleTroncons $url
     try {
-        Start-BitsTransfer -Source $url -Destination $part -DisplayName "ISO Windows 11" -ErrorAction Stop
-        $ok = $true
+        if ($ptot -gt 64MB) {
+            Write-Host (T 'dl_par' 8) -ForegroundColor Cyan
+            $ok = Invoke-TelechargementParallele $url $part $ptot
+            if (-not $ok) { throw "download" }
+        }
+        else {
+            Start-BitsTransfer -Source $url -Destination $part -DisplayName "ISO Windows 11" -ErrorAction Stop
+            $ok = $true
+        }
     }
     catch {
+        if ($ptot -gt 64MB) {
+            Write-Host (T 'dl_fail') -ForegroundColor Red
+            return $false
+        }
         Write-Host (T 'bits_fail' $_.Exception.Message) -ForegroundColor Yellow
         Remove-Item -LiteralPath $part -Force -ErrorAction SilentlyContinue
         $swDl.Restart()

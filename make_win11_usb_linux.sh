@@ -169,6 +169,7 @@ msg_fr() {
         insufficient) printf '%s' "Espace disque insuffisant : il manque %s Go." ;;
         confirm_dl) printf '%s' "Lancer le téléchargement vers %s ? (O/N) " ;;
         dl_running) printf '%s' "Téléchargement (reprise possible si interrompu)..." ;;
+        dl_par) printf '%s' "Téléchargement en parallèle sur %s connexions (reprise possible)..." ;;
         dl_fail) printf '%s' "Échec du téléchargement (lien expiré ou réseau ?). Génère un nouveau lien sur la page Microsoft." ;;
         dl_done) printf '%s' "Téléchargement terminé : %s" ;;
         dl_speed) printf '%s' "Vitesse de téléchargement moyenne : %s Mo/s" ;;
@@ -287,6 +288,7 @@ msg_en() {
         insufficient) printf '%s' "Not enough disk space: %s GB missing." ;;
         confirm_dl) printf '%s' "Start the download to %s? (Y/N) " ;;
         dl_running) printf '%s' "Downloading (resumable if interrupted)..." ;;
+        dl_par) printf '%s' "Parallel download on %s connections (resumable)..." ;;
         dl_fail) printf '%s' "Download failed (expired link or network?). Generate a new link on the Microsoft page." ;;
         dl_done) printf '%s' "Download finished: %s" ;;
         dl_speed) printf '%s' "Average download speed: %s MB/s" ;;
@@ -405,6 +407,7 @@ msg_es() {
         insufficient) printf '%s' "Espacio en disco insuficiente: faltan %s GB." ;;
         confirm_dl) printf '%s' "¿Iniciar la descarga en %s? (S/N) " ;;
         dl_running) printf '%s' "Descargando (se puede reanudar si se interrumpe)..." ;;
+        dl_par) printf '%s' "Descarga en paralelo con %s conexiones (se puede reanudar)..." ;;
         dl_fail) printf '%s' "Error en la descarga (¿enlace caducado o red?). Genera un nuevo enlace en la página de Microsoft." ;;
         dl_done) printf '%s' "Descarga terminada: %s" ;;
         dl_speed) printf '%s' "Velocidad media de descarga: %s MB/s" ;;
@@ -523,6 +526,7 @@ msg_de() {
         insufficient) printf '%s' "Nicht genug Speicherplatz: %s GB fehlen." ;;
         confirm_dl) printf '%s' "Download nach %s starten? (J/N) " ;;
         dl_running) printf '%s' "Download läuft (fortsetzbar bei Unterbrechung)..." ;;
+        dl_par) printf '%s' "Paralleler Download mit %s Verbindungen (fortsetzbar)..." ;;
         dl_fail) printf '%s' "Download fehlgeschlagen (Link abgelaufen oder Netzwerk?). Erzeuge einen neuen Link auf der Microsoft-Seite." ;;
         dl_done) printf '%s' "Download abgeschlossen: %s" ;;
         dl_speed) printf '%s' "Durchschnittliche Download-Geschwindigkeit: %s MB/s" ;;
@@ -641,6 +645,7 @@ msg_it() {
         insufficient) printf '%s' "Spazio su disco insufficiente: mancano %s GB." ;;
         confirm_dl) printf '%s' "Avviare il download in %s? (S/N) " ;;
         dl_running) printf '%s' "Download in corso (riprendibile se interrotto)..." ;;
+        dl_par) printf '%s' "Download parallelo su %s connessioni (riprendibile)..." ;;
         dl_fail) printf '%s' "Download non riuscito (link scaduto o rete?). Genera un nuovo link sulla pagina Microsoft." ;;
         dl_done) printf '%s' "Download completato: %s" ;;
         dl_speed) printf '%s' "Velocità media di download: %s MB/s" ;;
@@ -759,6 +764,7 @@ msg_pt() {
         insufficient) printf '%s' "Espaço em disco insuficiente: faltam %s GB." ;;
         confirm_dl) printf '%s' "Iniciar o download em %s? (S/N) " ;;
         dl_running) printf '%s' "Baixando (retomável se interrompido)..." ;;
+        dl_par) printf '%s' "Transferência em paralelo com %s ligações (retomável)..." ;;
         dl_fail) printf '%s' "Falha no download (link expirado ou rede?). Gere um novo link na página da Microsoft." ;;
         dl_done) printf '%s' "Download concluído: %s" ;;
         dl_speed) printf '%s' "Velocidade média de download: %s MB/s" ;;
@@ -1064,8 +1070,80 @@ obtenir_lien_manuel() {
 
 # Télécharge l'ISO depuis Microsoft dans $dossier. Renseigne la variable globale $iso.
 # Retourne 1 en cas d'abandon ou d'échec.
+# Téléchargement en parallèle : tronçons de 32 Mio récupérés par 8 connexions curl, écrits directement dans le fichier final.
+# Reprise possible : les tronçons terminés sont listés dans « fichier.done ».
+dl_segment() {
+    local id="$1" n="$2" url="$3" dest="$4" total="$5" seg="$6" k s e len tmp tries
+    k=$id
+    while [ $(( k * seg )) -lt "$total" ]; do
+        if ! grep -qx "$k" "$dest.done" 2>/dev/null; then
+            s=$(( k * seg )); e=$(( s + seg - 1 )); [ "$e" -ge $(( total - 1 )) ] && e=$(( total - 1 ))
+            len=$(( e - s + 1 )); tmp="$dest.t$id"; tries=0
+            while :; do
+                rm -f "$tmp"
+                if curl -sSL --fail --connect-timeout 20 --speed-limit 1024 --speed-time 30 -r "$s-$e" -o "$tmp" "$url" 2>/dev/null \
+                   && [ "$(wc -c < "$tmp" | tr -d ' ')" -eq "$len" ]; then break; fi
+                tries=$(( tries + 1 )); [ "$tries" -ge 8 ] && { rm -f "$tmp"; return 1; }
+                sleep $(( tries < 5 ? tries : 5 ))
+            done
+            dd if="$tmp" of="$dest" bs=1048576 seek=$(( s / 1048576 )) conv=notrunc 2>/dev/null || return 1
+            rm -f "$tmp"
+            echo "$k" >> "$dest.done"
+        fi
+        k=$(( k + n ))
+    done
+    return 0
+}
+
+# Taille annoncée si le serveur accepte les requêtes par tronçons (Range), sinon rien
+taille_par_troncons() {
+    curl -s -D - -o /dev/null --connect-timeout 20 -m 30 -r 0-0 "$1" 2>/dev/null | tr -d '\r' |
+        awk 'BEGIN{IGNORECASE=1} tolower($0) ~ /^http\/[0-9.]+ 206/ {p=1} tolower($0) ~ /^content-range:/ {n=split($0,a,"/"); t=a[n]} END{ if (p && t+0 > 0) print t+0 }'
+}
+
+telecharger_parallele() {
+    local url="$1" dest="$2" total="$3" n=8 seg=$((32 * 1048576)) i pids="" fait t0 t_prev b_prev b now vit pct vivants unit_go unit_v
+    if [ ! -f "$dest.done" ] && [ -s "$dest" ]; then
+        # ancien téléchargement séquentiel partiel : ses tronçons complets sont conservés
+        fait=$(( $(wc -c < "$dest" | tr -d ' ') / seg )); i=0
+        while [ "$i" -lt "$fait" ]; do echo "$i" >> "$dest.done"; i=$(( i + 1 )); done
+    fi
+    dd if=/dev/null of="$dest" bs=1 count=0 seek="$total" 2>/dev/null
+    : >> "$dest.done"
+    i=0
+    while [ "$i" -lt "$n" ]; do
+        dl_segment "$i" "$n" "$url" "$dest" "$total" "$seg" &
+        pids="$pids $!"
+        i=$(( i + 1 ))
+    done
+    trap 'kill $pids 2>/dev/null; exit 130' INT TERM
+    unit_go="GB"; unit_v="MB/s"; [ "${LANGUE_UI:-en}" = "fr" ] && { unit_go="Go"; unit_v="Mo/s"; }
+    t0=$SECONDS; t_prev=$SECONDS; b_prev=0; vit=0
+    while :; do
+        vivants=0
+        for i in $pids; do kill -0 "$i" 2>/dev/null && vivants=1; done
+        b=$(( $(wc -l < "$dest.done" | tr -d ' ') * seg ))
+        for i in "$dest".t*; do [ -f "$i" ] && b=$(( b + $(wc -c < "$i" | tr -d ' ') )); done
+        [ "$b" -gt "$total" ] && b=$total
+        now=$SECONDS
+        if [ "$now" -gt "$t_prev" ]; then vit=$(awk -v d=$(( b - b_prev )) -v s=$(( now - t_prev )) 'BEGIN{printf "%.1f", d / 1048576 / s}'); t_prev=$now; b_prev=$b; fi
+        pct=$(( b * 100 / total ))
+        printf '\r\033[K%s  %3d %%   %s / %s %s   %s %s%s' "$cyan" "$pct" "$(en_go "$b")" "$(en_go "$total")" "$unit_go" "$vit" "$unit_v" "$raz" >&2
+        [ "$vivants" -eq 0 ] && break
+        sleep 1
+    done
+    printf '\n' >&2
+    local ko=0
+    for i in $pids; do wait "$i" 2>/dev/null || ko=1; done
+    trap 'exit 130' INT TERM
+    [ "$ko" -eq 0 ] || return 1
+    [ "$(wc -l < "$dest.done" | tr -d ' ')" -ge $(( (total + seg - 1) / seg )) ] || return 1
+    rm -f "$dest.done" "$dest".t*
+    return 0
+}
+
 telecharger_depuis_microsoft() {
-    local url nom taille besoin libre rep attendu code calc reconnu loc page publie origine="" b e t0 dt
+    local ptot url nom taille besoin libre rep attendu code calc reconnu loc page publie origine="" b e t0 dt
     if ! command -v curl >/dev/null 2>&1; then
         erreur "$(msg curl_needed)"
         return 1
@@ -1150,7 +1228,14 @@ telecharger_depuis_microsoft() {
 
     info "$(msg dl_running)"
     t0=$SECONDS
-    if ! curl -L --fail -C - --progress-bar -o "$dossier/$nom.part" "$url"; then
+    ptot=$(taille_par_troncons "$url")
+    if [ -n "$ptot" ] && [ "$ptot" -gt 67108864 ]; then
+        info "$(msg dl_par 8)"
+        if ! telecharger_parallele "$url" "$dossier/$nom.part" "$ptot"; then
+            erreur "$(msg dl_fail)"
+            return 1
+        fi
+    elif ! curl -L --fail -C - --progress-bar -o "$dossier/$nom.part" "$url"; then
         erreur "$(msg dl_fail)"
         [ -s "$dossier/$nom.part" ] || rm -f "${dossier:?}/${nom:?}.part"
         return 1

@@ -369,16 +369,16 @@ $Textes = @{
         official_page   = "Offizielle Seite: {0}"
         no_fixed_link   = "Microsoft veröffentlicht keinen festen Link: Der direkte Link wird bei jedem Download erzeugt`nund ist nur 24 Stunden gültig."
         step1           = "  1. Öffne die obige offizielle Seite in deinem Browser."
-        step2           = "  2. Wähle unter „Windows 11-Datenträgerabbild (ISO) für x64-Geräte herunterladen“ die ISO mit`n     mehreren Editionen, dann die Produktsprache (deine Systemsprache: {0}) und klicke auf „Bestätigen“."
-        step3           = "  3. Rechtsklick auf die 64-Bit-Download-Schaltfläche > „Link-Adresse kopieren“: Das Skript erkennt ihn selbst.`n     Füge den GANZEN Link ein, einschließlich dessen, was nach „.iso?“ folgt: Dieser Teil autorisiert ihn."
+        step2           = "  2. Wähle unter 'Windows 11-Datenträgerabbild (ISO) für x64-Geräte herunterladen' die ISO mit`n     mehreren Editionen, dann die Produktsprache (deine Systemsprache: {0}) und klicke auf 'Bestätigen'."
+        step3           = "  3. Rechtsklick auf die 64-Bit-Download-Schaltfläche > 'Link-Adresse kopieren': Das Skript erkennt ihn selbst.`n     Füge den GANZEN Link ein, einschließlich dessen, was nach '.iso?' folgt: Dieser Teil autorisiert ihn."
         open_fail       = "Browser konnte nicht geöffnet werden: Seite von Hand öffnen."
-        wait_link       = "Warte auf den Link: Klicke im Browser auf „Link-Adresse kopieren“.`n(Eingabe = Link von Hand einfügen)"
+        wait_link       = "Warte auf den Link: Klicke im Browser auf 'Link-Adresse kopieren'.`n(Eingabe = Link von Hand einfügen)"
         clip_found      = "Link in der Zwischenablage erkannt: {0}. Verwenden? (J/n)"
         ask_url         = "Link-URL hier einfügen (https://...microsoft.com/....iso)"
         url_refused     = "URL abgelehnt: Sie muss https verwenden, zu einer *.microsoft.com-Domain gehören und der Pfad muss auf .iso enden."
         file_exists     = "{0} existiert bereits in {1}: vorhandene Datei wird verwendet."
         querying        = "Microsoft-Server wird abgefragt..."
-        http_err        = "Der Microsoft-Server antwortete mit HTTP {0} (0 = keine Antwort): Link abgelaufen, unvollständig (Teil nach „.iso?“ fehlt) oder Netzwerk nicht erreichbar.`nErzeuge einen neuen Link auf der offiziellen Seite."
+        http_err        = "Der Microsoft-Server antwortete mit HTTP {0} (0 = keine Antwort): Link abgelaufen, unvollständig (Teil nach '.iso?' fehlt) oder Netzwerk nicht erreichbar.`nErzeuge einen neuen Link auf der offiziellen Seite."
         size_unknown    = "ISO-Größe nicht mitgeteilt: Annahme von 8 GB."
         size_line       = "  ISO-Größe                             : {0} GB"
         split_line      = "  Lokale Aufteilung von install.wim (gesch.) : {0} GB"
@@ -781,7 +781,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-10)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-11)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere

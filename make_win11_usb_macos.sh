@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-7)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-8)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -1889,7 +1889,7 @@ fi
 if [ -n "${DL_VIT:-}" ]; then ok "$(msg recap_speed "$DL_VIT" "$v_tot")"; fi
 rm -rf "$usb/.fseventsd" "$usb/.Spotlight-V100" "$usb/.Trashes" "$usb/.DS_Store" 2>/dev/null
 (
-    cd "$usb" && find . -type f -print0 | while IFS= read -r -d '' f; do
+    cd "$usb" && find . -type f -print0 2>/dev/null | while IFS= read -r -d '' f; do
         printf '%s\t%s Mo\n' "${f#./}" "$(awk -v s="$(wc -c < "$f")" 'BEGIN{printf "%.1f", s/1048576}')"
     done
 ) > "$dossier/contenu_cle.txt"
@@ -1910,3 +1910,5 @@ case "$rep" in
         fi
         ;;
 esac
+
+banniere

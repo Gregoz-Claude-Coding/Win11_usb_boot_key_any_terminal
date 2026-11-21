@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-10)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-14)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -109,7 +109,10 @@ msg_fr() {
         ua_pc) printf '%s' "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : " ;;
         ua_lang) printf '%s' "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
         ua_edition) printf '%s' "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
-        ua_auto) printf '%s' "Ouvrir la session automatiquement, sans mot de passe, au premier démarrage ? (O/N) " ;;
+        ua_auto) printf '%s' "Ouvrir la session admin automatiquement au premier démarrage (mot de passe requis) ? (O/N) " ;;
+        ua_pwd) printf '%s' "Mot de passe du compte admin : " ;;
+        ua_pwd2) printf '%s' "Confirmez le mot de passe : " ;;
+        ua_pwd_bad) printf '%s' "Mot de passe vide ou différent. Recommencez." ;;
         ua_updates) printf '%s' "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) " ;;
         ua_hw) printf '%s' "Ignorer les contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur) ? (O/N) " ;;
         recap_key) printf '%s' "Clé de %s Go : repérez cette taille dans la liste des disques de l'installateur Windows." ;;
@@ -177,7 +180,7 @@ msg_fr() {
         m_ed) printf '%s' "Édition" ;;
         m_ask) printf '%s' "me le demander" ;;
         m_home) printf '%s' "Famille" ;;
-        m_auto) printf '%s' "Session automatique sans mot de passe (peut bloquer)" ;;
+        m_auto) printf '%s' "Session admin automatique avec mot de passe requis" ;;
         m_upd) printf '%s' "Mettre en pause les mises à jour (moins sûr)" ;;
         m_hw) printf '%s' "Ignorer les contrôles TPM / Secure Boot / mémoire / CPU" ;;
         ua_note) printf '%s' "Note : au premier démarrage, connectez le PC à Internet. Windows Update installera les applications (icônes du menu Démarrer) en 10 à 30 minutes." ;;
@@ -244,7 +247,10 @@ msg_en() {
         ua_pc) printf '%s' "Computer name (type a name, or press Enter to let Windows choose one): " ;;
         ua_lang) printf '%s' "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): " ;;
         ua_edition) printf '%s' "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home (press the number, Enter = 0): " ;;
-        ua_auto) printf '%s' "Sign in automatically (no password) on first start? (Y/N) " ;;
+        ua_auto) printf '%s' "Sign in automatically as admin on first start (password required)? (Y/N) " ;;
+        ua_pwd) printf '%s' "Admin account password: " ;;
+        ua_pwd2) printf '%s' "Confirm the password: " ;;
+        ua_pwd_bad) printf '%s' "Empty or mismatching password. Try again." ;;
         ua_updates) printf '%s' "Pause automatic updates (less secure)? (Y/N) " ;;
         ua_hw) printf '%s' "Skip the Windows 11 compatibility checks (TPM, Secure Boot, memory, CPU)? (Y/N) " ;;
         recap_key) printf '%s' "%s GB drive: look for this size in the Windows setup disk list." ;;
@@ -312,7 +318,7 @@ msg_en() {
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "ask me during setup" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Automatic sign-in, no password (may block setup)" ;;
+        m_auto) printf '%s' "Automatic admin sign-in, password required" ;;
         m_upd) printf '%s' "Pause automatic updates (less secure)" ;;
         m_hw) printf '%s' "Skip TPM / Secure Boot / memory / CPU checks" ;;
         ua_note) printf '%s' "Note: on first start, connect the PC to the Internet. Windows Update will install the apps (Start menu icons) within 10 to 30 minutes." ;;
@@ -379,7 +385,10 @@ msg_es() {
         ua_pc) printf '%s' "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): " ;;
         ua_lang) printf '%s' "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): " ;;
         ua_edition) printf '%s' "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home (pulsa el número, Intro = 0): " ;;
-        ua_auto) printf '%s' "¿Iniciar sesión automáticamente (sin contraseña) en el primer arranque? (S/N) " ;;
+        ua_auto) printf '%s' "¿Iniciar sesión admin automáticamente en el primer arranque (contraseña obligatoria)? (S/N) " ;;
+        ua_pwd) printf '%s' "Contraseña de la cuenta admin: " ;;
+        ua_pwd2) printf '%s' "Confirma la contraseña: " ;;
+        ua_pwd_bad) printf '%s' "Contraseña vacía o diferente. Inténtalo de nuevo." ;;
         ua_updates) printf '%s' "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) " ;;
         ua_hw) printf '%s' "¿Omitir las comprobaciones de compatibilidad de Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) " ;;
         recap_key) printf '%s' "Unidad de %s GB: busca este tamaño en la lista de discos del instalador de Windows." ;;
@@ -447,7 +456,7 @@ msg_es() {
         m_ed) printf '%s' "Edición" ;;
         m_ask) printf '%s' "preguntármelo" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Inicio automático sin contraseña (puede bloquear)" ;;
+        m_auto) printf '%s' "Sesión admin automática con contraseña obligatoria" ;;
         m_upd) printf '%s' "Pausar las actualizaciones (menos seguro)" ;;
         m_hw) printf '%s' "Omitir controles TPM / Secure Boot / memoria / CPU" ;;
         ua_note) printf '%s' "Nota: en el primer inicio, conecta el PC a Internet. Windows Update instalará las aplicaciones (iconos del menú Inicio) en 10 a 30 minutos." ;;
@@ -514,7 +523,10 @@ msg_de() {
         ua_pc) printf '%s' "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): " ;;
         ua_lang) printf '%s' "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): " ;;
         ua_edition) printf '%s' "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home (Ziffer drücken, Eingabe = 0): " ;;
-        ua_auto) printf '%s' "Beim ersten Start automatisch anmelden (ohne Kennwort)? (J/N) " ;;
+        ua_auto) printf '%s' "Beim ersten Start automatisch als Admin anmelden (Kennwort erforderlich)? (J/N) " ;;
+        ua_pwd) printf '%s' "Kennwort des Admin-Kontos: " ;;
+        ua_pwd2) printf '%s' "Kennwort bestätigen: " ;;
+        ua_pwd_bad) printf '%s' "Kennwort leer oder abweichend. Bitte erneut versuchen." ;;
         ua_updates) printf '%s' "Automatische Updates pausieren (weniger sicher)? (J/N) " ;;
         ua_hw) printf '%s' "Windows-11-Kompatibilitätsprüfungen überspringen (TPM, Secure Boot, Speicher, CPU)? (J/N) " ;;
         recap_key) printf '%s' "Stick mit %s GB: Diese Größe in der Datenträgerliste des Windows-Setups suchen." ;;
@@ -582,7 +594,7 @@ msg_de() {
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "mich fragen" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Automatische Anmeldung ohne Kennwort (kann blockieren)" ;;
+        m_auto) printf '%s' "Automatische Admin-Anmeldung, Kennwort erforderlich" ;;
         m_upd) printf '%s' "Updates pausieren (weniger sicher)" ;;
         m_hw) printf '%s' "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen" ;;
         ua_note) printf '%s' "Hinweis: Verbinden Sie den PC beim ersten Start mit dem Internet. Windows Update installiert die Apps (Symbole im Startmenü) innerhalb von 10 bis 30 Minuten." ;;
@@ -649,7 +661,10 @@ msg_it() {
         ua_pc) printf '%s' "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): " ;;
         ua_lang) printf '%s' "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): " ;;
         ua_edition) printf '%s' "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home (premi il numero, Invio = 0): " ;;
-        ua_auto) printf '%s' "Accedere automaticamente (senza password) al primo avvio? (S/N) " ;;
+        ua_auto) printf '%s' "Accedere automaticamente come admin al primo avvio (password obbligatoria)? (S/N) " ;;
+        ua_pwd) printf '%s' "Password dell'account admin: " ;;
+        ua_pwd2) printf '%s' "Conferma la password: " ;;
+        ua_pwd_bad) printf '%s' "Password vuota o diversa. Riprova." ;;
         ua_updates) printf '%s' "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) " ;;
         ua_hw) printf '%s' "Saltare i controlli di compatibilità di Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) " ;;
         recap_key) printf '%s' "Chiavetta da %s GB: cerca questa dimensione nell'elenco dei dischi del programma di installazione di Windows." ;;
@@ -717,7 +732,7 @@ msg_it() {
         m_ed) printf '%s' "Edizione" ;;
         m_ask) printf '%s' "chiedimelo" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Accesso automatico senza password (può bloccare)" ;;
+        m_auto) printf '%s' "Accesso admin automatico con password obbligatoria" ;;
         m_upd) printf '%s' "Sospendi gli aggiornamenti (meno sicuro)" ;;
         m_hw) printf '%s' "Salta i controlli TPM / Secure Boot / memoria / CPU" ;;
         ua_note) printf '%s' "Nota: al primo avvio collega il PC a Internet. Windows Update installerà le app (icone del menu Start) entro 10-30 minuti." ;;
@@ -784,7 +799,10 @@ msg_pt() {
         ua_pc) printf '%s' "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): " ;;
         ua_lang) printf '%s' "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): " ;;
         ua_edition) printf '%s' "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home (prime o número, Enter = 0): " ;;
-        ua_auto) printf '%s' "Iniciar sessão automaticamente (sem palavra-passe) no primeiro arranque? (S/N) " ;;
+        ua_auto) printf '%s' "Iniciar sessão admin automaticamente no primeiro arranque (palavra-passe obrigatória)? (S/N) " ;;
+        ua_pwd) printf '%s' "Palavra-passe da conta admin: " ;;
+        ua_pwd2) printf '%s' "Confirma a palavra-passe: " ;;
+        ua_pwd_bad) printf '%s' "Palavra-passe vazia ou diferente. Tenta novamente." ;;
         ua_updates) printf '%s' "Pausar as atualizações automáticas (menos seguro)? (S/N) " ;;
         ua_hw) printf '%s' "Ignorar as verificações de compatibilidade do Windows 11 (TPM, Secure Boot, memória, CPU)? (S/N) " ;;
         recap_key) printf '%s' "Pen de %s GB: procura este tamanho na lista de discos do instalador do Windows." ;;
@@ -852,7 +870,7 @@ msg_pt() {
         m_ed) printf '%s' "Edição" ;;
         m_ask) printf '%s' "perguntar-me" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Início automático sem palavra-passe (pode bloquear)" ;;
+        m_auto) printf '%s' "Sessão admin automática com palavra-passe obrigatória" ;;
         m_upd) printf '%s' "Pausar as atualizações (menos seguro)" ;;
         m_hw) printf '%s' "Ignorar verificações de TPM / Secure Boot / memória / CPU" ;;
         ua_note) printf '%s' "Nota: no primeiro arranque, liga o PC à Internet. O Windows Update instalará as aplicações (ícones do menu Iniciar) em 10 a 30 minutos." ;;
@@ -1638,7 +1656,7 @@ fi
 oui() { case "$1" in [oOyYsSjJ]*) return 0 ;; esac; return 1; }
 touche() { TOUCHE=""; printf '%s' "$(msg "$1")" >&2; IFS= read -r -n 1 TOUCHE || true; [ -n "$TOUCHE" ] && echo >&2; return 0; }
 choix() { touche "$1"; case "$TOUCHE" in [0-9]) [ "$TOUCHE" -le "$2" ] && { echo "$TOUCHE"; return; } ;; esac; echo 0; }
-bypass=0; nom_compte=""; nom_pc=""; i_loc=0; i_ed=0; ua_auto=0; ua_upd=0; ua_hw=0
+bypass=0; nom_compte=""; nom_pc=""; i_loc=0; i_ed=0; ua_auto=0; mdp=""; ua_upd=0; ua_hw=0
 options_menu; mode_menu=$?
 if [ "$mode_menu" -eq 2 ]; then
     touche bypass_ask
@@ -1659,6 +1677,14 @@ if [ "$bypass" -eq 1 ]; then
         touche ua_auto; oui "$TOUCHE" && ua_auto=1
         touche ua_updates; oui "$TOUCHE" && ua_upd=1
         touche ua_hw; oui "$TOUCHE" && ua_hw=1
+    fi
+    if [ "$ua_auto" -eq 1 ]; then
+        while :; do
+            read -rs -p "$(msg ua_pwd)" mdp; echo
+            read -rs -p "$(msg ua_pwd2)" mdp2; echo
+            [ -n "$mdp" ] && [ "$mdp" = "$mdp2" ] && break
+            avert "$(msg ua_pwd_bad)"
+        done
     fi
 fi
 
@@ -1823,9 +1849,14 @@ if [ "$bypass" -eq 1 ]; then
     ajoute "    <component name=\"Microsoft-Windows-Shell-Setup\" $ns>"
     ajoute '      <OOBE><HideEULAPage>true</HideEULAPage><HideOEMRegistrationScreen>true</HideOEMRegistrationScreen><HideOnlineAccountScreens>true</HideOnlineAccountScreens><HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE><ProtectYourPC>3</ProtectYourPC></OOBE>'
     ajoute '      <UserAccounts><LocalAccounts><LocalAccount wcm:action="add">'
-    ajoute "        <Name>$nom_compte</Name><DisplayName>$nom_compte</DisplayName><Group>Administrators</Group>"
+    pw_xml=""
+    if [ "$ua_auto" -eq 1 ] && [ -n "$mdp" ]; then
+        mdp_xml=$(printf '%s' "$mdp" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+        pw_xml="<Password><Value>$mdp_xml</Value><PlainText>true</PlainText></Password>"
+    fi
+    ajoute "        ${pw_xml}<Name>$nom_compte</Name><DisplayName>$nom_compte</DisplayName><Group>Administrators</Group>"
     ajoute '      </LocalAccount></LocalAccounts></UserAccounts>'
-    [ "$ua_auto" -eq 1 ] && ajoute "      <AutoLogon><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>$nom_compte</Username><Password><Value></Value><PlainText>true</PlainText></Password></AutoLogon>"
+    [ "$ua_auto" -eq 1 ] && ajoute "      <AutoLogon><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>$nom_compte</Username>${pw_xml}</AutoLogon>"
     ajoute '    </component>'
     ajoute '  </settings>'
     ajoute '</unattend>'

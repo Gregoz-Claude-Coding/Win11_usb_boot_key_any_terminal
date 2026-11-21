@@ -39,7 +39,7 @@ $Textes = @{
         m_ed            = 'Édition'
         m_ask           = 'me le demander'
         m_home          = 'Famille'
-        m_auto          = "Session admin automatique avec mot de passe requis"
+        m_auto          = "Session admin automatique"
         m_upd           = 'Mettre en pause les mises à jour (moins sûr)'
         m_hw            = 'Ignorer les contrôles TPM / Secure Boot / mémoire / CPU'
         ua_note         = 'Note : au premier démarrage, connectez le PC à Internet. Windows Update installera les applications (icônes du menu Démarrer) en 10 à 30 minutes.'
@@ -94,10 +94,22 @@ $Textes = @{
         ua_pc           = "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : "
         ua_lang         = "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : "
         ua_edition      = "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home (appuyez sur le chiffre voulu, Entrée = 0) : "
-        ua_auto         = "Ouvrir la session admin automatiquement au premier démarrage (mot de passe requis) ? (O/N) "
+        ua_auto         = "Ouvrir la session admin automatiquement au premier démarrage ? (O/N) "
         ua_pwd          = "Mot de passe du compte admin : "
         ua_pwd2         = "Confirmez le mot de passe : "
         ua_pwd_bad      = "Mot de passe vide ou différent. Recommencez."
+        m_pwdmode       = "Mot de passe admin"
+        m_pwd_auto      = "provisoire auto, puis vide"
+        m_pwd_ask       = "que je saisis"
+        m_wifi          = "Connexion Wi-Fi automatique"
+        m_grey          = "(inutile avec le Wi-Fi)"
+        ua_wifi_ssid    = "Nom du réseau Wi-Fi (SSID) : "
+        ua_wifi_pwd     = "Mot de passe du Wi-Fi (8 caractères minimum) : "
+        ua_wifi_pwd2    = "Confirmez le mot de passe du Wi-Fi : "
+        ua_wifi_bad     = "Mot de passe Wi-Fi trop court ou différent. Recommencez."
+        ua_wifi         = "Connecter automatiquement le PC à un réseau Wi-Fi au premier démarrage ? (O/N) "
+        ua_pwdmode      = "Saisir vous-même le mot de passe admin (sinon provisoire automatique, puis vide) ? (O/N) "
+        ua_clean        = "Laissez la clé branchée jusqu'au bureau : au premier démarrage, les mots de passe seront effacés de la clé."
         ua_updates      = "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) "
         ua_hw           = "Ignorer les contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur) ? (O/N) "
         recap_key       = "Clé de {0} Go : repérez cette taille dans la liste des disques de l'installateur Windows."
@@ -161,7 +173,7 @@ $Textes = @{
         m_ed            = 'Edition'
         m_ask           = 'ask me during setup'
         m_home          = 'Home'
-        m_auto          = "Automatic admin sign-in, password required"
+        m_auto          = "Automatic admin sign-in"
         m_upd           = 'Pause automatic updates (less secure)'
         m_hw            = 'Skip TPM / Secure Boot / memory / CPU checks'
         ua_note         = 'Note: on first start, connect the PC to the Internet. Windows Update will install the apps (Start menu icons) within 10 to 30 minutes.'
@@ -216,10 +228,22 @@ $Textes = @{
         ua_pc           = "Computer name (type a name, or press Enter to let Windows choose one): "
         ua_lang         = "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): "
         ua_edition      = "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home (press the number, Enter = 0): "
-        ua_auto         = "Sign in automatically as admin on first start (password required)? (Y/N) "
+        ua_auto         = "Sign in automatically as admin on first start? (Y/N) "
         ua_pwd          = "Admin account password: "
         ua_pwd2         = "Confirm the password: "
         ua_pwd_bad      = "Empty or mismatching password. Try again."
+        m_pwdmode       = "Admin password"
+        m_pwd_auto      = "temporary auto, then empty"
+        m_pwd_ask       = "I type it"
+        m_wifi          = "Automatic Wi-Fi connection"
+        m_grey          = "(not needed with Wi-Fi)"
+        ua_wifi_ssid    = "Wi-Fi network name (SSID): "
+        ua_wifi_pwd     = "Wi-Fi password (8 characters minimum): "
+        ua_wifi_pwd2    = "Confirm the Wi-Fi password: "
+        ua_wifi_bad     = "Wi-Fi password too short or mismatching. Try again."
+        ua_wifi         = "Connect the PC to a Wi-Fi network automatically on first start? (Y/N) "
+        ua_pwdmode      = "Type the admin password yourself (otherwise temporary automatic, then empty)? (Y/N) "
+        ua_clean        = "Keep the drive plugged in until the desktop appears: on first start the passwords will be erased from the drive."
         ua_updates      = "Pause automatic updates (less secure)? (Y/N) "
         ua_hw           = "Skip the Windows 11 compatibility checks (TPM, Secure Boot, memory, CPU)? (Y/N) "
         recap_key       = "{0} GB drive: look for this size in the Windows setup disk list."
@@ -283,7 +307,7 @@ $Textes = @{
         m_ed            = "Edición"
         m_ask           = "preguntármelo"
         m_home          = "Home"
-        m_auto          = "Sesión admin automática con contraseña obligatoria"
+        m_auto          = "Inicio de sesión admin automático"
         m_upd           = "Pausar las actualizaciones (menos seguro)"
         m_hw            = "Omitir controles TPM / Secure Boot / memoria / CPU"
         ua_note         = "Nota: en el primer inicio, conecta el PC a Internet. Windows Update instalará las aplicaciones (iconos del menú Inicio) en 10 a 30 minutos."
@@ -338,10 +362,22 @@ $Textes = @{
         ua_pc           = "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): "
         ua_lang         = "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): "
         ua_edition      = "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home (pulsa el número, Intro = 0): "
-        ua_auto         = "¿Iniciar sesión admin automáticamente en el primer arranque (contraseña obligatoria)? (S/N) "
+        ua_auto         = "¿Iniciar sesión admin automáticamente en el primer arranque? (S/N) "
         ua_pwd          = "Contraseña de la cuenta admin: "
         ua_pwd2         = "Confirma la contraseña: "
         ua_pwd_bad      = "Contraseña vacía o diferente. Inténtalo de nuevo."
+        m_pwdmode       = "Contraseña admin"
+        m_pwd_auto      = "temporal auto, luego vacía"
+        m_pwd_ask       = "la escribo yo"
+        m_wifi          = "Conexión Wi-Fi automática"
+        m_grey          = "(innecesario con Wi-Fi)"
+        ua_wifi_ssid    = "Nombre de la red Wi-Fi (SSID): "
+        ua_wifi_pwd     = "Contraseña del Wi-Fi (mínimo 8 caracteres): "
+        ua_wifi_pwd2    = "Confirma la contraseña del Wi-Fi: "
+        ua_wifi_bad     = "Contraseña Wi-Fi demasiado corta o diferente. Inténtalo de nuevo."
+        ua_wifi         = "¿Conectar el PC automáticamente a una red Wi-Fi en el primer arranque? (S/N) "
+        ua_pwdmode      = "¿Escribir tú mismo la contraseña admin (si no, temporal automática y luego vacía)? (S/N) "
+        ua_clean        = "Deja la unidad conectada hasta que aparezca el escritorio: en el primer arranque se borrarán las contraseñas de la unidad."
         ua_updates      = "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) "
         ua_hw           = "¿Omitir las comprobaciones de compatibilidad de Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) "
         recap_key       = "Unidad de {0} GB: busca este tamaño en la lista de discos del instalador de Windows."
@@ -405,7 +441,7 @@ $Textes = @{
         m_ed            = "Edition"
         m_ask           = "mich fragen"
         m_home          = "Home"
-        m_auto          = "Automatische Admin-Anmeldung, Kennwort erforderlich"
+        m_auto          = "Automatische Admin-Anmeldung"
         m_upd           = "Updates pausieren (weniger sicher)"
         m_hw            = "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen"
         ua_note         = "Hinweis: Verbinden Sie den PC beim ersten Start mit dem Internet. Windows Update installiert die Apps (Symbole im Startmenü) innerhalb von 10 bis 30 Minuten."
@@ -460,10 +496,22 @@ $Textes = @{
         ua_pc           = "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): "
         ua_lang         = "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): "
         ua_edition      = "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home (Ziffer drücken, Eingabe = 0): "
-        ua_auto         = "Beim ersten Start automatisch als Admin anmelden (Kennwort erforderlich)? (J/N) "
+        ua_auto         = "Beim ersten Start automatisch als Admin anmelden? (J/N) "
         ua_pwd          = "Kennwort des Admin-Kontos: "
         ua_pwd2         = "Kennwort bestätigen: "
         ua_pwd_bad      = "Kennwort leer oder abweichend. Bitte erneut versuchen."
+        m_pwdmode       = "Admin-Kennwort"
+        m_pwd_auto      = "temporär automatisch, danach leer"
+        m_pwd_ask       = "ich gebe es ein"
+        m_wifi          = "Automatische WLAN-Verbindung"
+        m_grey          = "(mit WLAN unnötig)"
+        ua_wifi_ssid    = "Name des WLAN-Netzwerks (SSID): "
+        ua_wifi_pwd     = "WLAN-Kennwort (mindestens 8 Zeichen): "
+        ua_wifi_pwd2    = "WLAN-Kennwort bestätigen: "
+        ua_wifi_bad     = "WLAN-Kennwort zu kurz oder abweichend. Bitte erneut versuchen."
+        ua_wifi         = "PC beim ersten Start automatisch mit einem WLAN verbinden? (J/N) "
+        ua_pwdmode      = "Admin-Kennwort selbst eingeben (sonst temporär automatisch, danach leer)? (J/N) "
+        ua_clean        = "Stick bis zum Desktop eingesteckt lassen: beim ersten Start werden die Kennwörter vom Stick gelöscht."
         ua_updates      = "Automatische Updates pausieren (weniger sicher)? (J/N) "
         ua_hw           = "Windows-11-Kompatibilitätsprüfungen überspringen (TPM, Secure Boot, Speicher, CPU)? (J/N) "
         recap_key       = "Stick mit {0} GB: Diese Größe in der Datenträgerliste des Windows-Setups suchen."
@@ -527,7 +575,7 @@ $Textes = @{
         m_ed            = "Edizione"
         m_ask           = "chiedimelo"
         m_home          = "Home"
-        m_auto          = "Accesso admin automatico con password obbligatoria"
+        m_auto          = "Accesso admin automatico"
         m_upd           = "Sospendi gli aggiornamenti (meno sicuro)"
         m_hw            = "Salta i controlli TPM / Secure Boot / memoria / CPU"
         ua_note         = "Nota: al primo avvio collega il PC a Internet. Windows Update installerà le app (icone del menu Start) entro 10-30 minuti."
@@ -582,10 +630,22 @@ $Textes = @{
         ua_pc           = "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): "
         ua_lang         = "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): "
         ua_edition      = "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home (premi il numero, Invio = 0): "
-        ua_auto         = "Accedere automaticamente come admin al primo avvio (password obbligatoria)? (S/N) "
+        ua_auto         = "Accedere automaticamente come admin al primo avvio? (S/N) "
         ua_pwd          = "Password dell'account admin: "
         ua_pwd2         = "Conferma la password: "
         ua_pwd_bad      = "Password vuota o diversa. Riprova."
+        m_pwdmode       = "Password admin"
+        m_pwd_auto      = "provvisoria auto, poi vuota"
+        m_pwd_ask       = "la digito io"
+        m_wifi          = "Connessione Wi-Fi automatica"
+        m_grey          = "(inutile con il Wi-Fi)"
+        ua_wifi_ssid    = "Nome della rete Wi-Fi (SSID): "
+        ua_wifi_pwd     = "Password del Wi-Fi (minimo 8 caratteri): "
+        ua_wifi_pwd2    = "Conferma la password del Wi-Fi: "
+        ua_wifi_bad     = "Password Wi-Fi troppo corta o diversa. Riprova."
+        ua_wifi         = "Collegare automaticamente il PC a una rete Wi-Fi al primo avvio? (S/N) "
+        ua_pwdmode      = "Digitare tu la password admin (altrimenti provvisoria automatica, poi vuota)? (S/N) "
+        ua_clean        = "Lascia la chiavetta inserita fino alla comparsa del desktop: al primo avvio le password verranno cancellate dalla chiavetta."
         ua_updates      = "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) "
         ua_hw           = "Saltare i controlli di compatibilità di Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) "
         recap_key       = "Chiavetta da {0} GB: cerca questa dimensione nell'elenco dei dischi del programma di installazione di Windows."
@@ -649,7 +709,7 @@ $Textes = @{
         m_ed            = "Edição"
         m_ask           = "perguntar-me"
         m_home          = "Home"
-        m_auto          = "Sessão admin automática com palavra-passe obrigatória"
+        m_auto          = "Sessão admin automática"
         m_upd           = "Pausar as atualizações (menos seguro)"
         m_hw            = "Ignorar verificações de TPM / Secure Boot / memória / CPU"
         ua_note         = "Nota: no primeiro arranque, liga o PC à Internet. O Windows Update instalará as aplicações (ícones do menu Iniciar) em 10 a 30 minutos."
@@ -704,10 +764,22 @@ $Textes = @{
         ua_pc           = "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): "
         ua_lang         = "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): "
         ua_edition      = "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home (prime o número, Enter = 0): "
-        ua_auto         = "Iniciar sessão admin automaticamente no primeiro arranque (palavra-passe obrigatória)? (S/N) "
+        ua_auto         = "Iniciar sessão admin automaticamente no primeiro arranque? (S/N) "
         ua_pwd          = "Palavra-passe da conta admin: "
         ua_pwd2         = "Confirma a palavra-passe: "
         ua_pwd_bad      = "Palavra-passe vazia ou diferente. Tenta novamente."
+        m_pwdmode       = "Palavra-passe admin"
+        m_pwd_auto      = "provisória auto, depois vazia"
+        m_pwd_ask       = "escrevo-a eu"
+        m_wifi          = "Ligação Wi-Fi automática"
+        m_grey          = "(inútil com Wi-Fi)"
+        ua_wifi_ssid    = "Nome da rede Wi-Fi (SSID): "
+        ua_wifi_pwd     = "Palavra-passe do Wi-Fi (mínimo 8 caracteres): "
+        ua_wifi_pwd2    = "Confirma a palavra-passe do Wi-Fi: "
+        ua_wifi_bad     = "Palavra-passe Wi-Fi demasiado curta ou diferente. Tenta novamente."
+        ua_wifi         = "Ligar o PC automaticamente a uma rede Wi-Fi no primeiro arranque? (S/N) "
+        ua_pwdmode      = "Escrever tu a palavra-passe admin (senão provisória automática, depois vazia)? (S/N) "
+        ua_clean        = "Deixa a pen ligada até aparecer o ambiente de trabalho: no primeiro arranque as palavras-passe serão apagadas da pen."
         ua_updates      = "Pausar as atualizações automáticas (menos seguro)? (S/N) "
         ua_hw           = "Ignorar as verificações de compatibilidade do Windows 11 (TPM, Secure Boot, memória, CPU)? (S/N) "
         recap_key       = "Pen de {0} GB: procura este tamanho na lista de discos do instalador do Windows."
@@ -799,7 +871,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-15)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-16)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -849,11 +921,13 @@ function Show-Menu([string]$titre, [object[]]$lignes) {
             for ($i = 0; $i -lt $n; $i++) {
                 $l = $lignes[$i]
                 if (-not (& $visible $i)) { Write-Host ''.PadRight($larg); continue }
-                if ($l.Type -eq 'c') { $v = $(if ($l.Val -eq 1) { '[x]' } else { '[ ]' }); $txt = $l.Label }
+                $gris = ($null -ne $l.Grey) -and ($lignes[$l.Grey].Val -eq 1)
+                if ($gris) { $l.Val = 0; $v = '[-]'; $txt = "$($l.Label) $(T 'm_grey')" }
+                elseif ($l.Type -eq 'c') { $v = $(if ($l.Val -eq 1) { '[x]' } else { '[ ]' }); $txt = $l.Label }
                 else { $v = '   '; $txt = "$($l.Label) :  < $($l.Opts[$l.Val]) >" }
                 $ptr = $(if ($i -eq $cur) { '>' } else { ' ' })
                 $ligne = (" $ptr $v $txt").PadRight($larg).Substring(0, $larg)
-                if ($i -eq $cur) { Write-Host $ligne -ForegroundColor Cyan } else { Write-Host $ligne }
+                if ($i -eq $cur) { Write-Host $ligne -ForegroundColor Cyan } elseif ($gris) { Write-Host $ligne -ForegroundColor DarkGray } else { Write-Host $ligne }
             }
             $k = [Console]::ReadKey($true)
             $act = 0
@@ -869,7 +943,7 @@ function Show-Menu([string]$titre, [object[]]$lignes) {
             }
             if ($act -ne 0) {
                 $l = $lignes[$cur]
-                if ($l.Type -eq 'c') { $l.Val = 1 - $l.Val }
+                if ($l.Type -eq 'c') { if (-not (($null -ne $l.Grey) -and ($lignes[$l.Grey].Val -eq 1))) { $l.Val = 1 - $l.Val } }
                 else { $nb = $l.Opts.Count; $l.Val = ($l.Val + $act + $nb) % $nb }
             }
         }
@@ -1378,7 +1452,7 @@ else {
 }
 
 # --- Installation automatisée : questions de la première configuration de Windows ---
-$bypass = $false; $nomCompte = ''; $nomPc = ''; $iLoc = 0; $iEd = 0; $uaAuto = $false; $mdp = ''; $uaUpd = $false; $uaHw = $false
+$bypass = $false; $nomCompte = ''; $nomPc = ''; $iLoc = 0; $iEd = 0; $uaAuto = $false; $mdp = ''; $pwdAsk = $false; $wifi = $false; $wifiSsid = ''; $wifiPwd = ''; $uaUpd = $false; $uaHw = $false
 function Touche([string]$cle) {
     Write-Host (T $cle) -NoNewline
     try { $c = [Console]::ReadKey($true).KeyChar } catch { return (Read-Host '') }
@@ -1387,6 +1461,57 @@ function Touche([string]$cle) {
 }
 function Oui([string]$cle) { return ((Touche $cle) -match '^[oOyYsSjJ]') }
 function Choix([string]$cle, [int]$max) { $n = 0; if ([int]::TryParse((Touche $cle), [ref]$n) -and $n -ge 0 -and $n -le $max) { return $n }; return 0 }
+function Get-ModelePremiereSession {
+    return @'
+# PocketBoot : premiere ouverture de session (Wi-Fi, mot de passe provisoire, nettoyage)
+$ErrorActionPreference = 'SilentlyContinue'
+$dir = 'C:\PocketBoot'
+$nom = '__NAME__'
+$vider = __RESET__
+$wifi = Join-Path $dir 'wifi.xml'
+function Effacer([string]$f) {
+    try {
+        $len = (Get-Item -LiteralPath $f -Force).Length
+        if ($len -gt 0) {
+            $fs = [IO.File]::Open($f, 'Open', 'Write')
+            $fs.Write((New-Object byte[] $len), 0, $len); $fs.Flush(); $fs.Dispose()
+        }
+    } catch { }
+    Remove-Item -LiteralPath $f -Force
+}
+if (Test-Path -LiteralPath $wifi) {
+    netsh wlan add profile filename="$wifi" user=all | Out-Null
+    $ssid = ([xml](Get-Content -LiteralPath $wifi -Raw)).WLANProfile.name
+    for ($i = 0; $i -lt 20; $i++) {
+        netsh wlan connect name="$ssid" | Out-Null
+        Start-Sleep -Seconds 4
+        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { break }
+    }
+}
+if ($vider) { cmd.exe /c "net user ""$nom"" """"" | Out-Null }
+foreach ($d in (Get-PSDrive -PSProvider FileSystem)) {
+    $r = $d.Root
+    if ($r -eq ($env:SystemDrive + '\')) { continue }
+    $a = Join-Path $r 'autounattend.xml'
+    if ((Test-Path -LiteralPath $a) -and (Select-String -LiteralPath $a -Pattern 'PocketBoot' -Quiet)) {
+        Effacer $a
+        $o = Join-Path $r 'sources\$OEM$'
+        if (Test-Path -LiteralPath $o) {
+            Get-ChildItem -LiteralPath $o -Recurse -File -Force | ForEach-Object { Effacer $_.FullName }
+            Remove-Item -LiteralPath $o -Recurse -Force
+        }
+    }
+}
+foreach ($f in 'unattend.xml', 'autounattend.xml') {
+    $p = Join-Path 'C:\Windows\Panther' $f
+    if (Test-Path -LiteralPath $p) { Effacer $p }
+}
+Get-ChildItem -LiteralPath 'C:\Windows\Panther\UnattendGC' -File -Force | ForEach-Object { Effacer $_.FullName }
+Get-ChildItem -LiteralPath $dir -File -Force | Where-Object { $_.FullName -ne $PSCommandPath } | ForEach-Object { Effacer $_.FullName }
+Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-Command', "Start-Sleep 3; Remove-Item -LiteralPath '$dir' -Recurse -Force"
+'@
+}
+
 function Lire-MotDePasse {
     while ($true) {
         $a = Read-Host (T 'ua_pwd') -AsSecureString
@@ -1402,14 +1527,16 @@ $lOpt = @(
     @{ Type = 's'; Label = (T 'm_lang'); Val = 0; Opts = @('Français', 'English (UK)', 'English (US)', 'Deutsch', 'Español', 'Italiano', 'Português', (T 'm_ask')); Dep = $true },
     @{ Type = 's'; Label = (T 'm_ed'); Val = 0; Opts = @('Pro', (T 'm_home'), (T 'm_ask')); Dep = $true },
     @{ Type = 'c'; Label = (T 'm_auto'); Val = 0; Opts = @(); Dep = $true },
-    @{ Type = 'c'; Label = (T 'm_upd'); Val = 0; Opts = @(); Dep = $true },
+    @{ Type = 's'; Label = (T 'm_pwdmode'); Val = 0; Opts = @((T 'm_pwd_auto'), (T 'm_pwd_ask')); Dep = $true },
+    @{ Type = 'c'; Label = (T 'm_wifi'); Val = 0; Opts = @(); Dep = $true },
+    @{ Type = 'c'; Label = (T 'm_upd'); Val = 0; Opts = @(); Dep = $true; Grey = 5 },
     @{ Type = 'c'; Label = (T 'm_hw'); Val = 0; Opts = @(); Dep = $true }
 )
 $menuOpt = Show-Menu (T 'menu_opts_title') $lOpt
 if ($null -eq $menuOpt) { $bypass = Oui 'bypass_ask' }
 elseif ($menuOpt -and $lOpt[0].Val -eq 1) {
     $bypass = $true; $iLoc = ($lOpt[1].Val + 1) % 8; $iEd = ($lOpt[2].Val + 1) % 3
-    $uaAuto = ($lOpt[3].Val -eq 1); $uaUpd = ($lOpt[4].Val -eq 1); $uaHw = ($lOpt[5].Val -eq 1)
+    $uaAuto = ($lOpt[3].Val -eq 1); $pwdAsk = ($lOpt[4].Val -eq 1); $wifi = ($lOpt[5].Val -eq 1); $uaUpd = (($lOpt[6].Val -eq 1) -and -not $wifi); $uaHw = ($lOpt[7].Val -eq 1)
 }
 if ($bypass) {
     Write-Host (T 'ua_note') -ForegroundColor Yellow
@@ -1424,10 +1551,32 @@ if ($bypass) {
         $iLoc = Choix 'ua_lang' 7
         $iEd = Choix 'ua_edition' 2
         $uaAuto = Oui 'ua_auto'
-        $uaUpd = Oui 'ua_updates'
+        if ($uaAuto) { $pwdAsk = Oui 'ua_pwdmode' }
+        $wifi = Oui 'ua_wifi'
+        if (-not $wifi) { $uaUpd = Oui 'ua_updates' }
         $uaHw = Oui 'ua_hw'
     }
-    if ($uaAuto) { $mdp = Lire-MotDePasse }
+    if ($uaAuto) {
+        if ($pwdAsk) { $mdp = Lire-MotDePasse }
+        else {
+            $oct = New-Object byte[] 24
+            [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($oct)
+            $mdp = -join ($oct | ForEach-Object { 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'[$_ % 62] })
+        }
+    }
+    if ($wifi) {
+        while ($true) {
+            $wifiSsid = (Read-Host (T 'ua_wifi_ssid')).Trim()
+            if (-not $wifiSsid) { continue }
+            $a1 = Read-Host (T 'ua_wifi_pwd') -AsSecureString
+            $a2 = Read-Host (T 'ua_wifi_pwd2') -AsSecureString
+            $w1 = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($a1))
+            $w2 = [Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($a2))
+            if ($w1.Length -ge 8 -and ($w1 -ceq $w2)) { $wifiPwd = $w1; break }
+            Write-Host (T 'ua_wifi_bad') -ForegroundColor Red
+        }
+    }
+    if ($uaAuto -or $wifi) { Write-Host (T 'ua_clean') -ForegroundColor Yellow }
 }
 
 # --- Préparation de la clé ---
@@ -1558,8 +1707,24 @@ try {
         $x.Add("        $pwXml<Name>$nomCompte</Name><DisplayName>$nomCompte</DisplayName><Group>Administrators</Group>")
         $x.Add('      </LocalAccount></LocalAccounts></UserAccounts>')
         if ($uaAuto) { $x.Add("      <AutoLogon><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>$nomCompte</Username>$pwXml</AutoLogon>") }
-        $x.Add('    </component>'); $x.Add('  </settings>'); $x.Add('</unattend>')
+        if ($uaAuto -or $wifi) {
+            $x.Add('      <FirstLogonCommands><SynchronousCommand wcm:action="add"><Order>1</Order><CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\PocketBoot\firstlogon.ps1</CommandLine><Description>PocketBoot</Description></SynchronousCommand></FirstLogonCommands>')
+        }
+        $x.Add('    </component>')
+        $x.Add('  </settings>'); $x.Add('  <!-- PocketBoot -->'); $x.Add('</unattend>')
         [IO.File]::WriteAllText("$usb\autounattend.xml", ($x -join "`r`n") + "`r`n", (New-Object Text.UTF8Encoding $false))
+        if ($uaAuto -or $wifi) {
+            $oem = Join-Path $usb 'sources\$OEM$\$1\PocketBoot'
+            New-Item -ItemType Directory -Path $oem -Force | Out-Null
+            $vider = if ($uaAuto -and -not $pwdAsk) { '$true' } else { '$false' }
+            $modele = (Get-ModelePremiereSession).Replace('__NAME__', $nomCompte).Replace('__RESET__', $vider)
+            [IO.File]::WriteAllText((Join-Path $oem 'firstlogon.ps1'), $modele, (New-Object Text.UTF8Encoding $true))
+            if ($wifi) {
+                $ws = [Security.SecurityElement]::Escape($wifiSsid); $wk = [Security.SecurityElement]::Escape($wifiPwd)
+                $wx = '<?xml version="1.0"?><WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1"><name>' + $ws + '</name><SSIDConfig><SSID><name>' + $ws + '</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>WPA2PSK</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>' + $wk + '</keyMaterial></sharedKey></security></MSM></WLANProfile>'
+                [IO.File]::WriteAllText((Join-Path $oem 'wifi.xml'), $wx, (New-Object Text.UTF8Encoding $false))
+            }
+        }
         Write-Host (T 'bypass_done' $nomCompte) -ForegroundColor Green
     }
 

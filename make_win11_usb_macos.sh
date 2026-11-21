@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-15)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-16)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -109,10 +109,22 @@ msg_fr() {
         ua_pc) printf '%s' "Nom de la machine (tapez un nom, ou appuyez sur Entrée pour laisser Windows en choisir un) : " ;;
         ua_lang) printf '%s' "Langue, clavier et fuseau : 0 = me le demander, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
         ua_edition) printf '%s' "Édition : 0 = me la demander, 1 = Pro, 2 = Famille/Home (appuyez sur le chiffre voulu, Entrée = 0) : " ;;
-        ua_auto) printf '%s' "Ouvrir la session admin automatiquement au premier démarrage (mot de passe requis) ? (O/N) " ;;
+        ua_auto) printf '%s' "Ouvrir la session admin automatiquement au premier démarrage ? (O/N) " ;;
         ua_pwd) printf '%s' "Mot de passe du compte admin : " ;;
         ua_pwd2) printf '%s' "Confirmez le mot de passe : " ;;
         ua_pwd_bad) printf '%s' "Mot de passe vide ou différent. Recommencez." ;;
+        m_pwdmode) printf '%s' "Mot de passe admin" ;;
+        m_pwd_auto) printf '%s' "provisoire auto, puis vide" ;;
+        m_pwd_ask) printf '%s' "que je saisis" ;;
+        m_wifi) printf '%s' "Connexion Wi-Fi automatique" ;;
+        m_grey) printf '%s' "(inutile avec le Wi-Fi)" ;;
+        ua_wifi_ssid) printf '%s' "Nom du réseau Wi-Fi (SSID) : " ;;
+        ua_wifi_pwd) printf '%s' "Mot de passe du Wi-Fi (8 caractères minimum) : " ;;
+        ua_wifi_pwd2) printf '%s' "Confirmez le mot de passe du Wi-Fi : " ;;
+        ua_wifi_bad) printf '%s' "Mot de passe Wi-Fi trop court ou différent. Recommencez." ;;
+        ua_wifi) printf '%s' "Connecter automatiquement le PC à un réseau Wi-Fi au premier démarrage ? (O/N) " ;;
+        ua_pwdmode) printf '%s' "Saisir vous-même le mot de passe admin (sinon provisoire automatique, puis vide) ? (O/N) " ;;
+        ua_clean) printf '%s' "Laissez la clé branchée jusqu'au bureau : au premier démarrage, les mots de passe seront effacés de la clé." ;;
         ua_updates) printf '%s' "Mettre en pause les mises à jour automatiques (moins sûr) ? (O/N) " ;;
         ua_hw) printf '%s' "Ignorer les contrôles de compatibilité Windows 11 (TPM, Secure Boot, mémoire, processeur) ? (O/N) " ;;
         recap_key) printf '%s' "Clé de %s Go : repérez cette taille dans la liste des disques de l'installateur Windows." ;;
@@ -180,7 +192,7 @@ msg_fr() {
         m_ed) printf '%s' "Édition" ;;
         m_ask) printf '%s' "me le demander" ;;
         m_home) printf '%s' "Famille" ;;
-        m_auto) printf '%s' "Session admin automatique avec mot de passe requis" ;;
+        m_auto) printf '%s' "Session admin automatique" ;;
         m_upd) printf '%s' "Mettre en pause les mises à jour (moins sûr)" ;;
         m_hw) printf '%s' "Ignorer les contrôles TPM / Secure Boot / mémoire / CPU" ;;
         ua_note) printf '%s' "Note : au premier démarrage, connectez le PC à Internet. Windows Update installera les applications (icônes du menu Démarrer) en 10 à 30 minutes." ;;
@@ -247,10 +259,22 @@ msg_en() {
         ua_pc) printf '%s' "Computer name (type a name, or press Enter to let Windows choose one): " ;;
         ua_lang) printf '%s' "Language, keyboard and time zone: 0 = ask me during setup, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (press the number, Enter = 0): " ;;
         ua_edition) printf '%s' "Edition: 0 = ask me during setup, 1 = Pro, 2 = Home (press the number, Enter = 0): " ;;
-        ua_auto) printf '%s' "Sign in automatically as admin on first start (password required)? (Y/N) " ;;
+        ua_auto) printf '%s' "Sign in automatically as admin on first start? (Y/N) " ;;
         ua_pwd) printf '%s' "Admin account password: " ;;
         ua_pwd2) printf '%s' "Confirm the password: " ;;
         ua_pwd_bad) printf '%s' "Empty or mismatching password. Try again." ;;
+        m_pwdmode) printf '%s' "Admin password" ;;
+        m_pwd_auto) printf '%s' "temporary auto, then empty" ;;
+        m_pwd_ask) printf '%s' "I type it" ;;
+        m_wifi) printf '%s' "Automatic Wi-Fi connection" ;;
+        m_grey) printf '%s' "(not needed with Wi-Fi)" ;;
+        ua_wifi_ssid) printf '%s' "Wi-Fi network name (SSID): " ;;
+        ua_wifi_pwd) printf '%s' "Wi-Fi password (8 characters minimum): " ;;
+        ua_wifi_pwd2) printf '%s' "Confirm the Wi-Fi password: " ;;
+        ua_wifi_bad) printf '%s' "Wi-Fi password too short or mismatching. Try again." ;;
+        ua_wifi) printf '%s' "Connect the PC to a Wi-Fi network automatically on first start? (Y/N) " ;;
+        ua_pwdmode) printf '%s' "Type the admin password yourself (otherwise temporary automatic, then empty)? (Y/N) " ;;
+        ua_clean) printf '%s' "Keep the drive plugged in until the desktop appears: on first start the passwords will be erased from the drive." ;;
         ua_updates) printf '%s' "Pause automatic updates (less secure)? (Y/N) " ;;
         ua_hw) printf '%s' "Skip the Windows 11 compatibility checks (TPM, Secure Boot, memory, CPU)? (Y/N) " ;;
         recap_key) printf '%s' "%s GB drive: look for this size in the Windows setup disk list." ;;
@@ -318,7 +342,7 @@ msg_en() {
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "ask me during setup" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Automatic admin sign-in, password required" ;;
+        m_auto) printf '%s' "Automatic admin sign-in" ;;
         m_upd) printf '%s' "Pause automatic updates (less secure)" ;;
         m_hw) printf '%s' "Skip TPM / Secure Boot / memory / CPU checks" ;;
         ua_note) printf '%s' "Note: on first start, connect the PC to the Internet. Windows Update will install the apps (Start menu icons) within 10 to 30 minutes." ;;
@@ -385,10 +409,22 @@ msg_es() {
         ua_pc) printf '%s' "Nombre del equipo (escribe un nombre o pulsa Intro para que Windows elija uno): " ;;
         ua_lang) printf '%s' "Idioma, teclado y zona horaria: 0 = preguntármelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (pulsa el número, Intro = 0): " ;;
         ua_edition) printf '%s' "Edición: 0 = preguntármelo, 1 = Pro, 2 = Home (pulsa el número, Intro = 0): " ;;
-        ua_auto) printf '%s' "¿Iniciar sesión admin automáticamente en el primer arranque (contraseña obligatoria)? (S/N) " ;;
+        ua_auto) printf '%s' "¿Iniciar sesión admin automáticamente en el primer arranque? (S/N) " ;;
         ua_pwd) printf '%s' "Contraseña de la cuenta admin: " ;;
         ua_pwd2) printf '%s' "Confirma la contraseña: " ;;
         ua_pwd_bad) printf '%s' "Contraseña vacía o diferente. Inténtalo de nuevo." ;;
+        m_pwdmode) printf '%s' "Contraseña admin" ;;
+        m_pwd_auto) printf '%s' "temporal auto, luego vacía" ;;
+        m_pwd_ask) printf '%s' "la escribo yo" ;;
+        m_wifi) printf '%s' "Conexión Wi-Fi automática" ;;
+        m_grey) printf '%s' "(innecesario con Wi-Fi)" ;;
+        ua_wifi_ssid) printf '%s' "Nombre de la red Wi-Fi (SSID): " ;;
+        ua_wifi_pwd) printf '%s' "Contraseña del Wi-Fi (mínimo 8 caracteres): " ;;
+        ua_wifi_pwd2) printf '%s' "Confirma la contraseña del Wi-Fi: " ;;
+        ua_wifi_bad) printf '%s' "Contraseña Wi-Fi demasiado corta o diferente. Inténtalo de nuevo." ;;
+        ua_wifi) printf '%s' "¿Conectar el PC automáticamente a una red Wi-Fi en el primer arranque? (S/N) " ;;
+        ua_pwdmode) printf '%s' "¿Escribir tú mismo la contraseña admin (si no, temporal automática y luego vacía)? (S/N) " ;;
+        ua_clean) printf '%s' "Deja la unidad conectada hasta que aparezca el escritorio: en el primer arranque se borrarán las contraseñas de la unidad." ;;
         ua_updates) printf '%s' "¿Pausar las actualizaciones automáticas (menos seguro)? (S/N) " ;;
         ua_hw) printf '%s' "¿Omitir las comprobaciones de compatibilidad de Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) " ;;
         recap_key) printf '%s' "Unidad de %s GB: busca este tamaño en la lista de discos del instalador de Windows." ;;
@@ -456,7 +492,7 @@ msg_es() {
         m_ed) printf '%s' "Edición" ;;
         m_ask) printf '%s' "preguntármelo" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Sesión admin automática con contraseña obligatoria" ;;
+        m_auto) printf '%s' "Inicio de sesión admin automático" ;;
         m_upd) printf '%s' "Pausar las actualizaciones (menos seguro)" ;;
         m_hw) printf '%s' "Omitir controles TPM / Secure Boot / memoria / CPU" ;;
         ua_note) printf '%s' "Nota: en el primer inicio, conecta el PC a Internet. Windows Update instalará las aplicaciones (iconos del menú Inicio) en 10 a 30 minutos." ;;
@@ -523,10 +559,22 @@ msg_de() {
         ua_pc) printf '%s' "Computername (Namen eingeben oder Eingabetaste drücken, damit Windows einen wählt): " ;;
         ua_lang) printf '%s' "Sprache, Tastatur und Zeitzone: 0 = bei der Installation fragen, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (Ziffer drücken, Eingabe = 0): " ;;
         ua_edition) printf '%s' "Edition: 0 = bei der Installation fragen, 1 = Pro, 2 = Home (Ziffer drücken, Eingabe = 0): " ;;
-        ua_auto) printf '%s' "Beim ersten Start automatisch als Admin anmelden (Kennwort erforderlich)? (J/N) " ;;
+        ua_auto) printf '%s' "Beim ersten Start automatisch als Admin anmelden? (J/N) " ;;
         ua_pwd) printf '%s' "Kennwort des Admin-Kontos: " ;;
         ua_pwd2) printf '%s' "Kennwort bestätigen: " ;;
         ua_pwd_bad) printf '%s' "Kennwort leer oder abweichend. Bitte erneut versuchen." ;;
+        m_pwdmode) printf '%s' "Admin-Kennwort" ;;
+        m_pwd_auto) printf '%s' "temporär automatisch, danach leer" ;;
+        m_pwd_ask) printf '%s' "ich gebe es ein" ;;
+        m_wifi) printf '%s' "Automatische WLAN-Verbindung" ;;
+        m_grey) printf '%s' "(mit WLAN unnötig)" ;;
+        ua_wifi_ssid) printf '%s' "Name des WLAN-Netzwerks (SSID): " ;;
+        ua_wifi_pwd) printf '%s' "WLAN-Kennwort (mindestens 8 Zeichen): " ;;
+        ua_wifi_pwd2) printf '%s' "WLAN-Kennwort bestätigen: " ;;
+        ua_wifi_bad) printf '%s' "WLAN-Kennwort zu kurz oder abweichend. Bitte erneut versuchen." ;;
+        ua_wifi) printf '%s' "PC beim ersten Start automatisch mit einem WLAN verbinden? (J/N) " ;;
+        ua_pwdmode) printf '%s' "Admin-Kennwort selbst eingeben (sonst temporär automatisch, danach leer)? (J/N) " ;;
+        ua_clean) printf '%s' "Stick bis zum Desktop eingesteckt lassen: beim ersten Start werden die Kennwörter vom Stick gelöscht." ;;
         ua_updates) printf '%s' "Automatische Updates pausieren (weniger sicher)? (J/N) " ;;
         ua_hw) printf '%s' "Windows-11-Kompatibilitätsprüfungen überspringen (TPM, Secure Boot, Speicher, CPU)? (J/N) " ;;
         recap_key) printf '%s' "Stick mit %s GB: Diese Größe in der Datenträgerliste des Windows-Setups suchen." ;;
@@ -594,7 +642,7 @@ msg_de() {
         m_ed) printf '%s' "Edition" ;;
         m_ask) printf '%s' "mich fragen" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Automatische Admin-Anmeldung, Kennwort erforderlich" ;;
+        m_auto) printf '%s' "Automatische Admin-Anmeldung" ;;
         m_upd) printf '%s' "Updates pausieren (weniger sicher)" ;;
         m_hw) printf '%s' "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen" ;;
         ua_note) printf '%s' "Hinweis: Verbinden Sie den PC beim ersten Start mit dem Internet. Windows Update installiert die Apps (Symbole im Startmenü) innerhalb von 10 bis 30 Minuten." ;;
@@ -661,10 +709,22 @@ msg_it() {
         ua_pc) printf '%s' "Nome del computer (scrivi un nome o premi Invio per lasciarlo scegliere a Windows): " ;;
         ua_lang) printf '%s' "Lingua, tastiera e fuso orario: 0 = chiedimelo, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (premi il numero, Invio = 0): " ;;
         ua_edition) printf '%s' "Edizione: 0 = chiedimelo, 1 = Pro, 2 = Home (premi il numero, Invio = 0): " ;;
-        ua_auto) printf '%s' "Accedere automaticamente come admin al primo avvio (password obbligatoria)? (S/N) " ;;
+        ua_auto) printf '%s' "Accedere automaticamente come admin al primo avvio? (S/N) " ;;
         ua_pwd) printf '%s' "Password dell'account admin: " ;;
         ua_pwd2) printf '%s' "Conferma la password: " ;;
         ua_pwd_bad) printf '%s' "Password vuota o diversa. Riprova." ;;
+        m_pwdmode) printf '%s' "Password admin" ;;
+        m_pwd_auto) printf '%s' "provvisoria auto, poi vuota" ;;
+        m_pwd_ask) printf '%s' "la digito io" ;;
+        m_wifi) printf '%s' "Connessione Wi-Fi automatica" ;;
+        m_grey) printf '%s' "(inutile con il Wi-Fi)" ;;
+        ua_wifi_ssid) printf '%s' "Nome della rete Wi-Fi (SSID): " ;;
+        ua_wifi_pwd) printf '%s' "Password del Wi-Fi (minimo 8 caratteri): " ;;
+        ua_wifi_pwd2) printf '%s' "Conferma la password del Wi-Fi: " ;;
+        ua_wifi_bad) printf '%s' "Password Wi-Fi troppo corta o diversa. Riprova." ;;
+        ua_wifi) printf '%s' "Collegare automaticamente il PC a una rete Wi-Fi al primo avvio? (S/N) " ;;
+        ua_pwdmode) printf '%s' "Digitare tu la password admin (altrimenti provvisoria automatica, poi vuota)? (S/N) " ;;
+        ua_clean) printf '%s' "Lascia la chiavetta inserita fino alla comparsa del desktop: al primo avvio le password verranno cancellate dalla chiavetta." ;;
         ua_updates) printf '%s' "Sospendere gli aggiornamenti automatici (meno sicuro)? (S/N) " ;;
         ua_hw) printf '%s' "Saltare i controlli di compatibilità di Windows 11 (TPM, Secure Boot, memoria, CPU)? (S/N) " ;;
         recap_key) printf '%s' "Chiavetta da %s GB: cerca questa dimensione nell'elenco dei dischi del programma di installazione di Windows." ;;
@@ -732,7 +792,7 @@ msg_it() {
         m_ed) printf '%s' "Edizione" ;;
         m_ask) printf '%s' "chiedimelo" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Accesso admin automatico con password obbligatoria" ;;
+        m_auto) printf '%s' "Accesso admin automatico" ;;
         m_upd) printf '%s' "Sospendi gli aggiornamenti (meno sicuro)" ;;
         m_hw) printf '%s' "Salta i controlli TPM / Secure Boot / memoria / CPU" ;;
         ua_note) printf '%s' "Nota: al primo avvio collega il PC a Internet. Windows Update installerà le app (icone del menu Start) entro 10-30 minuti." ;;
@@ -799,10 +859,22 @@ msg_pt() {
         ua_pc) printf '%s' "Nome do computador (escreve um nome ou prime Enter para o Windows escolher um): " ;;
         ua_lang) printf '%s' "Idioma, teclado e fuso horário: 0 = perguntar-me, 1 Français, 2 English (UK), 3 English (US), 4 Deutsch, 5 Español, 6 Italiano, 7 Português (prime o número, Enter = 0): " ;;
         ua_edition) printf '%s' "Edição: 0 = perguntar-me, 1 = Pro, 2 = Home (prime o número, Enter = 0): " ;;
-        ua_auto) printf '%s' "Iniciar sessão admin automaticamente no primeiro arranque (palavra-passe obrigatória)? (S/N) " ;;
+        ua_auto) printf '%s' "Iniciar sessão admin automaticamente no primeiro arranque? (S/N) " ;;
         ua_pwd) printf '%s' "Palavra-passe da conta admin: " ;;
         ua_pwd2) printf '%s' "Confirma a palavra-passe: " ;;
         ua_pwd_bad) printf '%s' "Palavra-passe vazia ou diferente. Tenta novamente." ;;
+        m_pwdmode) printf '%s' "Palavra-passe admin" ;;
+        m_pwd_auto) printf '%s' "provisória auto, depois vazia" ;;
+        m_pwd_ask) printf '%s' "escrevo-a eu" ;;
+        m_wifi) printf '%s' "Ligação Wi-Fi automática" ;;
+        m_grey) printf '%s' "(inútil com Wi-Fi)" ;;
+        ua_wifi_ssid) printf '%s' "Nome da rede Wi-Fi (SSID): " ;;
+        ua_wifi_pwd) printf '%s' "Palavra-passe do Wi-Fi (mínimo 8 caracteres): " ;;
+        ua_wifi_pwd2) printf '%s' "Confirma a palavra-passe do Wi-Fi: " ;;
+        ua_wifi_bad) printf '%s' "Palavra-passe Wi-Fi demasiado curta ou diferente. Tenta novamente." ;;
+        ua_wifi) printf '%s' "Ligar o PC automaticamente a uma rede Wi-Fi no primeiro arranque? (S/N) " ;;
+        ua_pwdmode) printf '%s' "Escrever tu a palavra-passe admin (senão provisória automática, depois vazia)? (S/N) " ;;
+        ua_clean) printf '%s' "Deixa a pen ligada até aparecer o ambiente de trabalho: no primeiro arranque as palavras-passe serão apagadas da pen." ;;
         ua_updates) printf '%s' "Pausar as atualizações automáticas (menos seguro)? (S/N) " ;;
         ua_hw) printf '%s' "Ignorar as verificações de compatibilidade do Windows 11 (TPM, Secure Boot, memória, CPU)? (S/N) " ;;
         recap_key) printf '%s' "Pen de %s GB: procura este tamanho na lista de discos do instalador do Windows." ;;
@@ -870,7 +942,7 @@ msg_pt() {
         m_ed) printf '%s' "Edição" ;;
         m_ask) printf '%s' "perguntar-me" ;;
         m_home) printf '%s' "Home" ;;
-        m_auto) printf '%s' "Sessão admin automática com palavra-passe obrigatória" ;;
+        m_auto) printf '%s' "Sessão admin automática" ;;
         m_upd) printf '%s' "Pausar as atualizações (menos seguro)" ;;
         m_hw) printf '%s' "Ignorar verificações de TPM / Secure Boot / memória / CPU" ;;
         ua_note) printf '%s' "Nota: no primeiro arranque, liga o PC à Internet. O Windows Update instalará as aplicações (ícones do menu Iniciar) em 10 a 30 minutos." ;;
@@ -1203,8 +1275,12 @@ menu_cases() {
             if m_visible "$i"; then
                 if [ "$i" -eq "$cur" ]; then pointeur=">"; else pointeur=" "; fi
                 if [ "${M_TYPE[$i]}" = c ]; then
-                    if [ "${M_VAL[$i]}" = 1 ]; then v="[x]"; else v="[ ]"; fi
-                    lib="${M_LABEL[$i]}"
+                    if [ -n "${M_GREY[$i]:-}" ] && [ "${M_VAL[${M_GREY[$i]}]}" = 1 ]; then
+                        M_VAL[$i]=0; v="[-]"; lib="${M_LABEL[$i]} $(msg m_grey)"
+                    else
+                        if [ "${M_VAL[$i]}" = 1 ]; then v="[x]"; else v="[ ]"; fi
+                        lib="${M_LABEL[$i]}"
+                    fi
                 else
                     v="   "
                     lib="${M_LABEL[$i]} :  < $(printf '%s' "${M_OPTS[$i]}" | awk -F'|' -v n=$(( ${M_VAL[$i]} + 1 )) '{print $n}') >"
@@ -1241,7 +1317,8 @@ menu_cases() {
             done
         elif [ "${M_ACT:-0}" -ne 0 ]; then
             if [ "${M_TYPE[$cur]}" = c ]; then
-                if [ "${M_VAL[$cur]}" = 1 ]; then M_VAL[$cur]=0; else M_VAL[$cur]=1; fi
+                if [ -n "${M_GREY[$cur]:-}" ] && [ "${M_VAL[${M_GREY[$cur]}]}" = 1 ]; then :
+                elif [ "${M_VAL[$cur]}" = 1 ]; then M_VAL[$cur]=0; else M_VAL[$cur]=1; fi
             else
                 nb=$(printf '%s' "${M_OPTS[$cur]}" | awk -F'|' '{print NF}')
                 M_VAL[$cur]=$(( (${M_VAL[$cur]} + M_ACT + nb) % nb ))
@@ -1256,15 +1333,16 @@ options_menu() {
     lg="Français|English (UK)|English (US)|Deutsch|Español|Italiano|Português|$(msg m_ask)"
     ed="Pro|$(msg m_home)|$(msg m_ask)"
     M_TITRE="$(msg menu_opts_title)"
-    M_TYPE=(c s s c c c); M_DEP=(0 1 1 1 1 1); M_VAL=(0 0 0 0 0 0)
-    M_LABEL=("$(msg m_bypass)" "$(msg m_lang)" "$(msg m_ed)" "$(msg m_auto)" "$(msg m_upd)" "$(msg m_hw)")
-    M_OPTS=("" "$lg" "$ed" "" "" "")
+    M_TYPE=(c s s c s c c c); M_DEP=(0 1 1 1 1 1 1 1); M_VAL=(0 0 0 0 0 0 0 0); M_GREY=("" "" "" "" "" "" 5 "")
+    M_LABEL=("$(msg m_bypass)" "$(msg m_lang)" "$(msg m_ed)" "$(msg m_auto)" "$(msg m_pwdmode)" "$(msg m_wifi)" "$(msg m_upd)" "$(msg m_hw)")
+    M_OPTS=("" "$lg" "$ed" "" "$(msg m_pwd_auto)|$(msg m_pwd_ask)" "" "" "")
     M_ACT=0
     menu_cases; r=$?
+    M_GREY=()
     [ "$r" -eq 2 ] && return 2
-    bypass=0; i_loc=0; i_ed=0; ua_auto=0; ua_upd=0; ua_hw=0
+    bypass=0; i_loc=0; i_ed=0; ua_auto=0; pwd_ask=0; wifi=0; ua_upd=0; ua_hw=0
     if [ "$r" -eq 0 ] && [ "${M_VAL[0]}" = 1 ]; then
-        bypass=1; i_loc=$(( (${M_VAL[1]} + 1) % 8 )); i_ed=$(( (${M_VAL[2]} + 1) % 3 )); ua_auto=${M_VAL[3]}; ua_upd=${M_VAL[4]}; ua_hw=${M_VAL[5]}
+        bypass=1; i_loc=$(( (${M_VAL[1]} + 1) % 8 )); i_ed=$(( (${M_VAL[2]} + 1) % 3 )); ua_auto=${M_VAL[3]}; pwd_ask=${M_VAL[4]}; wifi=${M_VAL[5]}; ua_upd=${M_VAL[6]}; ua_hw=${M_VAL[7]}; [ "$wifi" -eq 1 ] && ua_upd=0
     fi
     return 0
 }
@@ -1653,10 +1731,60 @@ else
 fi
 
 # --- Installation automatisée : questions de la première configuration de Windows ---
+modele_premiere_session() {
+    cat <<'PBEOF'
+# PocketBoot : premiere ouverture de session (Wi-Fi, mot de passe provisoire, nettoyage)
+$ErrorActionPreference = 'SilentlyContinue'
+$dir = 'C:\PocketBoot'
+$nom = '__NAME__'
+$vider = __RESET__
+$wifi = Join-Path $dir 'wifi.xml'
+function Effacer([string]$f) {
+    try {
+        $len = (Get-Item -LiteralPath $f -Force).Length
+        if ($len -gt 0) {
+            $fs = [IO.File]::Open($f, 'Open', 'Write')
+            $fs.Write((New-Object byte[] $len), 0, $len); $fs.Flush(); $fs.Dispose()
+        }
+    } catch { }
+    Remove-Item -LiteralPath $f -Force
+}
+if (Test-Path -LiteralPath $wifi) {
+    netsh wlan add profile filename="$wifi" user=all | Out-Null
+    $ssid = ([xml](Get-Content -LiteralPath $wifi -Raw)).WLANProfile.name
+    for ($i = 0; $i -lt 20; $i++) {
+        netsh wlan connect name="$ssid" | Out-Null
+        Start-Sleep -Seconds 4
+        if (Test-Connection -ComputerName 1.1.1.1 -Count 1 -Quiet) { break }
+    }
+}
+if ($vider) { cmd.exe /c "net user ""$nom"" """"" | Out-Null }
+foreach ($d in (Get-PSDrive -PSProvider FileSystem)) {
+    $r = $d.Root
+    if ($r -eq ($env:SystemDrive + '\')) { continue }
+    $a = Join-Path $r 'autounattend.xml'
+    if ((Test-Path -LiteralPath $a) -and (Select-String -LiteralPath $a -Pattern 'PocketBoot' -Quiet)) {
+        Effacer $a
+        $o = Join-Path $r 'sources\$OEM$'
+        if (Test-Path -LiteralPath $o) {
+            Get-ChildItem -LiteralPath $o -Recurse -File -Force | ForEach-Object { Effacer $_.FullName }
+            Remove-Item -LiteralPath $o -Recurse -Force
+        }
+    }
+}
+foreach ($f in 'unattend.xml', 'autounattend.xml') {
+    $p = Join-Path 'C:\Windows\Panther' $f
+    if (Test-Path -LiteralPath $p) { Effacer $p }
+}
+Get-ChildItem -LiteralPath 'C:\Windows\Panther\UnattendGC' -File -Force | ForEach-Object { Effacer $_.FullName }
+Get-ChildItem -LiteralPath $dir -File -Force | Where-Object { $_.FullName -ne $PSCommandPath } | ForEach-Object { Effacer $_.FullName }
+Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile', '-Command', "Start-Sleep 3; Remove-Item -LiteralPath '$dir' -Recurse -Force"
+PBEOF
+}
 oui() { case "$1" in [oOyYsSjJ]*) return 0 ;; esac; return 1; }
 touche() { TOUCHE=""; printf '%s' "$(msg "$1")" >&2; IFS= read -r -n 1 TOUCHE || true; [ -n "$TOUCHE" ] && echo >&2; return 0; }
 choix() { touche "$1"; case "$TOUCHE" in [0-9]) [ "$TOUCHE" -le "$2" ] && { echo "$TOUCHE"; return; } ;; esac; echo 0; }
-bypass=0; nom_compte=""; nom_pc=""; i_loc=0; i_ed=0; ua_auto=0; mdp=""; ua_upd=0; ua_hw=0
+bypass=0; nom_compte=""; nom_pc=""; i_loc=0; i_ed=0; ua_auto=0; mdp=""; pwd_ask=0; wifi=0; wifi_ssid=""; wifi_pwd=""; ua_upd=0; ua_hw=0
 options_menu; mode_menu=$?
 if [ "$mode_menu" -eq 2 ]; then
     touche bypass_ask
@@ -1675,17 +1803,34 @@ if [ "$bypass" -eq 1 ]; then
         i_loc=$(choix ua_lang 7)
         i_ed=$(choix ua_edition 2)
         touche ua_auto; oui "$TOUCHE" && ua_auto=1
-        touche ua_updates; oui "$TOUCHE" && ua_upd=1
+        if [ "$ua_auto" -eq 1 ]; then touche ua_pwdmode; oui "$TOUCHE" && pwd_ask=1; fi
+        touche ua_wifi; oui "$TOUCHE" && wifi=1
+        if [ "$wifi" -eq 0 ]; then touche ua_updates; oui "$TOUCHE" && ua_upd=1; fi
         touche ua_hw; oui "$TOUCHE" && ua_hw=1
     fi
     if [ "$ua_auto" -eq 1 ]; then
+        if [ "$pwd_ask" -eq 1 ]; then
+            while :; do
+                read -rs -p "$(msg ua_pwd)" mdp; echo
+                read -rs -p "$(msg ua_pwd2)" mdp2; echo
+                [ -n "$mdp" ] && [ "$mdp" = "$mdp2" ] && break
+                avert "$(msg ua_pwd_bad)"
+            done
+        else
+            mdp=$(head -c 300 /dev/urandom | LC_ALL=C tr -dc 'A-Za-z0-9' | head -c 24)
+        fi
+    fi
+    if [ "$wifi" -eq 1 ]; then
         while :; do
-            read -rs -p "$(msg ua_pwd)" mdp; echo
-            read -rs -p "$(msg ua_pwd2)" mdp2; echo
-            [ -n "$mdp" ] && [ "$mdp" = "$mdp2" ] && break
-            avert "$(msg ua_pwd_bad)"
+            read -r -p "$(msg ua_wifi_ssid)" wifi_ssid
+            [ -n "$wifi_ssid" ] || continue
+            read -rs -p "$(msg ua_wifi_pwd)" wifi_pwd; echo
+            read -rs -p "$(msg ua_wifi_pwd2)" wifi_pwd2; echo
+            [ "${#wifi_pwd}" -ge 8 ] && [ "$wifi_pwd" = "$wifi_pwd2" ] && break
+            avert "$(msg ua_wifi_bad)"
         done
     fi
+    if [ "$ua_auto" -eq 1 ] || [ "$wifi" -eq 1 ]; then avert "$(msg ua_clean)"; fi
 fi
 
 # --- Préparation de la clé ---
@@ -1857,10 +2002,25 @@ if [ "$bypass" -eq 1 ]; then
     ajoute "        ${pw_xml}<Name>$nom_compte</Name><DisplayName>$nom_compte</DisplayName><Group>Administrators</Group>"
     ajoute '      </LocalAccount></LocalAccounts></UserAccounts>'
     [ "$ua_auto" -eq 1 ] && ajoute "      <AutoLogon><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>$nom_compte</Username>${pw_xml}</AutoLogon>"
+    if [ "$ua_auto" -eq 1 ] || [ "$wifi" -eq 1 ]; then
+        ajoute '      <FirstLogonCommands><SynchronousCommand wcm:action="add"><Order>1</Order><CommandLine>powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\PocketBoot\firstlogon.ps1</CommandLine><Description>PocketBoot</Description></SynchronousCommand></FirstLogonCommands>'
+    fi
     ajoute '    </component>'
     ajoute '  </settings>'
+    ajoute '  <!-- PocketBoot -->'
     ajoute '</unattend>'
     printf '%s' "$xml" > "$usb/autounattend.xml"
+    if [ "$ua_auto" -eq 1 ] || [ "$wifi" -eq 1 ]; then
+        oem="$usb/sources/\$OEM\$/\$1/PocketBoot"
+        mkdir -p "$oem"
+        reset='$false'; { [ "$ua_auto" -eq 1 ] && [ "$pwd_ask" -eq 0 ]; } && reset='$true'
+        { printf '\357\273\277'; modele_premiere_session | sed "s/__NAME__/$nom_compte/; s/__RESET__/$reset/"; } > "$oem/firstlogon.ps1"
+        if [ "$wifi" -eq 1 ]; then
+            xesc() { printf '%s' "$1" | sed "s/&/\\&amp;/g; s/</\\&lt;/g; s/>/\\&gt;/g; s/\"/\\&quot;/g; s/'/\\&apos;/g"; }
+            w_s=$(xesc "$wifi_ssid"); w_k=$(xesc "$wifi_pwd")
+            printf '%s' "<?xml version=\"1.0\"?><WLANProfile xmlns=\"http://www.microsoft.com/networking/WLAN/profile/v1\"><name>$w_s</name><SSIDConfig><SSID><name>$w_s</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>WPA2PSK</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>$w_k</keyMaterial></sharedKey></security></MSM></WLANProfile>" > "$oem/wifi.xml"
+        fi
+    fi
     ok "$(msg bypass_done "$nom_compte")"
 fi
 

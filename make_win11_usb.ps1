@@ -799,7 +799,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-14)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-15)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1399,8 +1399,8 @@ function Lire-MotDePasse {
 }
 $lOpt = @(
     @{ Type = 'c'; Label = (T 'm_bypass'); Val = 0; Opts = @(); Dep = $false },
-    @{ Type = 's'; Label = (T 'm_lang'); Val = 0; Opts = @((T 'm_ask'), 'Français', 'English (UK)', 'English (US)', 'Deutsch', 'Español', 'Italiano', 'Português'); Dep = $true },
-    @{ Type = 's'; Label = (T 'm_ed'); Val = 0; Opts = @((T 'm_ask'), 'Pro', (T 'm_home')); Dep = $true },
+    @{ Type = 's'; Label = (T 'm_lang'); Val = 0; Opts = @('Français', 'English (UK)', 'English (US)', 'Deutsch', 'Español', 'Italiano', 'Português', (T 'm_ask')); Dep = $true },
+    @{ Type = 's'; Label = (T 'm_ed'); Val = 0; Opts = @('Pro', (T 'm_home'), (T 'm_ask')); Dep = $true },
     @{ Type = 'c'; Label = (T 'm_auto'); Val = 0; Opts = @(); Dep = $true },
     @{ Type = 'c'; Label = (T 'm_upd'); Val = 0; Opts = @(); Dep = $true },
     @{ Type = 'c'; Label = (T 'm_hw'); Val = 0; Opts = @(); Dep = $true }
@@ -1408,7 +1408,7 @@ $lOpt = @(
 $menuOpt = Show-Menu (T 'menu_opts_title') $lOpt
 if ($null -eq $menuOpt) { $bypass = Oui 'bypass_ask' }
 elseif ($menuOpt -and $lOpt[0].Val -eq 1) {
-    $bypass = $true; $iLoc = $lOpt[1].Val; $iEd = $lOpt[2].Val
+    $bypass = $true; $iLoc = ($lOpt[1].Val + 1) % 8; $iEd = ($lOpt[2].Val + 1) % 3
     $uaAuto = ($lOpt[3].Val -eq 1); $uaUpd = ($lOpt[4].Val -eq 1); $uaHw = ($lOpt[5].Val -eq 1)
 }
 if ($bypass) {

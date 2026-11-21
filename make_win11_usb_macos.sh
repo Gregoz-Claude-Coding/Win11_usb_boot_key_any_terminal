@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-14)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-15)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -1253,8 +1253,8 @@ menu_cases() {
 
 options_menu() {
     local lg ed r
-    lg="$(msg m_ask)|Français|English (UK)|English (US)|Deutsch|Español|Italiano|Português"
-    ed="$(msg m_ask)|Pro|$(msg m_home)"
+    lg="Français|English (UK)|English (US)|Deutsch|Español|Italiano|Português|$(msg m_ask)"
+    ed="Pro|$(msg m_home)|$(msg m_ask)"
     M_TITRE="$(msg menu_opts_title)"
     M_TYPE=(c s s c c c); M_DEP=(0 1 1 1 1 1); M_VAL=(0 0 0 0 0 0)
     M_LABEL=("$(msg m_bypass)" "$(msg m_lang)" "$(msg m_ed)" "$(msg m_auto)" "$(msg m_upd)" "$(msg m_hw)")
@@ -1264,7 +1264,7 @@ options_menu() {
     [ "$r" -eq 2 ] && return 2
     bypass=0; i_loc=0; i_ed=0; ua_auto=0; ua_upd=0; ua_hw=0
     if [ "$r" -eq 0 ] && [ "${M_VAL[0]}" = 1 ]; then
-        bypass=1; i_loc=${M_VAL[1]}; i_ed=${M_VAL[2]}; ua_auto=${M_VAL[3]}; ua_upd=${M_VAL[4]}; ua_hw=${M_VAL[5]}
+        bypass=1; i_loc=$(( (${M_VAL[1]} + 1) % 8 )); i_ed=$(( (${M_VAL[2]} + 1) % 3 )); ua_auto=${M_VAL[3]}; ua_upd=${M_VAL[4]}; ua_hw=${M_VAL[5]}
     fi
     return 0
 }

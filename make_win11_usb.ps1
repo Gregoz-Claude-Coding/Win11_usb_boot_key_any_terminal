@@ -42,6 +42,7 @@ $Textes = @{
         m_auto          = 'Session automatique sans mot de passe (peut bloquer)'
         m_upd           = 'Mettre en pause les mises à jour (moins sûr)'
         m_hw            = 'Ignorer les contrôles TPM / Secure Boot / mémoire / CPU'
+        ua_note         = 'Note : au premier démarrage, connectez le PC à Internet. Windows Update installera les applications (icônes du menu Démarrer) en 10 à 30 minutes.'
         menu_dl_title   = 'Téléchargement de l''ISO depuis Microsoft'
         m_dl_lang       = 'Langue de la page Microsoft'
         m_other         = 'autre…'
@@ -160,6 +161,7 @@ $Textes = @{
         m_auto          = 'Automatic sign-in, no password (may block setup)'
         m_upd           = 'Pause automatic updates (less secure)'
         m_hw            = 'Skip TPM / Secure Boot / memory / CPU checks'
+        ua_note         = 'Note: on first start, connect the PC to the Internet. Windows Update will install the apps (Start menu icons) within 10 to 30 minutes.'
         menu_dl_title   = 'Downloading the ISO from Microsoft'
         m_dl_lang       = 'Microsoft page language'
         m_other         = 'other…'
@@ -278,6 +280,7 @@ $Textes = @{
         m_auto          = "Inicio automático sin contraseña (puede bloquear)"
         m_upd           = "Pausar las actualizaciones (menos seguro)"
         m_hw            = "Omitir controles TPM / Secure Boot / memoria / CPU"
+        ua_note         = "Nota: en el primer inicio, conecta el PC a Internet. Windows Update instalará las aplicaciones (iconos del menú Inicio) en 10 a 30 minutos."
         menu_dl_title   = "Descarga del ISO desde Microsoft"
         m_dl_lang       = "Idioma de la página de Microsoft"
         m_other         = "otro…"
@@ -396,6 +399,7 @@ $Textes = @{
         m_auto          = "Automatische Anmeldung ohne Kennwort (kann blockieren)"
         m_upd           = "Updates pausieren (weniger sicher)"
         m_hw            = "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen"
+        ua_note         = "Hinweis: Verbinden Sie den PC beim ersten Start mit dem Internet. Windows Update installiert die Apps (Symbole im Startmenü) innerhalb von 10 bis 30 Minuten."
         menu_dl_title   = "ISO von Microsoft herunterladen"
         m_dl_lang       = "Sprache der Microsoft-Seite"
         m_other         = "andere…"
@@ -514,6 +518,7 @@ $Textes = @{
         m_auto          = "Accesso automatico senza password (può bloccare)"
         m_upd           = "Sospendi gli aggiornamenti (meno sicuro)"
         m_hw            = "Salta i controlli TPM / Secure Boot / memoria / CPU"
+        ua_note         = "Nota: al primo avvio collega il PC a Internet. Windows Update installerà le app (icone del menu Start) entro 10-30 minuti."
         menu_dl_title   = "Download dell'ISO da Microsoft"
         m_dl_lang       = "Lingua della pagina Microsoft"
         m_other         = "altro…"
@@ -632,6 +637,7 @@ $Textes = @{
         m_auto          = "Início automático sem palavra-passe (pode bloquear)"
         m_upd           = "Pausar as atualizações (menos seguro)"
         m_hw            = "Ignorar verificações de TPM / Secure Boot / memória / CPU"
+        ua_note         = "Nota: no primeiro arranque, liga o PC à Internet. O Windows Update instalará as aplicações (ícones do menu Iniciar) em 10 a 30 minutos."
         menu_dl_title   = "Transferir o ISO da Microsoft"
         m_dl_lang       = "Idioma da página da Microsoft"
         m_other         = "outro…"
@@ -775,7 +781,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-9)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-10)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1378,6 +1384,7 @@ elseif ($menuOpt -and $lOpt[0].Val -eq 1) {
     $uaAuto = ($lOpt[3].Val -eq 1); $uaUpd = ($lOpt[4].Val -eq 1); $uaHw = ($lOpt[5].Val -eq 1)
 }
 if ($bypass) {
+    Write-Host (T 'ua_note') -ForegroundColor Yellow
     $saisie = Read-Host (T 'bypass_name' 'Utilisateur')
     $nomCompte = ([regex]::Replace([string]$saisie, '[\x00-\x1f"/\\\[\]:;|=,+*?<>@%&'']', '')).Trim().TrimEnd('.').Trim()
     if ($nomCompte.Length -gt 20) { $nomCompte = $nomCompte.Substring(0, 20).Trim() }

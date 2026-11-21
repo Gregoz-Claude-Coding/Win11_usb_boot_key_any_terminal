@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-9)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/bootpaste  (v2026.11.21-10)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -181,6 +181,7 @@ msg_fr() {
         m_auto) printf '%s' "Session automatique sans mot de passe (peut bloquer)" ;;
         m_upd) printf '%s' "Mettre en pause les mises à jour (moins sûr)" ;;
         m_hw) printf '%s' "Ignorer les contrôles TPM / Secure Boot / mémoire / CPU" ;;
+        ua_note) printf '%s' "Note : au premier démarrage, connectez le PC à Internet. Windows Update installera les applications (icônes du menu Démarrer) en 10 à 30 minutes." ;;
         menu_dl_title) printf '%s' "Téléchargement de l'ISO depuis Microsoft" ;;
         m_dl_lang) printf '%s' "Langue de la page Microsoft" ;;
         m_other) printf '%s' "autre…" ;;
@@ -316,6 +317,7 @@ msg_en() {
         m_auto) printf '%s' "Automatic sign-in, no password (may block setup)" ;;
         m_upd) printf '%s' "Pause automatic updates (less secure)" ;;
         m_hw) printf '%s' "Skip TPM / Secure Boot / memory / CPU checks" ;;
+        ua_note) printf '%s' "Note: on first start, connect the PC to the Internet. Windows Update will install the apps (Start menu icons) within 10 to 30 minutes." ;;
         menu_dl_title) printf '%s' "Downloading the ISO from Microsoft" ;;
         m_dl_lang) printf '%s' "Microsoft page language" ;;
         m_other) printf '%s' "other…" ;;
@@ -451,6 +453,7 @@ msg_es() {
         m_auto) printf '%s' "Inicio automático sin contraseña (puede bloquear)" ;;
         m_upd) printf '%s' "Pausar las actualizaciones (menos seguro)" ;;
         m_hw) printf '%s' "Omitir controles TPM / Secure Boot / memoria / CPU" ;;
+        ua_note) printf '%s' "Nota: en el primer inicio, conecta el PC a Internet. Windows Update instalará las aplicaciones (iconos del menú Inicio) en 10 a 30 minutos." ;;
         menu_dl_title) printf '%s' "Descarga del ISO desde Microsoft" ;;
         m_dl_lang) printf '%s' "Idioma de la página de Microsoft" ;;
         m_other) printf '%s' "otro…" ;;
@@ -586,6 +589,7 @@ msg_de() {
         m_auto) printf '%s' "Automatische Anmeldung ohne Kennwort (kann blockieren)" ;;
         m_upd) printf '%s' "Updates pausieren (weniger sicher)" ;;
         m_hw) printf '%s' "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen" ;;
+        ua_note) printf '%s' "Hinweis: Verbinden Sie den PC beim ersten Start mit dem Internet. Windows Update installiert die Apps (Symbole im Startmenü) innerhalb von 10 bis 30 Minuten." ;;
         menu_dl_title) printf '%s' "ISO von Microsoft herunterladen" ;;
         m_dl_lang) printf '%s' "Sprache der Microsoft-Seite" ;;
         m_other) printf '%s' "andere…" ;;
@@ -721,6 +725,7 @@ msg_it() {
         m_auto) printf '%s' "Accesso automatico senza password (può bloccare)" ;;
         m_upd) printf '%s' "Sospendi gli aggiornamenti (meno sicuro)" ;;
         m_hw) printf '%s' "Salta i controlli TPM / Secure Boot / memoria / CPU" ;;
+        ua_note) printf '%s' "Nota: al primo avvio collega il PC a Internet. Windows Update installerà le app (icone del menu Start) entro 10-30 minuti." ;;
         menu_dl_title) printf '%s' "Download dell'ISO da Microsoft" ;;
         m_dl_lang) printf '%s' "Lingua della pagina Microsoft" ;;
         m_other) printf '%s' "altro…" ;;
@@ -856,6 +861,7 @@ msg_pt() {
         m_auto) printf '%s' "Início automático sem palavra-passe (pode bloquear)" ;;
         m_upd) printf '%s' "Pausar as atualizações (menos seguro)" ;;
         m_hw) printf '%s' "Ignorar verificações de TPM / Secure Boot / memória / CPU" ;;
+        ua_note) printf '%s' "Nota: no primeiro arranque, liga o PC à Internet. O Windows Update instalará as aplicações (ícones do menu Iniciar) em 10 a 30 minutos." ;;
         menu_dl_title) printf '%s' "Transferir o ISO da Microsoft" ;;
         m_dl_lang) printf '%s' "Idioma da página da Microsoft" ;;
         m_other) printf '%s' "outro…" ;;
@@ -1657,6 +1663,7 @@ if [ "$mode_menu" -eq 2 ]; then
     if oui "$TOUCHE"; then bypass=1; fi
 fi
 if [ "$bypass" -eq 1 ]; then
+    avert "$(msg ua_note)"
     read -r -p "$(msg bypass_name "Utilisateur")" saisie
     nom_compte=$(printf '%s' "$saisie" | LC_ALL=C tr -d '\000-\037"/\\[]:;|=,+*?<>@%&\047' | sed 's/^ *//; s/ *$//; s/\.*$//')
     nom_compte="${nom_compte:0:20}"; nom_compte=$(printf '%s' "$nom_compte" | sed 's/ *$//')

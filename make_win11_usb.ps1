@@ -907,7 +907,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-22)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-23)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1858,7 +1858,7 @@ try {
                 $ws = [Security.SecurityElement]::Escape($wifiSsid); $wk = [Security.SecurityElement]::Escape($wifiPwd)
                 $auths = if ($wifiAuth -eq 2) { @('WPA3SAE') } elseif ($wifiAuth -eq 1) { @('WPA2PSK') } else { @('WPA2PSK', 'WPA3SAE') }
                 for ($ai = 0; $ai -lt $auths.Count; $ai++) {
-                    $wx = '<?xml version="1.0"?><WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1"><name>' + $ws + '</name><SSIDConfig><SSID><name>' + $ws + '</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>' + $auths[$ai] + '</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>' + $wk + '</keyMaterial></sharedKey></security></MSM></WLANProfile>'
+                    $wx = '<?xml version="1.0"?><WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1"><name>' + $ws + '</name><SSIDConfig><SSID><name>' + $ws + '</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>' + $auths[$ai] + '</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passPhrase</keyType><protected>false</protected><keyMaterial>' + $wk + '</keyMaterial></sharedKey></security></MSM></WLANProfile>'
                     [IO.File]::WriteAllText((Join-Path $oem ('wifi' + ($ai + 1) + '.xml')), $wx, (New-Object Text.UTF8Encoding $false))
                 }
             }

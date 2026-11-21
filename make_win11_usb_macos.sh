@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-22)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-23)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -2096,7 +2096,7 @@ if [ "$bypass" -eq 1 ]; then
             wn=0
             for wa in $wauths; do
                 wn=$((wn+1))
-                printf '%s' "<?xml version=\"1.0\"?><WLANProfile xmlns=\"http://www.microsoft.com/networking/WLAN/profile/v1\"><name>$w_s</name><SSIDConfig><SSID><name>$w_s</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>$wa</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passphrase</keyType><protected>false</protected><keyMaterial>$w_k</keyMaterial></sharedKey></security></MSM></WLANProfile>" > "$oem/wifi$wn.xml"
+                printf '%s' "<?xml version=\"1.0\"?><WLANProfile xmlns=\"http://www.microsoft.com/networking/WLAN/profile/v1\"><name>$w_s</name><SSIDConfig><SSID><name>$w_s</name></SSID></SSIDConfig><connectionType>ESS</connectionType><connectionMode>auto</connectionMode><MSM><security><authEncryption><authentication>$wa</authentication><encryption>AES</encryption><useOneX>false</useOneX></authEncryption><sharedKey><keyType>passPhrase</keyType><protected>false</protected><keyMaterial>$w_k</keyMaterial></sharedKey></security></MSM></WLANProfile>" > "$oem/wifi$wn.xml"
             done
         fi
     fi

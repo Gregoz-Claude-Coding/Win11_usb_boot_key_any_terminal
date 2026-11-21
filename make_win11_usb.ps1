@@ -32,6 +32,22 @@ $Textes = @{
         confirm_dl      = 'Lancer le téléchargement vers {0} ? (O/N)'
         dl_running      = 'Téléchargement...'
         dl_par          = 'Téléchargement en parallèle sur {0} connexions (reprise possible)...'
+        menu_help       = '↑↓ déplacer · Espace cocher · ←→ changer la valeur · Entrée valider · Échap annuler'
+        menu_opts_title = 'Options de l''installation de Windows'
+        m_bypass        = 'Ignorer les questions d''installation (compte local, sans offres 365)'
+        m_lang          = 'Langue, clavier et fuseau'
+        m_ed            = 'Édition'
+        m_ask           = 'me le demander'
+        m_home          = 'Famille'
+        m_auto          = 'Session ouverte automatiquement, sans mot de passe'
+        m_upd           = 'Mettre en pause les mises à jour (moins sûr)'
+        m_hw            = 'Ignorer les contrôles TPM / Secure Boot / mémoire / CPU'
+        menu_dl_title   = 'Téléchargement de l''ISO depuis Microsoft'
+        m_dl_lang       = 'Langue de la page Microsoft'
+        m_other         = 'autre…'
+        dl_pause_hint   = '[P] pause'
+        dl_paused       = 'EN PAUSE — appuyez sur P pour reprendre'
+        recap_speed     = 'Récapitulatif des vitesses : téléchargement {0} Mo/s · écriture sur la clé {1} Mo/s'
         bits_fail       = 'BITS en échec ({0}) : essai avec curl.exe...'
         dl_fail         = 'Échec du téléchargement (lien expiré ou réseau ?). Génère un nouveau lien sur la page Microsoft.'
         dl_done         = 'Téléchargement terminé : {0}'
@@ -134,6 +150,22 @@ $Textes = @{
         confirm_dl      = 'Start the download to {0}? (Y/N)'
         dl_running      = 'Downloading...'
         dl_par          = 'Parallel download on {0} connections (resumable)...'
+        menu_help       = '↑↓ move · Space toggle · ←→ change value · Enter confirm · Esc cancel'
+        menu_opts_title = 'Windows installation options'
+        m_bypass        = 'Skip setup questions (local account, no 365 offers)'
+        m_lang          = 'Language, keyboard, time zone'
+        m_ed            = 'Edition'
+        m_ask           = 'ask me during setup'
+        m_home          = 'Home'
+        m_auto          = 'Sign in automatically, no password'
+        m_upd           = 'Pause automatic updates (less secure)'
+        m_hw            = 'Skip TPM / Secure Boot / memory / CPU checks'
+        menu_dl_title   = 'Downloading the ISO from Microsoft'
+        m_dl_lang       = 'Microsoft page language'
+        m_other         = 'other…'
+        dl_pause_hint   = '[P] pause'
+        dl_paused       = 'PAUSED — press P to resume'
+        recap_speed     = 'Speed summary: download {0} MB/s · write to the drive {1} MB/s'
         bits_fail       = 'BITS failed ({0}): trying curl.exe...'
         dl_fail         = 'Download failed (expired link or network?). Generate a new link on the Microsoft page.'
         dl_done         = 'Download finished: {0}'
@@ -236,6 +268,22 @@ $Textes = @{
         confirm_dl      = "¿Iniciar la descarga en {0}? (S/N)"
         dl_running      = "Descargando..."
         dl_par          = "Descarga en paralelo con {0} conexiones (se puede reanudar)..."
+        menu_help       = "↑↓ mover · Espacio marcar · ←→ cambiar valor · Intro validar · Esc cancelar"
+        menu_opts_title = "Opciones de la instalación de Windows"
+        m_bypass        = "Omitir las preguntas de instalación (cuenta local, sin ofertas 365)"
+        m_lang          = "Idioma, teclado y zona horaria"
+        m_ed            = "Edición"
+        m_ask           = "preguntármelo"
+        m_home          = "Home"
+        m_auto          = "Inicio de sesión automático, sin contraseña"
+        m_upd           = "Pausar las actualizaciones (menos seguro)"
+        m_hw            = "Omitir controles TPM / Secure Boot / memoria / CPU"
+        menu_dl_title   = "Descarga del ISO desde Microsoft"
+        m_dl_lang       = "Idioma de la página de Microsoft"
+        m_other         = "otro…"
+        dl_pause_hint   = "[P] pausa"
+        dl_paused       = "EN PAUSA — pulse P para reanudar"
+        recap_speed     = "Resumen de velocidades: descarga {0} MB/s · escritura en la unidad {1} MB/s"
         bits_fail       = "BITS falló ({0}): probando con curl.exe..."
         dl_fail         = "Error en la descarga (¿enlace caducado o red?). Genera un nuevo enlace en la página de Microsoft."
         dl_done         = "Descarga terminada: {0}"
@@ -338,6 +386,22 @@ $Textes = @{
         confirm_dl      = "Download nach {0} starten? (J/N)"
         dl_running      = "Download läuft..."
         dl_par          = "Paralleler Download mit {0} Verbindungen (fortsetzbar)..."
+        menu_help       = "↑↓ bewegen · Leertaste wählen · ←→ Wert ändern · Eingabe bestätigen · Esc abbrechen"
+        menu_opts_title = "Optionen der Windows-Installation"
+        m_bypass        = "Einrichtungsfragen überspringen (lokales Konto, ohne 365-Angebote)"
+        m_lang          = "Sprache, Tastatur, Zeitzone"
+        m_ed            = "Edition"
+        m_ask           = "mich fragen"
+        m_home          = "Home"
+        m_auto          = "Automatisch anmelden, ohne Kennwort"
+        m_upd           = "Updates pausieren (weniger sicher)"
+        m_hw            = "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen"
+        menu_dl_title   = "ISO von Microsoft herunterladen"
+        m_dl_lang       = "Sprache der Microsoft-Seite"
+        m_other         = "andere…"
+        dl_pause_hint   = "[P] Pause"
+        dl_paused       = "PAUSIERT — P zum Fortsetzen"
+        recap_speed     = "Geschwindigkeiten: Download {0} MB/s · Schreiben auf den Stick {1} MB/s"
         bits_fail       = "BITS fehlgeschlagen ({0}): Versuch mit curl.exe..."
         dl_fail         = "Download fehlgeschlagen (Link abgelaufen oder Netzwerk?). Erzeuge einen neuen Link auf der Microsoft-Seite."
         dl_done         = "Download abgeschlossen: {0}"
@@ -440,6 +504,22 @@ $Textes = @{
         confirm_dl      = "Avviare il download in {0}? (S/N)"
         dl_running      = "Download in corso..."
         dl_par          = "Download parallelo su {0} connessioni (riprendibile)..."
+        menu_help       = "↑↓ muovi · Spazio seleziona · ←→ cambia valore · Invio conferma · Esc annulla"
+        menu_opts_title = "Opzioni di installazione di Windows"
+        m_bypass        = "Salta le domande di installazione (account locale, senza offerte 365)"
+        m_lang          = "Lingua, tastiera, fuso orario"
+        m_ed            = "Edizione"
+        m_ask           = "chiedimelo"
+        m_home          = "Home"
+        m_auto          = "Accesso automatico, senza password"
+        m_upd           = "Sospendi gli aggiornamenti (meno sicuro)"
+        m_hw            = "Salta i controlli TPM / Secure Boot / memoria / CPU"
+        menu_dl_title   = "Download dell'ISO da Microsoft"
+        m_dl_lang       = "Lingua della pagina Microsoft"
+        m_other         = "altro…"
+        dl_pause_hint   = "[P] pausa"
+        dl_paused       = "IN PAUSA — premi P per riprendere"
+        recap_speed     = "Riepilogo velocità: download {0} MB/s · scrittura sull'unità {1} MB/s"
         bits_fail       = "BITS non riuscito ({0}): provo con curl.exe..."
         dl_fail         = "Download non riuscito (link scaduto o rete?). Genera un nuovo link sulla pagina Microsoft."
         dl_done         = "Download completato: {0}"
@@ -542,6 +622,22 @@ $Textes = @{
         confirm_dl      = "Iniciar o download em {0}? (S/N)"
         dl_running      = "Baixando..."
         dl_par          = "Transferência em paralelo com {0} ligações (retomável)..."
+        menu_help       = "↑↓ mover · Espaço marcar · ←→ mudar valor · Enter confirmar · Esc cancelar"
+        menu_opts_title = "Opções da instalação do Windows"
+        m_bypass        = "Ignorar as perguntas da instalação (conta local, sem ofertas 365)"
+        m_lang          = "Idioma, teclado, fuso horário"
+        m_ed            = "Edição"
+        m_ask           = "perguntar-me"
+        m_home          = "Home"
+        m_auto          = "Início de sessão automático, sem palavra-passe"
+        m_upd           = "Pausar as atualizações (menos seguro)"
+        m_hw            = "Ignorar verificações de TPM / Secure Boot / memória / CPU"
+        menu_dl_title   = "Transferir o ISO da Microsoft"
+        m_dl_lang       = "Idioma da página da Microsoft"
+        m_other         = "outro…"
+        dl_pause_hint   = "[P] pausa"
+        dl_paused       = "EM PAUSA — prima P para retomar"
+        recap_speed     = "Resumo das velocidades: transferência {0} MB/s · escrita na unidade {1} MB/s"
         bits_fail       = "BITS falhou ({0}): tentando com curl.exe..."
         dl_fail         = "Falha no download (link expirado ou rede?). Gere um novo link na página da Microsoft."
         dl_done         = "Download concluído: {0}"
@@ -708,6 +804,77 @@ function Get-Vitesse([int64]$octets, [double]$secondes) {
     return [math]::Round($octets / 1MB / [math]::Max(1, $secondes), 1)
 }
 
+# --- Menu à cases à cocher : flèches pour se déplacer, espace pour cocher, Entrée pour valider ---
+# $lignes : tableau de @{ Type = 'c' (case) ou 's' (liste) ; Label ; Val ; Opts ; Dep } ; Dep = visible seulement si la 1re case est cochée.
+# Retour : $true validé, $false annulé, $null si pas de terminal interactif.
+function Show-Menu([string]$titre, [object[]]$lignes) {
+    try { if ([Console]::IsInputRedirected -or [Console]::IsOutputRedirected) { return $null } } catch { return $null }
+    $n = $lignes.Count; $cur = 0
+    $haut = $n + 2
+    for ($i = 0; $i -lt $haut; $i++) { Write-Host '' }
+    $top = [Console]::CursorTop - $haut
+    if ($top -lt 0) { $top = 0 }
+    $larg = [Math]::Max(20, [Console]::WindowWidth - 1)
+    $visible = { param($i) (-not $lignes[$i].Dep) -or ($lignes[0].Val -eq 1) }
+    try { [Console]::CursorVisible = $false } catch { }
+    try {
+        while ($true) {
+            [Console]::SetCursorPosition(0, $top)
+            Write-Host ("  " + $titre).PadRight($larg) -ForegroundColor Cyan
+            Write-Host ("  " + (T 'menu_help')).PadRight($larg) -ForegroundColor DarkGray
+            for ($i = 0; $i -lt $n; $i++) {
+                $l = $lignes[$i]
+                if (-not (& $visible $i)) { Write-Host ''.PadRight($larg); continue }
+                if ($l.Type -eq 'c') { $v = $(if ($l.Val -eq 1) { '[x]' } else { '[ ]' }); $txt = $l.Label }
+                else { $v = '   '; $txt = "$($l.Label) :  < $($l.Opts[$l.Val]) >" }
+                $ptr = $(if ($i -eq $cur) { '>' } else { ' ' })
+                $ligne = " $ptr $v $txt"
+                if ($i -eq $cur) { Write-Host $ligne.PadRight($larg) -ForegroundColor Cyan } else { Write-Host $ligne.PadRight($larg) }
+            }
+            $k = [Console]::ReadKey($true)
+            $act = 0
+            switch ($k.Key) {
+                'UpArrow'    { for ($j = $cur - 1; $j -ge 0; $j--) { if (& $visible $j) { $cur = $j; break } } }
+                'DownArrow'  { for ($j = $cur + 1; $j -lt $n; $j++) { if (& $visible $j) { $cur = $j; break } } }
+                'RightArrow' { $act = 1 }
+                'LeftArrow'  { $act = -1 }
+                'Spacebar'   { $act = 1 }
+                'Enter'      { return $true }
+                'Escape'     { return $false }
+                'Q'          { return $false }
+            }
+            if ($act -ne 0) {
+                $l = $lignes[$cur]
+                if ($l.Type -eq 'c') { $l.Val = 1 - $l.Val }
+                else { $nb = $l.Opts.Count; $l.Val = ($l.Val + $act + $nb) % $nb }
+            }
+        }
+    }
+    finally {
+        try { [Console]::CursorVisible = $true } catch { }
+        try { [Console]::SetCursorPosition(0, [Math]::Min($top + $haut, [Console]::BufferHeight - 1)) } catch { }
+    }
+}
+
+# Met en pause (ou reprend) un processus externe ; renvoie $false si Windows ne le permet pas
+function Set-PauseProcessus([Diagnostics.Process]$p, [bool]$pause) {
+    try {
+        if (-not ('PocketProc' -as [type])) {
+            Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+public static class PocketProc {
+    [DllImport("ntdll.dll")] public static extern int NtSuspendProcess(IntPtr h);
+    [DllImport("ntdll.dll")] public static extern int NtResumeProcess(IntPtr h);
+}
+"@
+        }
+        if ($pause) { [void][PocketProc]::NtSuspendProcess($p.Handle) } else { [void][PocketProc]::NtResumeProcess($p.Handle) }
+        return $true
+    }
+    catch { return $false }
+}
+
 # Taille totale si le serveur accepte les requêtes par tronçons (Range), sinon 0
 function Get-TailleTroncons([string]$url) {
     try {
@@ -741,7 +908,8 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
     $fs = [IO.File]::Open($dest, [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::Write, [IO.FileShare]::Read)
     $ok = $true
     $sw = [Diagnostics.Stopwatch]::StartNew()
-    $tPrev = 0.0; $bPrev = [int64]0; $vit = 0.0
+    $tPrev = 0.0; $bPrev = [int64]0; $vit = 0.0; $b = [int64]0
+    $script:DlPause = 0.0
     try {
         if ($fs.Length -lt $total) { $fs.SetLength($total) }
         $slotLibres = New-Object System.Collections.Generic.Stack[int]
@@ -760,6 +928,20 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
                 [void]$actifs.Add([pscustomobject]@{ P = $p; K = $k; Slot = $slot; Tmp = $tmp; Deb = $deb; Len = ($fin - $deb + 1) })
             }
             Start-Sleep -Milliseconds 400
+            $touchePause = $false
+            try { while ([Console]::KeyAvailable) { if ([Console]::ReadKey($true).Key -eq 'P') { $touchePause = $true } } } catch { }
+            if ($touchePause) {
+                $sw.Stop(); $tPause = [Diagnostics.Stopwatch]::StartNew()
+                foreach ($a in $actifs) { [void](Set-PauseProcessus $a.P $true) }
+                [Console]::Write("`r  " + (T 'dl_paused').PadRight(70))
+                while ($true) {
+                    Start-Sleep -Milliseconds 200
+                    try { if ([Console]::KeyAvailable -and [Console]::ReadKey($true).Key -eq 'P') { break } } catch { break }
+                }
+                foreach ($a in $actifs) { [void](Set-PauseProcessus $a.P $false) }
+                $tPause.Stop(); $script:DlPause += $tPause.Elapsed.TotalSeconds
+                $sw.Start(); $tPrev = $sw.Elapsed.TotalSeconds; $bPrev = $b
+            }
             foreach ($a in @($actifs)) {
                 if (-not $a.P.HasExited) { continue }
                 $bon = ($a.P.ExitCode -eq 0) -and (Test-Path -LiteralPath $a.Tmp) -and ((Get-Item -LiteralPath $a.Tmp).Length -eq $a.Len)
@@ -786,7 +968,7 @@ function Invoke-TelechargementParallele([string]$url, [string]$dest, [int64]$tot
             $t = $sw.Elapsed.TotalSeconds
             if ($t - $tPrev -ge 1) { $vit = [math]::Round((($b - $bPrev) / 1MB) / ($t - $tPrev), 1); $tPrev = $t; $bPrev = $b }
             $pct = [int][math]::Floor(100 * [math]::Min($b, $total) / $total)
-            [Console]::Write("`r  {0,3} %   {1} / {2} GB   {3} MB/s   " -f $pct, [math]::Round($b / 1GB, 2), [math]::Round($total / 1GB, 2), $vit)
+            [Console]::Write("`r  {0,3} %   {1} / {2} GB   {3} MB/s   {4}   " -f $pct, [math]::Round($b / 1GB, 2), [math]::Round($total / 1GB, 2), $vit, (T 'dl_pause_hint'))
         }
         [Console]::WriteLine()
     }
@@ -929,10 +1111,17 @@ function Copy-AvecVitesse([IO.FileInfo[]]$fichiers, [string]$dossierDest) {
 }
 
 # Télécharge l'ISO dans $dossier. Renvoie $true et renseigne $script:isoTelecharge en cas de succès.
+$script:DlPause = 0.0; $script:DlVit = $null
 function Invoke-TelechargementMicrosoft {
     Write-Host (T 'dl_title') -ForegroundColor Cyan
     $loc = Get-LangueSysteme
-    $rep = (Read-Host (T 'ask_lang' $loc)).Trim().ToLower().Replace('_', '-')
+    $codes = @($loc, 'fr-fr', 'en-us', 'en-gb', 'de-de', 'es-es', 'it-it', 'pt-br', 'pt-pt', (T 'm_other'))
+    $ligneLang = @{ Type = 's'; Label = (T 'm_dl_lang'); Val = 0; Opts = $codes; Dep = $false }
+    $mr = Show-Menu (T 'menu_dl_title') @($ligneLang)
+    if ($mr -eq $false) { return }
+    if ($null -eq $mr -or $ligneLang.Val -eq ($codes.Count - 1)) { $rep = (Read-Host (T 'ask_lang' $loc)).Trim().ToLower().Replace('_', '-') }
+    elseif ($ligneLang.Val -eq 0) { $rep = '' }
+    else { $rep = $codes[$ligneLang.Val] }
     if ($rep) {
         if ($rep -match '^[a-z]{2,3}(-[a-z0-9]{2,4}){1,2}$') { $loc = $rep }
         else { Write-Host (T 'bad_code' $loc) -ForegroundColor Yellow }
@@ -1038,7 +1227,8 @@ function Invoke-TelechargementMicrosoft {
     $swDl.Stop()
     Move-Item -LiteralPath $part -Destination $dest -Force
     Write-Host (T 'dl_done' $dest) -ForegroundColor Green
-    Write-Host (T 'dl_speed' (Get-Vitesse (Get-Item -LiteralPath $dest).Length $swDl.Elapsed.TotalSeconds))
+    $script:DlVit = Get-Vitesse (Get-Item -LiteralPath $dest).Length ($swDl.Elapsed.TotalSeconds - $script:DlPause)
+    Write-Host (T 'dl_speed' $script:DlVit)
 
     Start-Anim (T 'sha_calc')
     try { $calc = (Get-FileHash -Algorithm SHA256 -LiteralPath $dest).Hash } finally { Stop-Anim }
@@ -1173,8 +1363,21 @@ function Touche([string]$cle) {
 }
 function Oui([string]$cle) { return ((Touche $cle) -match '^[oOyYsSjJ]') }
 function Choix([string]$cle, [int]$max) { $n = 0; if ([int]::TryParse((Touche $cle), [ref]$n) -and $n -ge 0 -and $n -le $max) { return $n }; return 0 }
-if (Oui 'bypass_ask') {
-    $bypass = $true
+$lOpt = @(
+    @{ Type = 'c'; Label = (T 'm_bypass'); Val = 0; Opts = @(); Dep = $false },
+    @{ Type = 's'; Label = (T 'm_lang'); Val = 0; Opts = @((T 'm_ask'), 'Français', 'English (UK)', 'English (US)', 'Deutsch', 'Español', 'Italiano', 'Português'); Dep = $true },
+    @{ Type = 's'; Label = (T 'm_ed'); Val = 0; Opts = @((T 'm_ask'), 'Pro', (T 'm_home')); Dep = $true },
+    @{ Type = 'c'; Label = (T 'm_auto'); Val = 0; Opts = @(); Dep = $true },
+    @{ Type = 'c'; Label = (T 'm_upd'); Val = 0; Opts = @(); Dep = $true },
+    @{ Type = 'c'; Label = (T 'm_hw'); Val = 0; Opts = @(); Dep = $true }
+)
+$menuOpt = Show-Menu (T 'menu_opts_title') $lOpt
+if ($null -eq $menuOpt) { $bypass = Oui 'bypass_ask' }
+elseif ($menuOpt -and $lOpt[0].Val -eq 1) {
+    $bypass = $true; $iLoc = $lOpt[1].Val; $iEd = $lOpt[2].Val
+    $uaAuto = ($lOpt[3].Val -eq 1); $uaUpd = ($lOpt[4].Val -eq 1); $uaHw = ($lOpt[5].Val -eq 1)
+}
+if ($bypass) {
     $saisie = Read-Host (T 'bypass_name' 'Utilisateur')
     $nomCompte = ([regex]::Replace([string]$saisie, '[\x00-\x1f"/\\\[\]:;|=,+*?<>@%&'']', '')).Trim().TrimEnd('.').Trim()
     if ($nomCompte.Length -gt 20) { $nomCompte = $nomCompte.Substring(0, 20).Trim() }
@@ -1182,11 +1385,13 @@ if (Oui 'bypass_ask') {
     $nomPc = ((Read-Host (T 'ua_pc')) -replace '[ _]', '-') -replace '[^A-Za-z0-9-]', ''
     $nomPc = $nomPc.Trim('-'); if ($nomPc.Length -gt 15) { $nomPc = $nomPc.Substring(0, 15).Trim('-') }
     if ($nomPc -match '^[0-9]*$') { $nomPc = '' }
-    $iLoc = Choix 'ua_lang' 7
-    $iEd = Choix 'ua_edition' 2
-    $uaAuto = Oui 'ua_auto'
-    $uaUpd = Oui 'ua_updates'
-    $uaHw = Oui 'ua_hw'
+    if ($null -eq $menuOpt) {
+        $iLoc = Choix 'ua_lang' 7
+        $iEd = Choix 'ua_edition' 2
+        $uaAuto = Oui 'ua_auto'
+        $uaUpd = Oui 'ua_updates'
+        $uaHw = Oui 'ua_hw'
+    }
 }
 
 # --- Préparation de la clé ---
@@ -1394,6 +1599,7 @@ try {
     $vTotal = Get-Vitesse $ecritTotal $swTotal.Elapsed.TotalSeconds
     Write-Host (T 'total_speed' ([math]::Round($ecritTotal / 1GB, 2)), (Format-Duree $swTotal.Elapsed.TotalSeconds), $vTotal) -ForegroundColor Green
     if ($vTotal -lt $SeuilLent) { Write-Host (T 'slow_drive' $vTotal) -ForegroundColor Yellow }
+    if ($null -ne $script:DlVit) { Write-Host (T 'recap_speed' $script:DlVit, $vTotal) -ForegroundColor Green }
 
     # --- Inventaire de la clé ---
     Get-ChildItem "$usb\" -Recurse -File |

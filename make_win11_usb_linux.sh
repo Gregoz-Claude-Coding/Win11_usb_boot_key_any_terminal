@@ -170,6 +170,22 @@ msg_fr() {
         confirm_dl) printf '%s' "Lancer le téléchargement vers %s ? (O/N) " ;;
         dl_running) printf '%s' "Téléchargement (reprise possible si interrompu)..." ;;
         dl_par) printf '%s' "Téléchargement en parallèle sur %s connexions (reprise possible)..." ;;
+        menu_help) printf '%s' "↑↓ déplacer · Espace cocher · ←→ changer la valeur · Entrée valider · Échap annuler" ;;
+        menu_opts_title) printf '%s' "Options de l'installation de Windows" ;;
+        m_bypass) printf '%s' "Ignorer les questions d'installation (compte local, sans offres 365)" ;;
+        m_lang) printf '%s' "Langue, clavier et fuseau" ;;
+        m_ed) printf '%s' "Édition" ;;
+        m_ask) printf '%s' "me le demander" ;;
+        m_home) printf '%s' "Famille" ;;
+        m_auto) printf '%s' "Session ouverte automatiquement, sans mot de passe" ;;
+        m_upd) printf '%s' "Mettre en pause les mises à jour (moins sûr)" ;;
+        m_hw) printf '%s' "Ignorer les contrôles TPM / Secure Boot / mémoire / CPU" ;;
+        menu_dl_title) printf '%s' "Téléchargement de l'ISO depuis Microsoft" ;;
+        m_dl_lang) printf '%s' "Langue de la page Microsoft" ;;
+        m_other) printf '%s' "autre…" ;;
+        dl_pause_hint) printf '%s' "[P] pause" ;;
+        dl_paused) printf '%s' "EN PAUSE — appuyez sur P pour reprendre" ;;
+        recap_speed) printf '%s' "Récapitulatif des vitesses : téléchargement %s Mo/s · écriture sur la clé %s Mo/s" ;;
         dl_fail) printf '%s' "Échec du téléchargement (lien expiré ou réseau ?). Génère un nouveau lien sur la page Microsoft." ;;
         dl_done) printf '%s' "Téléchargement terminé : %s" ;;
         dl_speed) printf '%s' "Vitesse de téléchargement moyenne : %s Mo/s" ;;
@@ -289,6 +305,22 @@ msg_en() {
         confirm_dl) printf '%s' "Start the download to %s? (Y/N) " ;;
         dl_running) printf '%s' "Downloading (resumable if interrupted)..." ;;
         dl_par) printf '%s' "Parallel download on %s connections (resumable)..." ;;
+        menu_help) printf '%s' "↑↓ move · Space toggle · ←→ change value · Enter confirm · Esc cancel" ;;
+        menu_opts_title) printf '%s' "Windows installation options" ;;
+        m_bypass) printf '%s' "Skip setup questions (local account, no 365 offers)" ;;
+        m_lang) printf '%s' "Language, keyboard, time zone" ;;
+        m_ed) printf '%s' "Edition" ;;
+        m_ask) printf '%s' "ask me during setup" ;;
+        m_home) printf '%s' "Home" ;;
+        m_auto) printf '%s' "Sign in automatically, no password" ;;
+        m_upd) printf '%s' "Pause automatic updates (less secure)" ;;
+        m_hw) printf '%s' "Skip TPM / Secure Boot / memory / CPU checks" ;;
+        menu_dl_title) printf '%s' "Downloading the ISO from Microsoft" ;;
+        m_dl_lang) printf '%s' "Microsoft page language" ;;
+        m_other) printf '%s' "other…" ;;
+        dl_pause_hint) printf '%s' "[P] pause" ;;
+        dl_paused) printf '%s' "PAUSED — press P to resume" ;;
+        recap_speed) printf '%s' "Speed summary: download %s MB/s · write to the drive %s MB/s" ;;
         dl_fail) printf '%s' "Download failed (expired link or network?). Generate a new link on the Microsoft page." ;;
         dl_done) printf '%s' "Download finished: %s" ;;
         dl_speed) printf '%s' "Average download speed: %s MB/s" ;;
@@ -408,6 +440,22 @@ msg_es() {
         confirm_dl) printf '%s' "¿Iniciar la descarga en %s? (S/N) " ;;
         dl_running) printf '%s' "Descargando (se puede reanudar si se interrumpe)..." ;;
         dl_par) printf '%s' "Descarga en paralelo con %s conexiones (se puede reanudar)..." ;;
+        menu_help) printf '%s' "↑↓ mover · Espacio marcar · ←→ cambiar valor · Intro validar · Esc cancelar" ;;
+        menu_opts_title) printf '%s' "Opciones de la instalación de Windows" ;;
+        m_bypass) printf '%s' "Omitir las preguntas de instalación (cuenta local, sin ofertas 365)" ;;
+        m_lang) printf '%s' "Idioma, teclado y zona horaria" ;;
+        m_ed) printf '%s' "Edición" ;;
+        m_ask) printf '%s' "preguntármelo" ;;
+        m_home) printf '%s' "Home" ;;
+        m_auto) printf '%s' "Inicio de sesión automático, sin contraseña" ;;
+        m_upd) printf '%s' "Pausar las actualizaciones (menos seguro)" ;;
+        m_hw) printf '%s' "Omitir controles TPM / Secure Boot / memoria / CPU" ;;
+        menu_dl_title) printf '%s' "Descarga del ISO desde Microsoft" ;;
+        m_dl_lang) printf '%s' "Idioma de la página de Microsoft" ;;
+        m_other) printf '%s' "otro…" ;;
+        dl_pause_hint) printf '%s' "[P] pausa" ;;
+        dl_paused) printf '%s' "EN PAUSA — pulse P para reanudar" ;;
+        recap_speed) printf '%s' "Resumen de velocidades: descarga %s MB/s · escritura en la unidad %s MB/s" ;;
         dl_fail) printf '%s' "Error en la descarga (¿enlace caducado o red?). Genera un nuevo enlace en la página de Microsoft." ;;
         dl_done) printf '%s' "Descarga terminada: %s" ;;
         dl_speed) printf '%s' "Velocidad media de descarga: %s MB/s" ;;
@@ -527,6 +575,22 @@ msg_de() {
         confirm_dl) printf '%s' "Download nach %s starten? (J/N) " ;;
         dl_running) printf '%s' "Download läuft (fortsetzbar bei Unterbrechung)..." ;;
         dl_par) printf '%s' "Paralleler Download mit %s Verbindungen (fortsetzbar)..." ;;
+        menu_help) printf '%s' "↑↓ bewegen · Leertaste wählen · ←→ Wert ändern · Eingabe bestätigen · Esc abbrechen" ;;
+        menu_opts_title) printf '%s' "Optionen der Windows-Installation" ;;
+        m_bypass) printf '%s' "Einrichtungsfragen überspringen (lokales Konto, ohne 365-Angebote)" ;;
+        m_lang) printf '%s' "Sprache, Tastatur, Zeitzone" ;;
+        m_ed) printf '%s' "Edition" ;;
+        m_ask) printf '%s' "mich fragen" ;;
+        m_home) printf '%s' "Home" ;;
+        m_auto) printf '%s' "Automatisch anmelden, ohne Kennwort" ;;
+        m_upd) printf '%s' "Updates pausieren (weniger sicher)" ;;
+        m_hw) printf '%s' "TPM-/Secure-Boot-/Speicher-/CPU-Prüfung überspringen" ;;
+        menu_dl_title) printf '%s' "ISO von Microsoft herunterladen" ;;
+        m_dl_lang) printf '%s' "Sprache der Microsoft-Seite" ;;
+        m_other) printf '%s' "andere…" ;;
+        dl_pause_hint) printf '%s' "[P] Pause" ;;
+        dl_paused) printf '%s' "PAUSIERT — P zum Fortsetzen" ;;
+        recap_speed) printf '%s' "Geschwindigkeiten: Download %s MB/s · Schreiben auf den Stick %s MB/s" ;;
         dl_fail) printf '%s' "Download fehlgeschlagen (Link abgelaufen oder Netzwerk?). Erzeuge einen neuen Link auf der Microsoft-Seite." ;;
         dl_done) printf '%s' "Download abgeschlossen: %s" ;;
         dl_speed) printf '%s' "Durchschnittliche Download-Geschwindigkeit: %s MB/s" ;;
@@ -646,6 +710,22 @@ msg_it() {
         confirm_dl) printf '%s' "Avviare il download in %s? (S/N) " ;;
         dl_running) printf '%s' "Download in corso (riprendibile se interrotto)..." ;;
         dl_par) printf '%s' "Download parallelo su %s connessioni (riprendibile)..." ;;
+        menu_help) printf '%s' "↑↓ muovi · Spazio seleziona · ←→ cambia valore · Invio conferma · Esc annulla" ;;
+        menu_opts_title) printf '%s' "Opzioni di installazione di Windows" ;;
+        m_bypass) printf '%s' "Salta le domande di installazione (account locale, senza offerte 365)" ;;
+        m_lang) printf '%s' "Lingua, tastiera, fuso orario" ;;
+        m_ed) printf '%s' "Edizione" ;;
+        m_ask) printf '%s' "chiedimelo" ;;
+        m_home) printf '%s' "Home" ;;
+        m_auto) printf '%s' "Accesso automatico, senza password" ;;
+        m_upd) printf '%s' "Sospendi gli aggiornamenti (meno sicuro)" ;;
+        m_hw) printf '%s' "Salta i controlli TPM / Secure Boot / memoria / CPU" ;;
+        menu_dl_title) printf '%s' "Download dell'ISO da Microsoft" ;;
+        m_dl_lang) printf '%s' "Lingua della pagina Microsoft" ;;
+        m_other) printf '%s' "altro…" ;;
+        dl_pause_hint) printf '%s' "[P] pausa" ;;
+        dl_paused) printf '%s' "IN PAUSA — premi P per riprendere" ;;
+        recap_speed) printf '%s' "Riepilogo velocità: download %s MB/s · scrittura sull'unità %s MB/s" ;;
         dl_fail) printf '%s' "Download non riuscito (link scaduto o rete?). Genera un nuovo link sulla pagina Microsoft." ;;
         dl_done) printf '%s' "Download completato: %s" ;;
         dl_speed) printf '%s' "Velocità media di download: %s MB/s" ;;
@@ -765,6 +845,22 @@ msg_pt() {
         confirm_dl) printf '%s' "Iniciar o download em %s? (S/N) " ;;
         dl_running) printf '%s' "Baixando (retomável se interrompido)..." ;;
         dl_par) printf '%s' "Transferência em paralelo com %s ligações (retomável)..." ;;
+        menu_help) printf '%s' "↑↓ mover · Espaço marcar · ←→ mudar valor · Enter confirmar · Esc cancelar" ;;
+        menu_opts_title) printf '%s' "Opções da instalação do Windows" ;;
+        m_bypass) printf '%s' "Ignorar as perguntas da instalação (conta local, sem ofertas 365)" ;;
+        m_lang) printf '%s' "Idioma, teclado, fuso horário" ;;
+        m_ed) printf '%s' "Edição" ;;
+        m_ask) printf '%s' "perguntar-me" ;;
+        m_home) printf '%s' "Home" ;;
+        m_auto) printf '%s' "Início de sessão automático, sem palavra-passe" ;;
+        m_upd) printf '%s' "Pausar as atualizações (menos seguro)" ;;
+        m_hw) printf '%s' "Ignorar verificações de TPM / Secure Boot / memória / CPU" ;;
+        menu_dl_title) printf '%s' "Transferir o ISO da Microsoft" ;;
+        m_dl_lang) printf '%s' "Idioma da página da Microsoft" ;;
+        m_other) printf '%s' "outro…" ;;
+        dl_pause_hint) printf '%s' "[P] pausa" ;;
+        dl_paused) printf '%s' "EM PAUSA — prima P para retomar" ;;
+        recap_speed) printf '%s' "Resumo das velocidades: transferência %s MB/s · escrita na unidade %s MB/s" ;;
         dl_fail) printf '%s' "Falha no download (link expirado ou rede?). Gere um novo link na página da Microsoft." ;;
         dl_done) printf '%s' "Download concluído: %s" ;;
         dl_speed) printf '%s' "Velocidade média de download: %s MB/s" ;;
@@ -1069,6 +1165,91 @@ obtenir_lien_manuel() {
 }
 
 # Télécharge l'ISO depuis Microsoft dans $dossier. Renseigne la variable globale $iso.
+
+# --- Menu à cases à cocher : flèches pour se déplacer, espace pour cocher, Entrée pour valider ---
+# À remplir avant l'appel : M_TITRE, M_TYPE (c = case, s = liste), M_LABEL, M_VAL, M_OPTS (valeurs séparées par |),
+# M_DEP (1 = ligne visible seulement si la première case est cochée). Retour : 0 validé, 1 annulé, 2 pas de terminal.
+m_visible() { [ "${M_DEP[$1]}" != 1 ] || [ "${M_VAL[0]}" = 1 ]; }
+menu_cases() {
+    local n=${#M_TYPE[@]} cur=0 i j k k2 first=1 nb v lib pointeur d
+    { [ -t 0 ] && [ -t 2 ]; } || return 2
+    printf '\033[?25l' >&2
+    while :; do
+        [ "$first" -eq 0 ] && printf '\033[%dA' $((n + 2)) >&2
+        first=0
+        printf '\r\033[K  %s%s%s\n' "$cyan" "$M_TITRE" "$raz" >&2
+        printf '\r\033[K  %s\n' "$(msg menu_help)" >&2
+        i=0
+        while [ "$i" -lt "$n" ]; do
+            if m_visible "$i"; then
+                if [ "$i" -eq "$cur" ]; then pointeur="${cyan}>${raz}"; else pointeur=" "; fi
+                if [ "${M_TYPE[$i]}" = c ]; then
+                    if [ "${M_VAL[$i]}" = 1 ]; then v="[x]"; else v="[ ]"; fi
+                    lib="${M_LABEL[$i]}"
+                else
+                    v="   "
+                    lib="${M_LABEL[$i]} :  < $(printf '%s' "${M_OPTS[$i]}" | awk -F'|' -v n=$(( ${M_VAL[$i]} + 1 )) '{print $n}') >"
+                fi
+                [ "$i" -eq "$cur" ] && lib="${cyan}${lib}${raz}"
+                printf '\r\033[K %s %s %s\n' "$pointeur" "$v" "$lib" >&2
+            else
+                printf '\r\033[K\n' >&2
+            fi
+            i=$((i + 1))
+        done
+        IFS= read -rsn1 k || { printf '\033[?25h' >&2; return 1; }
+        d=0
+        case "$k" in
+            $'\033')
+                k2=""; IFS= read -rsn2 -t 1 k2 || true
+                case "$k2" in
+                    '[A') d=-1 ;;
+                    '[B') d=1 ;;
+                    '[C') M_ACT=1 ;;
+                    '[D') M_ACT=-1 ;;
+                    '') printf '\033[?25h' >&2; return 1 ;;
+                esac ;;
+            ' ') M_ACT=1 ;;
+            '') printf '\033[?25h' >&2; return 0 ;;
+            q|Q) printf '\033[?25h' >&2; return 1 ;;
+        esac
+        if [ "$d" -ne 0 ]; then
+            j=$cur
+            while :; do
+                j=$((j + d))
+                { [ "$j" -lt 0 ] || [ "$j" -ge "$n" ]; } && break
+                if m_visible "$j"; then cur=$j; break; fi
+            done
+        elif [ "${M_ACT:-0}" -ne 0 ]; then
+            if [ "${M_TYPE[$cur]}" = c ]; then
+                if [ "${M_VAL[$cur]}" = 1 ]; then M_VAL[$cur]=0; else M_VAL[$cur]=1; fi
+            else
+                nb=$(printf '%s' "${M_OPTS[$cur]}" | awk -F'|' '{print NF}')
+                M_VAL[$cur]=$(( (${M_VAL[$cur]} + M_ACT + nb) % nb ))
+            fi
+            M_ACT=0
+        fi
+    done
+}
+
+options_menu() {
+    local lg ed r
+    lg="$(msg m_ask)|Français|English (UK)|English (US)|Deutsch|Español|Italiano|Português"
+    ed="$(msg m_ask)|Pro|$(msg m_home)"
+    M_TITRE="$(msg menu_opts_title)"
+    M_TYPE=(c s s c c c); M_DEP=(0 1 1 1 1 1); M_VAL=(0 0 0 0 0 0)
+    M_LABEL=("$(msg m_bypass)" "$(msg m_lang)" "$(msg m_ed)" "$(msg m_auto)" "$(msg m_upd)" "$(msg m_hw)")
+    M_OPTS=("" "$lg" "$ed" "" "" "")
+    M_ACT=0
+    menu_cases; r=$?
+    [ "$r" -eq 2 ] && return 2
+    bypass=0; i_loc=0; i_ed=0; ua_auto=0; ua_upd=0; ua_hw=0
+    if [ "$r" -eq 0 ] && [ "${M_VAL[0]}" = 1 ]; then
+        bypass=1; i_loc=${M_VAL[1]}; i_ed=${M_VAL[2]}; ua_auto=${M_VAL[3]}; ua_upd=${M_VAL[4]}; ua_hw=${M_VAL[5]}
+    fi
+    return 0
+}
+
 # Retourne 1 en cas d'abandon ou d'échec.
 # Téléchargement en parallèle : tronçons de 32 Mio récupérés par 8 connexions curl, écrits directement dans le fichier final.
 # Reprise possible : les tronçons terminés sont listés dans « fichier.done ».
@@ -1128,9 +1309,26 @@ telecharger_parallele() {
         now=$SECONDS
         if [ "$now" -gt "$t_prev" ]; then vit=$(awk -v d=$(( b - b_prev )) -v s=$(( now - t_prev )) 'BEGIN{printf "%.1f", d / 1048576 / s}'); t_prev=$now; b_prev=$b; fi
         pct=$(( b * 100 / total ))
-        printf '\r\033[K%s  %3d %%   %s / %s %s   %s %s%s' "$cyan" "$pct" "$(en_go "$b")" "$(en_go "$total")" "$unit_go" "$vit" "$unit_v" "$raz" >&2
+        printf '\r\033[K%s  %3d %%   %s / %s %s   %s %s   %s%s' "$cyan" "$pct" "$(en_go "$b")" "$(en_go "$total")" "$unit_go" "$vit" "$unit_v" "$(msg dl_pause_hint)" "$raz" >&2
         [ "$vivants" -eq 0 ] && break
-        sleep 1
+        if [ -t 0 ]; then
+            touche_p=""; IFS= read -rsn1 -t 1 touche_p || true
+            case "$touche_p" in
+                p|P)
+                    for i in $pids; do pkill -STOP -P "$i" 2>/dev/null; done
+                    printf '\r\033[K%s  %s%s' "$jaune" "$(msg dl_paused)" "$raz" >&2
+                    t_pause=$SECONDS
+                    while :; do
+                        IFS= read -rsn1 touche_p || break
+                        case "$touche_p" in p|P) break ;; esac
+                    done
+                    for i in $pids; do pkill -CONT -P "$i" 2>/dev/null; done
+                    t0=$(( t0 + SECONDS - t_pause )); t_prev=$SECONDS; b_prev=$b
+                    ;;
+            esac
+        else
+            sleep 1
+        fi
     done
     printf '\n' >&2
     local ko=0
@@ -1143,14 +1341,29 @@ telecharger_parallele() {
 }
 
 telecharger_depuis_microsoft() {
-    local ptot url nom taille besoin libre rep attendu code calc reconnu loc page publie origine="" b e t0 dt
+    local mode_menu ptot url nom taille besoin libre rep attendu code calc reconnu loc page publie origine="" b e t0 dt
     if ! command -v curl >/dev/null 2>&1; then
         erreur "$(msg curl_needed)"
         return 1
     fi
     info "$(msg dl_title)"
     loc=$(langue_systeme)
-    read -r -p "$(msg ask_lang "$loc")" rep
+    M_TITRE="$(msg menu_dl_title)"; M_TYPE=(s); M_DEP=(0); M_VAL=(0); M_ACT=0
+    M_LABEL=("$(msg m_dl_lang)")
+    M_OPTS=("$loc|fr-fr|en-us|en-gb|de-de|es-es|it-it|pt-br|pt-pt|$(msg m_other)")
+    menu_cases; mode_menu=$?
+    rep=""
+    if [ "$mode_menu" -eq 1 ]; then return 1; fi
+    if [ "$mode_menu" -eq 0 ]; then
+        case "${M_VAL[0]}" in
+            0) ;;
+            1) rep="fr-fr" ;; 2) rep="en-us" ;; 3) rep="en-gb" ;; 4) rep="de-de" ;;
+            5) rep="es-es" ;; 6) rep="it-it" ;; 7) rep="pt-br" ;; 8) rep="pt-pt" ;;
+            *) read -r -p "$(msg ask_lang "$loc")" rep ;;
+        esac
+    else
+        read -r -p "$(msg ask_lang "$loc")" rep
+    fi
     rep=$(printf '%s' "$rep" | tr 'A-Z_' 'a-z-' | tr -d '[:space:]')
     if [ -n "$rep" ]; then
         if printf '%s' "$rep" | grep -Eq '^[a-z]{2,3}(-[a-z0-9]{2,4}){1,2}$'; then
@@ -1243,7 +1456,8 @@ telecharger_depuis_microsoft() {
     dt=$((SECONDS - t0))
     mv "$dossier/$nom.part" "$dossier/$nom" || return 1
     ok "$(msg dl_done "$dossier/$nom")"
-    echo "$(msg dl_speed "$(vitesse "$(wc -c < "$dossier/$nom" | tr -d ' ')" "$dt")")"
+    DL_VIT=$(vitesse "$(wc -c < "$dossier/$nom" | tr -d ' ')" "$dt")
+    echo "$(msg dl_speed "$DL_VIT")"
 
     anim_start "$(msg sha_calc)"
     calc=$(calculer_sha256 "$dossier/$nom")
@@ -1435,9 +1649,12 @@ oui() { case "$1" in [oOyYsSjJ]*) return 0 ;; esac; return 1; }
 touche() { TOUCHE=""; printf '%s' "$(msg "$1")" >&2; IFS= read -r -n 1 TOUCHE || true; [ -n "$TOUCHE" ] && echo >&2; return 0; }
 choix() { touche "$1"; case "$TOUCHE" in [0-9]) [ "$TOUCHE" -le "$2" ] && { echo "$TOUCHE"; return; } ;; esac; echo 0; }
 bypass=0; nom_compte=""; nom_pc=""; i_loc=0; i_ed=0; ua_auto=0; ua_upd=0; ua_hw=0
-touche bypass_ask
-if oui "$TOUCHE"; then
-    bypass=1
+options_menu; mode_menu=$?
+if [ "$mode_menu" -eq 2 ]; then
+    touche bypass_ask
+    if oui "$TOUCHE"; then bypass=1; fi
+fi
+if [ "$bypass" -eq 1 ]; then
     read -r -p "$(msg bypass_name "Utilisateur")" saisie
     nom_compte=$(printf '%s' "$saisie" | LC_ALL=C tr -d '\000-\037"/\\[]:;|=,+*?<>@%&\047' | sed 's/^ *//; s/ *$//; s/\.*$//')
     nom_compte="${nom_compte:0:20}"; nom_compte=$(printf '%s' "$nom_compte" | sed 's/ *$//')
@@ -1445,11 +1662,13 @@ if oui "$TOUCHE"; then
     read -r -p "$(msg ua_pc)" saisie
     nom_pc=$(printf '%s' "$saisie" | tr ' _' '--' | LC_ALL=C tr -cd 'A-Za-z0-9-' | sed 's/^-*//; s/-*$//' | cut -c1-15 | sed 's/-*$//')
     case "$nom_pc" in *[!0-9]*) ;; *) nom_pc="" ;; esac
-    i_loc=$(choix ua_lang 7)
-    i_ed=$(choix ua_edition 2)
-    touche ua_auto; oui "$TOUCHE" && ua_auto=1
-    touche ua_updates; oui "$TOUCHE" && ua_upd=1
-    touche ua_hw; oui "$TOUCHE" && ua_hw=1
+    if [ "$mode_menu" -eq 2 ]; then
+        i_loc=$(choix ua_lang 7)
+        i_ed=$(choix ua_edition 2)
+        touche ua_auto; oui "$TOUCHE" && ua_auto=1
+        touche ua_updates; oui "$TOUCHE" && ua_upd=1
+        touche ua_hw; oui "$TOUCHE" && ua_hw=1
+    fi
 fi
 
 # --- Préparation de la clé ---
@@ -1703,6 +1922,7 @@ ok "$(msg total_speed "$(en_go "$ecrit")" "$(duree "$duree_tot")" "$v_tot")"
 if awk -v v="$v_tot" -v s="$SEUIL_LENT" 'BEGIN{exit !(v < s)}'; then
     avert "$(msg slow_drive "$v_tot")"
 fi
+if [ -n "${DL_VIT:-}" ]; then ok "$(msg recap_speed "$DL_VIT" "$v_tot")"; fi
 umount "$usbmnt" || { erreur "$(msg umount_fail)"; exit 1; }
 
 ok "$(msg done_linux "$part")"

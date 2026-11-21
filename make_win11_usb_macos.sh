@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-19)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-20)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -1707,6 +1707,12 @@ info "$(msg usb_found)"
 i=1
 for d in "${disques[@]}"; do
     printf '  [%d] %s  %s  %s\n' "$i" "$d" "$(info_disque "$d" nom)" "$(info_disque "$d" taille)"
+    # identité détaillée : vendor ID, product ID, numéro de série et vitesse négociée (system_profiler)
+    det=$(system_profiler SPUSBDataType 2>/dev/null | awk -v b="${d#/dev/}" '
+        /Vendor ID:/ {vid=$3} /Product ID:/ {pid=$3} /Serial Number:/ {sn=$3}
+        /Speed:/ {sub(/^ *Speed: */, ""); sp=$0}
+        /BSD Name:/ && $3 == b { printf "%s:%s", vid, pid; if (sn != "") printf " · SN %s", sn; if (sp != "") printf " · %s", sp; exit }')
+    [ -n "$det" ] && printf '      %s\n' "$det"
     i=$((i + 1))
 done
 read -r -p "$(msg ask_usb)" choix

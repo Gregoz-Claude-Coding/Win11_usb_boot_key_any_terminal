@@ -907,7 +907,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-19)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-20)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1449,6 +1449,14 @@ if ($wimTest) {
 $usbDisks = Get-Disk | Where-Object BusType -eq 'USB'
 if (-not $usbDisks) { Write-Host (T 'no_usb') -ForegroundColor Red; return }
 $usbDisks | Format-Table Number, FriendlyName, @{n=$UniteGo;e={[math]::Round($_.Size/1GB,1)}} -AutoSize
+# Identité détaillée de chaque clé (fabricant, modèle, révision, numéro de série) pour la reconnaître sans ambiguïté
+foreach ($u in $usbDisks) {
+    $w = Get-CimInstance Win32_DiskDrive -Filter "Index=$($u.Number)" -ErrorAction SilentlyContinue
+    if ($w -and $w.PNPDeviceID -match 'VEN_(?<v>[^&]*)&PROD_(?<p>[^&]*)&REV_(?<r>[^\\]*)\\(?<s>[^&\\]*)') {
+        $v = ($Matches.v -replace '_', ' ').Trim(); $p = ($Matches.p -replace '_', ' ').Trim()
+        Write-Host ("  [{0}] {1} {2} · rev {3} · SN {4}" -f $u.Number, $v, $p, ($Matches.r -replace '_', ' ').Trim(), $Matches.s) -ForegroundColor DarkGray
+    }
+}
 $n = [int](Read-Host (T 'ask_usb'))
 $disk = $usbDisks | Where-Object Number -eq $n
 if (-not $disk) { Write-Host (T 'not_usb') -ForegroundColor Red; return }

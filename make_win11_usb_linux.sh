@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-19)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-20)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -1723,6 +1723,17 @@ i=1
 for d in "${disques[@]}"; do
     printf '  [%d] %s  %s  %s\n' "$i" "$d" \
         "$(lsblk -dnpo MODEL "$d" | sed 's/ *$//' | tr -cd '[:print:]')" "$(lsblk -dnpo SIZE "$d")"
+    # identité détaillée : fabricant, révision, numéro de série, identifiants USB et vitesse négociée
+    det="$(lsblk -dnpo VENDOR "$d" | sed 's/ *$//' | tr -cd '[:print:]') rev $(lsblk -dnpo REV "$d" | tr -d ' ') SN $(lsblk -dnpo SERIAL "$d" | tr -d ' ')"
+    idv=$(udevadm info --query=property --name="$d" 2>/dev/null | sed -n 's/^ID_VENDOR_ID=//p;s/^ID_MODEL_ID=//p' | paste -sd: -)
+    vit=""
+    sd=$(readlink -f "/sys/block/$(basename "$d")/device" 2>/dev/null)
+    for _ in 1 2 3 4 5 6; do
+        [ -n "$sd" ] || break
+        if [ -r "$sd/speed" ]; then vit=$(cat "$sd/speed"); break; fi
+        sd=$(dirname "$sd")
+    done
+    printf '      %s%s%s\n' "$det" "${idv:+ · $idv}" "${vit:+ · ${vit} Mb/s}"
     i=$((i + 1))
 done
 read -r -p "$(msg ask_usb)" choix

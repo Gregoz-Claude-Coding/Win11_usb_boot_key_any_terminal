@@ -769,13 +769,13 @@ function Show-Banniere {
     $b = 'Cyan'; $g = 'Green'
     Write-Host ''
     $l = @(
-        @('  ___        _        _  ', ' ___            _   '),
+        @('  ___         _       _  ', ' ___           _    '),
         @(' | _ \___  __| |_____| |_', '| _ ) ___  ___| |_ '),
         @(' |  _/ _ \/ _| / / -_)  _', '| _ \/ _ \/ _ \  _|'),
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-4)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-5)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere

@@ -46,11 +46,11 @@ banniere() {
     [ -t 1 ] || return 0
     local b=$'\033[38;5;111m' g=$'\033[38;5;84m' d=$'\033[2m'
     printf '\n'
-    printf '%s%s%s%s%s\n' "$b" '  ___        _        _  ' "$g" ' ___            _   ' "$raz"
+    printf '%s%s%s%s%s\n' "$b" '  ___         _       _  ' "$g" ' ___           _    ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-4)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-5)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----

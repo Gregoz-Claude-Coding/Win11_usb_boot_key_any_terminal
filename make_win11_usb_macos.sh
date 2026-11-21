@@ -50,7 +50,7 @@ banniere() {
     printf '%s%s%s%s%s\n' "$b" ' | _ \___  __| |_____| |_' "$g" '| _ ) ___  ___| |_ ' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |  _/ _ \/ _| / / -_)  _' "$g" '| _ \/ _ \/ _ \  _|' "$raz"
     printf '%s%s%s%s%s\n' "$b" ' |_| \___/\__|_\_\___|\__' "$g" '|___/\___/\___/\__|' "$raz"
-    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-18)%s\n\n' "$d" "$raz"
+    printf '%s  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-19)%s\n\n' "$d" "$raz"
 }
 
 # ---- Internationalisation : menus dans la langue du système (repli : anglais) ----
@@ -95,8 +95,11 @@ msg_fr() {
         data_warn) printf '%s' "ATTENTION : cette clé contient des fichiers dans une partition de données, et sa partition FAT32 est trop petite pour cet ISO (%s Go nécessaires). Continuer repartitionne la clé et EFFACE ces fichiers." ;;
         data_ask) printf '%s' "Pour les effacer quand même, tape %s (Entrée pour annuler) :  " ;;
         erase_word) printf '%s' "EFFACER" ;;
-        data_created) printf '%s' "Partition de données exFAT « DONNEES » créée : %s Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)." ;;
+        data_created) printf '%s' "Partition de données exFAT « DATAS » créée : %s Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)." ;;
         kept) printf '%s' "Disposition conservée : seule la partition FAT32 est reformatée." ;;
+        iso_to_data) printf '%s' "Copie de l'ISO sur la partition DATAS (réutilisable pour une prochaine clé)" ;;
+        iso_data_ok) printf '%s' "ISO copié sur DATAS : %s Mo en %s." ;;
+        iso_data_small) printf '%s' "Partition DATAS trop petite pour garder l'ISO : il n'y est pas copié." ;;
         eject_ask) printf '%s' "Éjecter la clé USB en toute sécurité maintenant ? (O/N) " ;;
         busy_prep) printf '%s' "Préparation de la clé (effacement, partitions, formatage)" ;;
         busy_flush) printf '%s' "Écriture finale sur la clé, ne la débranche pas" ;;
@@ -248,8 +251,11 @@ msg_en() {
         data_warn) printf '%s' "WARNING: this drive holds files in a data partition, and its FAT32 partition is too small for this ISO (%s GB needed). Continuing repartitions the drive and ERASES those files." ;;
         data_ask) printf '%s' "To erase them anyway, type %s (Enter to cancel):  " ;;
         erase_word) printf '%s' "ERASE" ;;
-        data_created) printf '%s' "exFAT data partition 'DONNEES' created: %s GB for your files (the FAT32 partition keeps headroom for future Windows versions)." ;;
+        data_created) printf '%s' "exFAT data partition 'DATAS' created: %s GB for your files (the FAT32 partition keeps headroom for future Windows versions)." ;;
         kept) printf '%s' "Layout kept: only the FAT32 partition is reformatted." ;;
+        iso_to_data) printf '%s' "Copying the ISO to the DATAS partition (reusable for the next key)" ;;
+        iso_data_ok) printf '%s' "ISO copied to DATAS: %s MB in %s." ;;
+        iso_data_small) printf '%s' "DATAS partition too small to keep the ISO: it is not copied there." ;;
         eject_ask) printf '%s' "Safely eject the USB drive now? (Y/N) " ;;
         busy_prep) printf '%s' "Preparing the drive (erasing, partitioning, formatting)" ;;
         busy_flush) printf '%s' "Final write to the drive, do not unplug it" ;;
@@ -401,8 +407,11 @@ msg_es() {
         data_warn) printf '%s' "ATENCIÓN: esta unidad tiene archivos en una partición de datos y su partición FAT32 es demasiado pequeña para este ISO (se necesitan %s GB). Continuar reparticiona la unidad y BORRA esos archivos." ;;
         data_ask) printf '%s' "Para borrarlos igualmente, escribe %s (Intro para cancelar):  " ;;
         erase_word) printf '%s' "BORRAR" ;;
-        data_created) printf '%s' "Partición de datos exFAT 'DONNEES' creada: %s GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)." ;;
+        data_created) printf '%s' "Partición de datos exFAT 'DATAS' creada: %s GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)." ;;
         kept) printf '%s' "Disposición conservada: solo se reformatea la partición FAT32." ;;
+        iso_to_data) printf '%s' "Copiando la ISO a la partición DATAS (reutilizable para otra llave)" ;;
+        iso_data_ok) printf '%s' "ISO copiada en DATAS: %s MB en %s." ;;
+        iso_data_small) printf '%s' "La partición DATAS es demasiado pequeña para guardar la ISO: no se copia." ;;
         eject_ask) printf '%s' "¿Expulsar ahora la unidad USB de forma segura? (S/N) " ;;
         busy_prep) printf '%s' "Preparando la unidad (borrado, particiones, formato)" ;;
         busy_flush) printf '%s' "Escritura final en la unidad, no la desconectes" ;;
@@ -554,8 +563,11 @@ msg_de() {
         data_warn) printf '%s' "ACHTUNG: Dieses Laufwerk enthält Dateien in einer Datenpartition, und die FAT32-Partition ist für diese ISO zu klein (%s GB nötig). Fortfahren partitioniert neu und LÖSCHT diese Dateien." ;;
         data_ask) printf '%s' "Zum Löschen trotzdem %s eingeben (Enter = abbrechen):  " ;;
         erase_word) printf '%s' "LÖSCHEN" ;;
-        data_created) printf '%s' "exFAT-Datenpartition 'DONNEES' angelegt: %s GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)." ;;
+        data_created) printf '%s' "exFAT-Datenpartition 'DATAS' angelegt: %s GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)." ;;
         kept) printf '%s' "Layout beibehalten: nur die FAT32-Partition wird neu formatiert." ;;
+        iso_to_data) printf '%s' "ISO wird auf die Partition DATAS kopiert (für den nächsten Stick wiederverwendbar)" ;;
+        iso_data_ok) printf '%s' "ISO auf DATAS kopiert: %s MB in %s." ;;
+        iso_data_small) printf '%s' "Partition DATAS zu klein für die ISO: sie wird nicht kopiert." ;;
         eject_ask) printf '%s' "USB-Laufwerk jetzt sicher auswerfen? (J/N) " ;;
         busy_prep) printf '%s' "Stick wird vorbereitet (Löschen, Partitionieren, Formatieren)" ;;
         busy_flush) printf '%s' "Letzte Schreibvorgänge auf den Stick, nicht abziehen" ;;
@@ -707,8 +719,11 @@ msg_it() {
         data_warn) printf '%s' "ATTENZIONE: questa unità contiene file in una partizione dati e la partizione FAT32 è troppo piccola per questo ISO (servono %s GB). Continuare ripartiziona l'unità e CANCELLA quei file." ;;
         data_ask) printf '%s' "Per cancellarli comunque, scrivi %s (Invio per annullare):  " ;;
         erase_word) printf '%s' "CANCELLA" ;;
-        data_created) printf '%s' "Partizione dati exFAT 'DONNEES' creata: %s GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)." ;;
+        data_created) printf '%s' "Partizione dati exFAT 'DATAS' creata: %s GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)." ;;
         kept) printf '%s' "Disposizione mantenuta: viene riformattata solo la partizione FAT32." ;;
+        iso_to_data) printf '%s' "Copia dell'ISO sulla partizione DATAS (riutilizzabile per la prossima chiavetta)" ;;
+        iso_data_ok) printf '%s' "ISO copiata su DATAS: %s MB in %s." ;;
+        iso_data_small) printf '%s' "Partizione DATAS troppo piccola per conservare l'ISO: non viene copiata." ;;
         eject_ask) printf '%s' "Espellere ora la chiavetta USB in sicurezza? (S/N) " ;;
         busy_prep) printf '%s' "Preparazione della chiavetta (cancellazione, partizioni, formattazione)" ;;
         busy_flush) printf '%s' "Scrittura finale sulla chiavetta, non scollegarla" ;;
@@ -860,8 +875,11 @@ msg_pt() {
         data_warn) printf '%s' "ATENÇÃO: esta unidade tem ficheiros numa partição de dados e a partição FAT32 é demasiado pequena para este ISO (são precisos %s GB). Continuar reparticiona a unidade e APAGA esses ficheiros." ;;
         data_ask) printf '%s' "Para os apagar mesmo assim, escreve %s (Enter para cancelar):  " ;;
         erase_word) printf '%s' "APAGAR" ;;
-        data_created) printf '%s' "Partição de dados exFAT 'DONNEES' criada: %s GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)." ;;
+        data_created) printf '%s' "Partição de dados exFAT 'DATAS' criada: %s GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)." ;;
         kept) printf '%s' "Disposição mantida: só a partição FAT32 é reformatada." ;;
+        iso_to_data) printf '%s' "A copiar a ISO para a partição DATAS (reutilizável para a próxima pen)" ;;
+        iso_data_ok) printf '%s' "ISO copiada para DATAS: %s MB em %s." ;;
+        iso_data_small) printf '%s' "Partição DATAS demasiado pequena para guardar a ISO: não é copiada." ;;
         eject_ask) printf '%s' "Ejetar agora a pen USB em segurança? (S/N) " ;;
         busy_prep) printf '%s' "A preparar a pen (apagar, partições, formatar)" ;;
         busy_flush) printf '%s' "Escrita final na pen, não a desligues" ;;
@@ -1880,9 +1898,16 @@ fi
 # MBR + FAT32 : avec GPT, macOS ajoute une partition EFI vide qui peut gêner le démarrage UEFI.
 info "$(msg preparing "$dev")"
 diskutil unmountDisk force "$dev" >/dev/null 2>&1
+etiq_boot=$(basename "$iso" | sed 's/\.[^.]*$//' | tr 'a-z' 'A-Z' | sed 's/[^A-Z0-9_-]/_/g' | cut -c1-11 | sed 's/^_*//; s/_*$//')
+[ -z "$etiq_boot" ] && etiq_boot="WIN11"
+slice_data=""
 if [ "$garde" -eq 1 ]; then
     ok "$(msg kept)"
-    if ! diskutil eraseVolume FAT32 WIN11 "$s1"; then
+    for t in $(diskutil list "$dev" | awk '$NF ~ /^disk[0-9]+s[0-9]+$/ {print $NF}'); do
+        [ "$t" = "$s1" ] && continue
+        if diskutil info "$t" | grep -qi 'File System Personality:.*ExFAT'; then slice_data="$t"; break; fi
+    done
+    if ! diskutil eraseVolume FAT32 "$etiq_boot" "$s1"; then
         erreur "$(msg partition_fail "$dev")"
         exit 1
     fi
@@ -1893,12 +1918,12 @@ else
     [ "$fat_go" -gt 32 ] && fat_go=32
     reste=$(( ${octets_cle:-0} - fat_go * 1073741824 ))
     if [ "$reste" -ge $((3 * 1073741824)) ]; then
-        diskutil partitionDisk "$dev" MBR FAT32 WIN11 "${fat_go}G" ExFAT DONNEES R
+        diskutil partitionDisk "$dev" MBR FAT32 "$etiq_boot" "${fat_go}G" ExFAT DATAS R
         rc=$?
-        [ "$rc" -eq 0 ] && ok "$(msg data_created "$(en_go "$reste")")"
+        if [ "$rc" -eq 0 ]; then ok "$(msg data_created "$(en_go "$reste")")"; slice_data="${dev}s2"; fi
     else
         if [ "${octets_cle:-0}" -gt 32000000000 ]; then taille_part="32G"; else taille_part="R"; fi
-        diskutil partitionDisk "$dev" MBR FAT32 WIN11 "$taille_part"
+        diskutil partitionDisk "$dev" MBR FAT32 "$etiq_boot" "$taille_part"
         rc=$?
     fi
     if [ "$rc" -ne 0 ]; then
@@ -2141,6 +2166,39 @@ rm -rf "$usb/.fseventsd" "$usb/.Spotlight-V100" "$usb/.Trashes" "$usb/.DS_Store"
 ) > "$dossier/contenu_cle.txt"
 
 sync
+
+# --- ISO conservé sur la partition DATAS (fichier simple, réutilisable pour une prochaine clé) ---
+if [ -n "$slice_data" ]; then
+    diskutil mount "$slice_data" >/dev/null 2>&1
+    pt_data=$(diskutil info "$slice_data" | sed -En 's/^ *Mount Point: *//p' | head -1)
+    if [ -n "$pt_data" ] && [ -d "$pt_data" ]; then
+        nom_iso=$(basename "$iso")
+        libre=$(df -k "$pt_data" | awk 'NR==2 {print $4 * 1024}')
+        if [ -f "$pt_data/$nom_iso" ] && [ "$(wc -c < "$pt_data/$nom_iso" | tr -d ' ')" -eq "$iso_octets" ]; then
+            :
+        elif [ "${libre:-0}" -gt $((iso_octets + 67108864)) ]; then
+            info "$(msg iso_to_data)"
+            t_iso=$SECONDS
+            cp "$iso" "$pt_data/$nom_iso" &
+            pid_cp=$!
+            while kill -0 "$pid_cp" 2>/dev/null; do
+                fait=$(stat -f%z "$pt_data/$nom_iso" 2>/dev/null || echo 0)
+                printf '\r  %d / %d Mo (%d %%)   ' "$((fait / 1048576))" "$((iso_octets / 1048576))" "$((100 * fait / iso_octets))"
+                sleep 2
+            done
+            printf '\n'
+            if wait "$pid_cp"; then
+                sync
+                ok "$(msg iso_data_ok "$((iso_octets / 1048576))" "$(duree $((SECONDS - t_iso)))")"
+            else
+                avert "$(msg iso_data_small)"
+            fi
+        else
+            avert "$(msg iso_data_small)"
+        fi
+        rm -rf "$pt_data/.fseventsd" "$pt_data/.Spotlight-V100" "$pt_data/.Trashes" 2>/dev/null
+    fi
+fi
 ok "$(msg done_mac "$usb")"
 echo "$(msg recap_key "$(awk -v s="$octets_cle" 'BEGIN{printf "%.1f", s/1073741824}')")"
 echo "$(msg logs "$log" "$dlog" "$dossier/contenu_cle.txt")"

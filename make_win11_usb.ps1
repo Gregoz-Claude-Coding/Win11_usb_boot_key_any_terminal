@@ -80,8 +80,11 @@ $Textes = @{
         data_warn       = "ATTENTION : cette clé contient des fichiers dans une partition de données, et sa partition FAT32 est trop petite pour cet ISO ({0} Go nécessaires). Continuer repartitionne la clé et EFFACE ces fichiers."
         data_ask        = "Pour les effacer quand même, tape {0} (Entrée pour annuler) : "
         erase_word      = "EFFACER"
-        data_created    = "Partition de données exFAT « DONNEES » créée : {0} Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)."
+        data_created    = "Partition de données exFAT « DATAS » créée : {0} Go pour tes fichiers (la FAT32 garde de la marge pour les futures versions de Windows)."
         kept            = "Disposition conservée : seule la partition FAT32 est reformatée."
+        iso_to_data     = 'Copie de l''ISO sur la partition DATAS (réutilisable pour une prochaine clé)'
+        iso_data_ok     = 'ISO copié sur DATAS : {0} Mo en {1} ({2}).'
+        iso_data_small  = 'Partition DATAS trop petite pour garder l''ISO : il n''y est pas copié.'
         eject_ask       = "Éjecter la clé USB en toute sécurité maintenant ? (O/N) "
         busy_prep       = "Préparation de la clé (effacement, partitions, formatage)"
         busy_flush      = "Écriture finale sur la clé, ne la débranche pas"
@@ -217,8 +220,11 @@ $Textes = @{
         data_warn       = "WARNING: this drive holds files in a data partition, and its FAT32 partition is too small for this ISO ({0} GB needed). Continuing repartitions the drive and ERASES those files."
         data_ask        = "To erase them anyway, type {0} (Enter to cancel): "
         erase_word      = "ERASE"
-        data_created    = "exFAT data partition 'DONNEES' created: {0} GB for your files (the FAT32 partition keeps headroom for future Windows versions)."
+        data_created    = "exFAT data partition 'DATAS' created: {0} GB for your files (the FAT32 partition keeps headroom for future Windows versions)."
         kept            = "Layout kept: only the FAT32 partition is reformatted."
+        iso_to_data     = 'Copying the ISO to the DATAS partition (reusable for the next key)'
+        iso_data_ok     = 'ISO copied to DATAS: {0} MB in {1} ({2}).'
+        iso_data_small  = 'DATAS partition too small to keep the ISO: it is not copied there.'
         eject_ask       = "Safely eject the USB drive now? (Y/N) "
         busy_prep       = "Preparing the drive (erasing, partitioning, formatting)"
         busy_flush      = "Final write to the drive, do not unplug it"
@@ -354,8 +360,11 @@ $Textes = @{
         data_warn       = "ATENCIÓN: esta unidad tiene archivos en una partición de datos y su partición FAT32 es demasiado pequeña para este ISO (se necesitan {0} GB). Continuar reparticiona la unidad y BORRA esos archivos."
         data_ask        = "Para borrarlos igualmente, escribe {0} (Intro para cancelar): "
         erase_word      = "BORRAR"
-        data_created    = "Partición de datos exFAT 'DONNEES' creada: {0} GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)."
+        data_created    = "Partición de datos exFAT 'DATAS' creada: {0} GB para tus archivos (la FAT32 conserva margen para futuras versiones de Windows)."
         kept            = "Disposición conservada: solo se reformatea la partición FAT32."
+        iso_to_data     = 'Copiando la ISO a la partición DATAS (reutilizable para otra llave)'
+        iso_data_ok     = 'ISO copiada en DATAS: {0} MB en {1} ({2}).'
+        iso_data_small  = 'La partición DATAS es demasiado pequeña para guardar la ISO: no se copia.'
         eject_ask       = "¿Expulsar ahora la unidad USB de forma segura? (S/N) "
         busy_prep       = "Preparando la unidad (borrado, particiones, formato)"
         busy_flush      = "Escritura final en la unidad, no la desconectes"
@@ -491,8 +500,11 @@ $Textes = @{
         data_warn       = "ACHTUNG: Dieses Laufwerk enthält Dateien in einer Datenpartition, und die FAT32-Partition ist für diese ISO zu klein ({0} GB nötig). Fortfahren partitioniert neu und LÖSCHT diese Dateien."
         data_ask        = "Zum Löschen trotzdem {0} eingeben (Enter = abbrechen): "
         erase_word      = "LÖSCHEN"
-        data_created    = "exFAT-Datenpartition 'DONNEES' angelegt: {0} GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)."
+        data_created    = "exFAT-Datenpartition 'DATAS' angelegt: {0} GB für deine Dateien (die FAT32-Partition behält Reserve für künftige Windows-Versionen)."
         kept            = "Layout beibehalten: nur die FAT32-Partition wird neu formatiert."
+        iso_to_data     = 'ISO wird auf die Partition DATAS kopiert (für den nächsten Stick wiederverwendbar)'
+        iso_data_ok     = 'ISO auf DATAS kopiert: {0} MB in {1} ({2}).'
+        iso_data_small  = 'Partition DATAS zu klein für die ISO: sie wird nicht kopiert.'
         eject_ask       = "USB-Laufwerk jetzt sicher auswerfen? (J/N) "
         busy_prep       = "Stick wird vorbereitet (Löschen, Partitionieren, Formatieren)"
         busy_flush      = "Letzte Schreibvorgänge auf den Stick, nicht abziehen"
@@ -628,8 +640,11 @@ $Textes = @{
         data_warn       = "ATTENZIONE: questa unità contiene file in una partizione dati e la partizione FAT32 è troppo piccola per questo ISO (servono {0} GB). Continuare ripartiziona l'unità e CANCELLA quei file."
         data_ask        = "Per cancellarli comunque, scrivi {0} (Invio per annullare): "
         erase_word      = "CANCELLA"
-        data_created    = "Partizione dati exFAT 'DONNEES' creata: {0} GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)."
+        data_created    = "Partizione dati exFAT 'DATAS' creata: {0} GB per i tuoi file (la FAT32 mantiene margine per le future versioni di Windows)."
         kept            = "Disposizione mantenuta: viene riformattata solo la partizione FAT32."
+        iso_to_data     = 'Copia dell''ISO sulla partizione DATAS (riutilizzabile per la prossima chiavetta)'
+        iso_data_ok     = 'ISO copiata su DATAS: {0} MB in {1} ({2}).'
+        iso_data_small  = 'Partizione DATAS troppo piccola per conservare l''ISO: non viene copiata.'
         eject_ask       = "Espellere ora la chiavetta USB in sicurezza? (S/N) "
         busy_prep       = "Preparazione della chiavetta (cancellazione, partizioni, formattazione)"
         busy_flush      = "Scrittura finale sulla chiavetta, non scollegarla"
@@ -765,8 +780,11 @@ $Textes = @{
         data_warn       = "ATENÇÃO: esta unidade tem ficheiros numa partição de dados e a partição FAT32 é demasiado pequena para este ISO (são precisos {0} GB). Continuar reparticiona a unidade e APAGA esses ficheiros."
         data_ask        = "Para os apagar mesmo assim, escreve {0} (Enter para cancelar): "
         erase_word      = "APAGAR"
-        data_created    = "Partição de dados exFAT 'DONNEES' criada: {0} GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)."
+        data_created    = "Partição de dados exFAT 'DATAS' criada: {0} GB para os teus ficheiros (a FAT32 mantém margem para futuras versões do Windows)."
         kept            = "Disposição mantida: só a partição FAT32 é reformatada."
+        iso_to_data     = 'A copiar a ISO para a partição DATAS (reutilizável para a próxima pen)'
+        iso_data_ok     = 'ISO copiada para DATAS: {0} MB em {1} ({2}).'
+        iso_data_small  = 'Partição DATAS demasiado pequena para guardar a ISO: não é copiada.'
         eject_ask       = "Ejetar agora a pen USB em segurança? (S/N) "
         busy_prep       = "A preparar a pen (apagar, partições, formatar)"
         busy_flush      = "Escrita final na pen, não a desligues"
@@ -889,7 +907,7 @@ function Show-Banniere {
         @(' |_| \___/\__|_\_\___|\__', '|___/\___/\___/\__|')
     )
     foreach ($x in $l) { Write-Host $x[0] -NoNewline -ForegroundColor $b; Write-Host $x[1] -ForegroundColor $g }
-    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-18)' -ForegroundColor DarkGray
+    Write-Host '  Windows 11 USB  -  shark-micro.fr/pocketboot  (v2026.11.21-19)' -ForegroundColor DarkGray
     Write-Host ''
 }
 Show-Banniere
@@ -1197,7 +1215,8 @@ function Get-LienManuel([string]$page, [string]$loc) {
 
 # Copie des fichiers vers un dossier avec vitesse d'écriture en direct (écriture directe sur le média).
 # Renvoie @{ Octets; Secondes }.
-function Copy-AvecVitesse([IO.FileInfo[]]$fichiers, [string]$dossierDest) {
+function Copy-AvecVitesse([IO.FileInfo[]]$fichiers, [string]$dossierDest, [string]$activite = "") {
+    if (-not $activite) { $activite = (T 'copying_swm') }
     $fait = [int64]0
     $total = ($fichiers | Measure-Object -Property Length -Sum).Sum
     $sw = [Diagnostics.Stopwatch]::StartNew()
@@ -1215,7 +1234,7 @@ function Copy-AvecVitesse([IO.FileInfo[]]$fichiers, [string]$dossierDest) {
                     $v = Get-Vitesse ($fait - $dernierFait) $tick.Elapsed.TotalSeconds
                     $dernierFait = $fait
                     $tick.Restart()
-                    Write-Progress -Activity (T 'copying_swm') `
+                    Write-Progress -Activity $activite `
                         -Status (T 'copy_status' ([int]($fait / 1MB)), $v) `
                         -PercentComplete ([math]::Min(99, [int](100 * $fait / $total)))
                 }
@@ -1224,7 +1243,7 @@ function Copy-AvecVitesse([IO.FileInfo[]]$fichiers, [string]$dossierDest) {
         }
         finally { $in.Dispose(); $out.Dispose() }
     }
-    Write-Progress -Activity (T 'copying_swm') -Completed
+    Write-Progress -Activity $activite -Completed
     return @{ Octets = $fait; Secondes = $sw.Elapsed.TotalSeconds }
 }
 
@@ -1434,6 +1453,11 @@ $n = [int](Read-Host (T 'ask_usb'))
 $disk = $usbDisks | Where-Object Number -eq $n
 if (-not $disk) { Write-Host (T 'not_usb') -ForegroundColor Red; return }
 $isoTaille = (Get-Item -LiteralPath $iso).Length
+# Étiquette de la partition FAT32 : nom de l'ISO (11 caractères max : A-Z, 0-9, _ et -)
+$etiqBoot = ([IO.Path]::GetFileNameWithoutExtension($iso).ToUpper() -replace '[^A-Z0-9_-]', '_')
+if ($etiqBoot.Length -gt 11) { $etiqBoot = $etiqBoot.Substring(0, 11) }
+$etiqBoot = $etiqBoot.Trim('_'); if (-not $etiqBoot) { $etiqBoot = 'WIN11' }
+$dataPart = $null
 if ($disk.Size -lt $isoTaille) {
     Write-Host (T 'too_small' ([math]::Round($disk.Size / 1GB, 2)), ([math]::Round($isoTaille / 1GB, 2))) -ForegroundColor Red
     return
@@ -1630,11 +1654,15 @@ Start-Anim (T 'busy_prep')
 try {
 if ($garde) {
     Stop-Anim; Write-Host (T 'kept') -ForegroundColor Green; Start-Anim (T 'busy_prep')
-    Format-Volume -Partition $p1 -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+    Format-Volume -Partition $p1 -FileSystem FAT32 -NewFileSystemLabel $etiqBoot -Force | Out-Null
     if (-not (Get-Partition -DiskNumber $n -PartitionNumber $p1.PartitionNumber).DriveLetter) {
         Add-PartitionAccessPath -DiskNumber $n -PartitionNumber $p1.PartitionNumber -AssignDriveLetter
     }
     $part = Get-Partition -DiskNumber $n -PartitionNumber $p1.PartitionNumber
+    foreach ($q in ($parts | Select-Object -Skip 1)) {
+        $vq = $q | Get-Volume -ErrorAction SilentlyContinue
+        if ($vq -and $vq.DriveLetter -and $vq.FileSystem -eq 'exFAT') { $dataPart = $q; break }
+    }
 }
 else {
     Clear-Disk -Number $n -RemoveData -RemoveOEM -Confirm:$false
@@ -1644,15 +1672,16 @@ else {
     $libreDispo = (Get-Disk -Number $n).LargestFreeExtent
     if (($libreDispo - $fatTaille) -ge 3GB) {
         $part = New-Partition -DiskNumber $n -Size $fatTaille -AssignDriveLetter
-        Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+        Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel $etiqBoot -Force | Out-Null
         $pd = New-Partition -DiskNumber $n -UseMaximumSize -AssignDriveLetter
-        Format-Volume -Partition $pd -FileSystem exFAT -NewFileSystemLabel "DONNEES" -Force | Out-Null
+        Format-Volume -Partition $pd -FileSystem exFAT -NewFileSystemLabel "DATAS" -Force | Out-Null
+        $dataPart = $pd
         Stop-Anim; Write-Host (T 'data_created' ([math]::Round($pd.Size / 1GB, 1))) -ForegroundColor Green
     }
     else {
         $taille = [math]::Min([int64]32GB, $libreDispo)
         $part = New-Partition -DiskNumber $n -Size $taille -AssignDriveLetter
-        Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel "WIN11" -Force | Out-Null
+        Format-Volume -Partition $part -FileSystem FAT32 -NewFileSystemLabel $etiqBoot -Force | Out-Null
     }
 }
 } finally { Stop-Anim }
@@ -1857,6 +1886,20 @@ try {
     Get-ChildItem "$usb\" -Recurse -File |
         Select-Object @{n=(T 'inv_file');e={$_.FullName.Substring($usb.Length)}}, @{n=(T 'inv_mb');e={[math]::Round($_.Length/1MB,1)}} |
         Out-File "$dossier\contenu_cle.txt"
+
+    # --- ISO conservé sur la partition DATAS (fichier simple, réutilisable pour une prochaine clé) ---
+    if ($dataPart) {
+        $dl = ($dataPart | Get-Volume).DriveLetter
+        $dest = if ($dl) { "${dl}:\" } else { $null }
+        $fi = Get-Item -LiteralPath $iso
+        if ($dest -and (Test-Path -LiteralPath (Join-Path $dest $fi.Name)) -and (Get-Item -LiteralPath (Join-Path $dest $fi.Name)).Length -eq $fi.Length) { }
+        elseif ($dest -and [IO.DriveInfo]::new($dest).AvailableFreeSpace -gt ($fi.Length + 64MB)) {
+            Write-Host (T 'iso_to_data') -ForegroundColor Cyan
+            $r = Copy-AvecVitesse @($fi) $dest (T 'iso_to_data')
+            Write-Host (T 'iso_data_ok' ([int]($r.Octets / 1MB)), (Format-Duree $r.Secondes), (Get-Vitesse $r.Octets $r.Secondes)) -ForegroundColor Green
+        }
+        else { Write-Host (T 'iso_data_small') -ForegroundColor Yellow }
+    }
 
     Write-Host (T 'done' $usb) -ForegroundColor Green
     Write-Host (T 'logs' $log, $dlog, "$dossier\contenu_cle.txt")
